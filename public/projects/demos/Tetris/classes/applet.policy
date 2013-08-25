@@ -1,0 +1,23 @@
+
+grant {
+  permission java.security.AllPermission;
+  permission java.io.FilePermission "<<ALL FILES>>", "read, write, delete, execute";
+  permission java.security.AllPermission;
+  permission java.net.SocketPermission "www.zachcotter.com", "accept, connect, listen, resolve";
+  permission java.net.SocketPermission "www.zachcotter.com/hs.txt", "accept, connect, listen, resolve";
+};
+
+grant codeBase "http://www.zachcotter.com/hs.txt" {
+  permission java.io.FilePermission "<<ALL FILES>>", "read, write, delete, execute";
+  permission java.security.AllPermission;
+  permission java.net.SocketPermission "www.zachcotter.com", "accept, connect, listen, resolve";
+  permission java.net.SocketPermission "www.zachcotter.com/hs.txt", "accept, connect, listen, resolve";
+};
+
+grant codeBase "http://www.zachcotter.com" {
+  permission java.security.AllPermission;
+  permission java.io.FilePermission "<<ALL FILES>>", "read, write, delete, execute";
+  permission java.net.SocketPermission "www.zachcotter.com", "accept, connect, listen, resolve";
+  permission java.net.SocketPermission "www.zachcotter.com/hs.txt", "accept, connect, listen, resolve";
+
+};
