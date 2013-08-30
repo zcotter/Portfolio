@@ -11,4 +11,6 @@ class PagesController < ApplicationController
   end
   def mandelbrot
   end
+  def androidtetris
+  end
 end
