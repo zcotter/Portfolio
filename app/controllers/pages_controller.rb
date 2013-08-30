@@ -7,4 +7,6 @@ class PagesController < ApplicationController
   end
   def tetris
   end
+  def maze
+  end
 end
