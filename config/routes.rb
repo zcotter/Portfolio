@@ -4,5 +4,6 @@ Portfolio::Application.routes.draw do
   get 'tetris', to: 'pages#tetris'
   get 'maze', to: 'pages#maze'
   get 'mandelbrot', to: 'pages#mandelbrot'
+  get 'androidtetris', to: 'pages#androidtetris'
   root to: 'pages#home'
 end
