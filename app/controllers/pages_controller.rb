@@ -3,4 +3,8 @@ class PagesController < ApplicationController
   end
   def about
   end
+  def projects
+  end
+  def tetris
+  end
 end
