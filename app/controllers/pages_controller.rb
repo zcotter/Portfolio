@@ -9,4 +9,6 @@ class PagesController < ApplicationController
   end
   def maze
   end
+  def mandelbrot
+  end
 end
