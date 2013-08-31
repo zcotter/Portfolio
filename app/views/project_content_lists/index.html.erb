@@ -11,6 +11,9 @@
 <% @project_content_lists.each do |project_content_list| %>
   <tr>
     <td><%= project_content_list.title %></td>
+    <td><%= link_to "Manage Content",
+                    project_project_content_list_project_content_list_elements_path(@project, project_content_list),
+                    :class => 'btn btn-primary' %></td>
     <td><%= link_to "Destroy",
                     [@project, project_content_list],
                     :method => :delete,

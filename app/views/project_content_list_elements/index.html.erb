@@ -1,0 +1,26 @@
+<h1>Listing project_content_list_elements</h1>
+
+<table>
+  <tr>
+    <th>Content</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @project_content_list_elements.each do |project_content_list_element| %>
+  <tr>
+    <td><%= project_content_list_element.content %></td>
+    <td><%= link_to "Destroy",
+                    [@project, @project_content_list, project_content_list_element],
+                    :method => :delete,
+                    :class => 'btn btn-danger' %></td>
+  </tr>
+  <% end %>
+</table>
+
+<br />
+<%= form_for ([@project, @project_content_list, @project_content_list.project_content_list_elements.build]), :html => {:class => 'form-horizontal', :multipart => true} do |f| %>
+    <%= f.text_field :content, :class => 'text_area' %>
+    <%= f.submit "Add Element", :class => 'btn btn-primary' %>
+<% end %>
