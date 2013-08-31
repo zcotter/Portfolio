@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130831020118) do
+ActiveRecord::Schema.define(:version => 20130831024357) do
+
+  create_table "project_content_list_elements", :force => true do |t|
+    t.string   "content"
+    t.integer  "project_content_list_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
 
   create_table "project_content_lists", :force => true do |t|
     t.string   "title"
