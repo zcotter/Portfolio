@@ -2,8 +2,12 @@ Portfolio::Application.routes.draw do
 
 
 
+
+
+
   resources :projects  do
     resources :project_link_buttons
+    resources :project_content_lists
   end
 
 
