@@ -1,4 +1,12 @@
 Portfolio::Application.routes.draw do
+
+
+
+  resources :projects  do
+    resources :project_link_buttons
+  end
+
+
   get "home", to: 'pages#home'
   get 'about', to: 'pages#about'
   get 'tetris', to: 'pages#tetris'

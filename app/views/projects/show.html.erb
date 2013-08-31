@@ -1,0 +1,8 @@
+<% require 'erb'%>
+<h1><%= @project.name %></h1>
+<p class="lead"><%= @project.lead %></p>
+
+<% @project.project_link_buttons.each do |button| %>
+    <%= link_to button.name, button.link, :class => "btn btn-primary btn-large" %>
+<% end %>
+
