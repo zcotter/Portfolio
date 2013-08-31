@@ -18,3 +18,6 @@ gem 'execjs'
 gem 'less'
 gem 'less-rails', '2.3.3'
 gem 'twitter-bootstrap-rails'
+
+gem 'test-unit'
+gem 'minitest-reporters'
