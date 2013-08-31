@@ -11,11 +11,6 @@ class ProjectContentListsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project_content_lists)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create project_content_list" do
     assert_difference('ProjectContentList.count') do
       post :create, project_content_list: { title: @project_content_list.title }
@@ -27,16 +22,6 @@ class ProjectContentListsControllerTest < ActionController::TestCase
   test "should show project_content_list" do
     get :show, id: @project_content_list
     assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @project_content_list
-    assert_response :success
-  end
-
-  test "should update project_content_list" do
-    put :update, id: @project_content_list, project_content_list: { title: @project_content_list.title }
-    assert_redirected_to project_content_list_path(assigns(:project_content_list))
   end
 
   test "should destroy project_content_list" do
