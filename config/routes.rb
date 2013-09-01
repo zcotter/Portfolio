@@ -1,4 +1,6 @@
 Portfolio::Application.routes.draw do
+  devise_for :users
+
   resources :projects  do
     resources :project_link_buttons
     resources :project_content_lists do
