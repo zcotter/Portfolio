@@ -1,4 +1,5 @@
 class ProjectLinkButtonsController < ApplicationController
+  before_filter :authenticate_user!
   # GET /project_link_buttons
   # GET /project_link_buttons.json
   def index
