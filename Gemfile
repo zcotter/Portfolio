@@ -21,3 +21,4 @@ gem 'twitter-bootstrap-rails'
 
 gem 'test-unit'
 gem 'minitest-reporters'
+gem 'devise'
