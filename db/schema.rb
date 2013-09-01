@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130831024357) do
+ActiveRecord::Schema.define(:version => 20130901183810) do
 
   create_table "project_content_list_elements", :force => true do |t|
     t.string   "content"
@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(:version => 20130831024357) do
   create_table "projects", :force => true do |t|
     t.string   "name"
     t.string   "lead"
-    t.text     "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
