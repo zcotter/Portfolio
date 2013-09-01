@@ -10,7 +10,7 @@
     <h3><%= list.title %></h3>
     <ul>
       <% list.project_content_list_elements.each do |element| %>
-         <li><p><%= element.content %></p></li>
+         <li><p><%= element.content.html_safe %></p></li>
       <% end %>
     </ul>
     <br/>
