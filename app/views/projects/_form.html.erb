@@ -22,11 +22,6 @@
       <%= f.text_field :lead %>
     </div>
     <div class="field">
-      <%= f.label :content %>
-      <br/>
-      <%= f.text_area :content %>
-    </div>
-    <div class="field">
       <% if action_name != "new" %>
           <%= link_to "Manage Buttons", project_project_link_buttons_path(@project), :class => "btn btn-primary" %>
           <%= link_to "Manage Lists", project_project_content_lists_path(@project), :class => "btn btn-primary" %>
