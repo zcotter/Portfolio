@@ -36,6 +36,6 @@ class ProjectContentListsController < ApplicationController
   def destroy
     @project_content_list = Project.find(params[:project_id]).project_content_lists.find(params[:id])
     @project_content_list.destroy
-    redirect_to project_project_content_lists_path
+    redirect_to project_project_content_lists_path(@project)
   end
 end
