@@ -1,5 +1,7 @@
 class ProjectContentListElementsController < ApplicationController
 
+  before_filter :authenticate_user!
+
   def index
     @project = Project.find(params[:project_id])
     @project_content_list = @project.project_content_lists.find(params[:project_content_list_id])
