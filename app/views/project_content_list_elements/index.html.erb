@@ -1,4 +1,4 @@
-<h1>Listing project_content_list_elements</h1>
+<h1>Elements for <%= @project_content_list.title %> list</h1>
 
 <table>
   <tr>
@@ -24,3 +24,7 @@
     <%= f.text_field :content, :class => 'text_area' %>
     <%= f.submit "Add Element", :class => 'btn btn-primary' %>
 <% end %>
+
+<%= link_to "Back to lists",
+            project_project_content_lists_url,
+            :class => 'btn btn-primary' %>

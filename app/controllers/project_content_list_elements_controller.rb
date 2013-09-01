@@ -30,7 +30,7 @@ class ProjectContentListElementsController < ApplicationController
     @project = Project.find(params[:project_id])
     @project_content_list = @project.project_content_lists.find(params[:project_content_list_id])
     @project_content_list_element = @project_content_list.project_content_list_elements.create(params[:project_content_list_element])
-    redirect_to project_project_content_list_path(@project, @project_content_list)
+    redirect_to :action => "index"
   end
 
   # DELETE /project_content_list_elements/1
@@ -38,8 +38,8 @@ class ProjectContentListElementsController < ApplicationController
   def destroy
 
     @project_content_list = Project.find(params[:project_id]).project_content_lists.find(params[:project_content_list_id])
-    @project_content_list_element = @project_content_list.project_content_list_elements.find(params[:project_content_list_element_id])
+    @project_content_list_element = @project_content_list.project_content_list_elements.find(params[:id])
     @project_content_list_element.destroy
-    redirect_to project_project_content_list_project_content_list_elements_path
+    redirect_to :action => "index"
   end
 end
