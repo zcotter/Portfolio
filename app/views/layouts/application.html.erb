@@ -60,7 +60,11 @@
 
   <div class="row-fluid">
     <div class="span3"></div>
-    <%= link_to "About", '#', :class => "span2 text-left" %>
+    <% if user_signed_in? %>
+        <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "span2 text-left" %>
+    <% else %>
+        <%= link_to "Login", new_user_session_path, :class => "span2 text-left" %>
+    <% end %>
     <%= link_to "Contact", '#', :class => "span2 text-center" %>
     <%= link_to "License", '#', :class => "span2 text-right" %>
     <div class="span3"></div>
@@ -69,11 +73,7 @@
     <%= link_to "zachcotter.com", "http://www.zachcotter.com" %> is licensed under
     the <%= link_to "Creative Commons Attribution 3.0 Unported License", '#' %>
   </div>
-  <% if user_signed_in? %>
-      <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "text-right" %>
-  <% else %>
-      <div class="text-right"><%= link_to "login", new_user_session_path, :class => "text-right" %></div>
-  <% end %>
+
   </p>
   <br/>
   <br/>
