@@ -5,4 +5,6 @@ class PagesController < ApplicationController
   end
   def license
   end
+  def contact
+  end
 end
