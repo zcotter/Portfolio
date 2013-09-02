@@ -11,6 +11,6 @@ Portfolio::Application.routes.draw do
 
   get "home", to: 'pages#home'
   get 'about', to: 'pages#about'
-  get 'license', to 'pages#license'
+  get 'license', to: 'pages#license'
   root to: 'pages#home'
 end
