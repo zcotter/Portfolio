@@ -1,4 +1,7 @@
 Portfolio::Application.routes.draw do
+  resources :posts
+
+
   devise_for :users, :skip => :registrations
 
   resources :projects  do
