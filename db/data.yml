@@ -1,0 +1,341 @@
+
+---
+projects:
+  columns:
+  - id
+  - name
+  - lead
+  - created_at
+  - updated_at
+  records: 
+  - - '2'
+    - Tetris
+    - A Tetris java applet.
+    - '2013-08-31 01:35:19.422357'
+    - '2013-08-31 01:35:19.422357'
+  - - '3'
+    - Maze
+    - A simple maze solving java applet.
+    - '2013-09-01 19:00:32.757669'
+    - '2013-09-01 19:00:32.757669'
+  - - '4'
+    - Mandelbrot
+    - A Fractal drawing java applet
+    - '2013-09-01 19:28:23.723243'
+    - '2013-09-01 21:15:24.866512'
+  - - '5'
+    - Android Tetris
+    - A Tetris android application.
+    - '2013-09-01 19:40:56.905323'
+    - '2013-09-01 19:40:56.905323'
+
+---
+project_link_buttons:
+  columns:
+  - id
+  - name
+  - link
+  - project_id
+  - created_at
+  - updated_at
+  records: 
+  - - '1'
+    - Play
+    - http://zachcotter.com/Tetris/Tetris.html
+    - '2'
+    - '2013-08-31 01:41:06.241194'
+    - '2013-08-31 01:41:06.241194'
+  - - '2'
+    - Documentation
+    - http://www.zachcotter.com/Tetris/javadoc/index.html
+    - '2'
+    - '2013-08-31 01:42:03.052444'
+    - '2013-08-31 01:42:03.052444'
+  - - '3'
+    - Code
+    - http://github.com/zcotter/Tetris
+    - '2'
+    - '2013-08-31 01:42:50.841177'
+    - '2013-08-31 01:42:50.841177'
+  - - '4'
+    - Launch
+    - http://www.zachcotter.com/Maze/MazeFrame.html
+    - '3'
+    - '2013-09-01 19:03:34.891087'
+    - '2013-09-01 19:03:34.891087'
+  - - '5'
+    - Documentation
+    - http://www.zachcotter.com/Maze/javadoc/index.html
+    - '3'
+    - '2013-09-01 19:03:58.456435'
+    - '2013-09-01 19:03:58.456435'
+  - - '6'
+    - Code
+    - http://github.com/zcotter/Maze
+    - '3'
+    - '2013-09-01 19:08:07.374672'
+    - '2013-09-01 19:08:07.374672'
+  - - '7'
+    - Launch Slow Version
+    - ! '#'
+    - '4'
+    - '2013-09-01 19:28:57.615182'
+    - '2013-09-01 19:28:57.615182'
+  - - '8'
+    - Launch Fast Version
+    - ! '#'
+    - '4'
+    - '2013-09-01 19:29:09.47986'
+    - '2013-09-01 19:29:09.47986'
+  - - '9'
+    - Documentation
+    - http://www.zachcotter.com/Mandelbrot/javadoc/
+    - '4'
+    - '2013-09-01 19:29:37.567467'
+    - '2013-09-01 19:29:37.567467'
+  - - '10'
+    - Code
+    - http://github.com/zcotter/Mandelbrot
+    - '4'
+    - '2013-09-01 19:29:56.946575'
+    - '2013-09-01 19:29:56.946575'
+  - - '11'
+    - Download
+    - http://www.zachcotter.com/Tetris/AndroidTetris-release.apk
+    - '5'
+    - '2013-09-01 19:41:12.479214'
+    - '2013-09-01 19:41:12.479214'
+  - - '12'
+    - Code
+    - http://github.com/zcotter/AndroidTetris
+    - '5'
+    - '2013-09-01 19:41:27.206056'
+    - '2013-09-01 19:41:27.206056'
+
+---
+project_content_lists:
+  columns:
+  - id
+  - title
+  - project_id
+  - created_at
+  - updated_at
+  records: 
+  - - '1'
+    - Instructions
+    - '2'
+    - '2013-08-31 02:11:12.835526'
+    - '2013-08-31 02:11:12.835526'
+  - - '2'
+    - Features
+    - '2'
+    - '2013-08-31 02:13:17.858676'
+    - '2013-08-31 02:13:17.858676'
+  - - '3'
+    - Instructions
+    - '3'
+    - '2013-09-01 19:08:22.356529'
+    - '2013-09-01 19:08:22.356529'
+  - - '4'
+    - Features
+    - '3'
+    - '2013-09-01 19:08:32.092086'
+    - '2013-09-01 19:08:32.092086'
+  - - '5'
+    - Instructions
+    - '4'
+    - '2013-09-01 19:30:25.112186'
+    - '2013-09-01 19:30:25.112186'
+  - - '6'
+    - Features
+    - '4'
+    - '2013-09-01 19:30:36.466836'
+    - '2013-09-01 19:30:36.466836'
+  - - '7'
+    - Instructions
+    - '5'
+    - '2013-09-01 19:41:38.281689'
+    - '2013-09-01 19:41:38.281689'
+  - - '8'
+    - Features
+    - '5'
+    - '2013-09-01 19:41:44.042019'
+    - '2013-09-01 19:41:44.042019'
+
+---
+project_content_list_elements:
+  columns:
+  - id
+  - content
+  - project_content_list_id
+  - created_at
+  - updated_at
+  records: 
+  - - '1'
+    - Use the left and right arrow keys to move the piece.
+    - '1'
+    - '2013-08-31 04:09:49.654584'
+    - '2013-08-31 04:09:49.654584'
+  - - '4'
+    - Use the S and A keys to rotate the piece.
+    - '1'
+    - '2013-09-01 01:42:02.361323'
+    - '2013-09-01 01:42:02.361323'
+  - - '9'
+    - Use the down arrow to drop the piece.
+    - '1'
+    - '2013-09-01 02:16:40.941211'
+    - '2013-09-01 02:16:40.941211'
+  - - '10'
+    - Originally coded in Racket for freshman CS class, rewritten in Java.
+    - '2'
+    - '2013-09-01 02:17:01.311377'
+    - '2013-09-01 02:17:01.311377'
+  - - '11'
+    - 2D Graphics library
+    - '2'
+    - '2013-09-01 02:17:11.402954'
+    - '2013-09-01 02:17:11.402954'
+  - - '12'
+    - High Score feature uses Java networking and object serialization libraries
+    - '2'
+    - '2013-09-01 02:17:21.198514'
+    - '2013-09-01 02:17:21.198514'
+  - - '13'
+    - The computer solves a user generated maze.
+    - '3'
+    - '2013-09-01 19:08:44.780812'
+    - '2013-09-01 19:08:44.780812'
+  - - '14'
+    - The green space is the starting point or entrance, while the red space is the
+      ending point or exit.
+    - '3'
+    - '2013-09-01 19:08:50.836158'
+    - '2013-09-01 19:08:50.836158'
+  - - '15'
+    - Click solve for the computer to complete the currently displayed maze
+    - '3'
+    - '2013-09-01 19:08:56.947507'
+    - '2013-09-01 19:08:56.947507'
+  - - '16'
+    - Click build to create your own maze for the computer to solve
+    - '3'
+    - '2013-09-01 19:09:01.983796'
+    - '2013-09-01 19:09:01.983796'
+  - - '17'
+    - Object Oriented Design
+    - '4'
+    - '2013-09-01 19:09:12.03237'
+    - '2013-09-01 19:09:12.03237'
+  - - '18'
+    - Abstraction
+    - '4'
+    - '2013-09-01 19:09:15.720581'
+    - '2013-09-01 19:09:15.720581'
+  - - '19'
+    - Polymorphism
+    - '4'
+    - '2013-09-01 19:09:19.996826'
+    - '2013-09-01 19:09:19.996826'
+  - - '20'
+    - Recursion
+    - '4'
+    - '2013-09-01 19:09:25.529142'
+    - '2013-09-01 19:09:25.529142'
+  - - '21'
+    - Launch the app to display the     <a href="http://en.wikipedia.org/wiki/Mandelbrot_set#Formal_definition">Mandelbrot
+      Set (a fractal)</a>
+    - '5'
+    - '2013-09-01 19:31:05.464494'
+    - '2013-09-01 19:31:05.464494'
+  - - '22'
+    - Click and drag on the image, then press "zoom in" to see a portion of the fractal
+      in greater detail.
+    - '5'
+    - '2013-09-01 19:38:47.582926'
+    - '2013-09-01 19:38:47.582926'
+  - - '23'
+    - Click "zoom out" to return to the previous view of the fractal.
+    - '5'
+    - '2013-09-01 19:38:54.781338'
+    - '2013-09-01 19:38:54.781338'
+  - - '24'
+    - The slower, higher resolution version requires more iterations of the formula
+      to accept a point as part of the set, therefore it takes much longer to load,
+      but also results in greater detail and color range.
+    - '5'
+    - '2013-09-01 19:39:00.548668'
+    - '2013-09-01 19:39:00.548668'
+  - - '25'
+    - Recursion
+    - '6'
+    - '2013-09-01 19:39:14.240451'
+    - '2013-09-01 19:39:14.240451'
+  - - '26'
+    - ! '"Math"'
+    - '6'
+    - '2013-09-01 19:39:18.508695'
+    - '2013-09-01 19:39:18.508695'
+  - - '27'
+    - 2D Graphics
+    - '6'
+    - '2013-09-01 19:39:24.489037'
+    - '2013-09-01 19:39:24.489037'
+  - - '28'
+    - You must have 3rd Party Applications enabled on your Android device, as this
+      application is not available in the Google Play Store.
+    - '7'
+    - '2013-09-01 19:41:58.021818'
+    - '2013-09-01 19:41:58.021818'
+  - - '29'
+    - Click the download button from your Android device to download and install the
+      APK
+    - '7'
+    - '2013-09-01 19:42:08.141397'
+    - '2013-09-01 19:42:08.141397'
+  - - '30'
+    - Ported to Android from my java tetris applet
+    - '8'
+    - '2013-09-01 19:42:24.138312'
+    - '2013-09-01 19:42:24.138312'
+  - - '31'
+    - 2D Graphics on Android
+    - '8'
+    - '2013-09-01 19:42:32.549793'
+    - '2013-09-01 19:42:32.549793'
+  - - '32'
+    - Uses PHP and JSON to manage high scores in a SQL database
+    - '8'
+    - '2013-09-01 19:42:41.980333'
+    - '2013-09-01 19:42:41.980333'
+
+---
+users:
+  columns:
+  - id
+  - email
+  - encrypted_password
+  - reset_password_token
+  - reset_password_sent_at
+  - remember_created_at
+  - sign_in_count
+  - current_sign_in_at
+  - last_sign_in_at
+  - current_sign_in_ip
+  - last_sign_in_ip
+  - created_at
+  - updated_at
+  records: 
+  - - '1'
+    - jaffecotter.z@gmail.com
+    - $2a$10$bTdxWiF1DbKvbE53sQM6tu.5JaKR0TA31YdmKAHr4gKokic77lCN.
+    - 
+    - 
+    - 
+    - '2'
+    - '2013-09-01 23:22:21.00913'
+    - '2013-09-01 23:12:28.902263'
+    - 127.0.0.1
+    - 127.0.0.1
+    - '2013-09-01 23:12:28.887263'
+    - '2013-09-01 23:22:21.01113'
