@@ -43,7 +43,7 @@
             </ul>
           </li>
           <li><%= link_to "Blog", '#' %></li>
-          <li><%= link_to "Contact", '#' %></li>
+          <li><%= link_to "Contact", contact_path %></li>
         </ul>
       </div>
     </div>
@@ -65,7 +65,7 @@
     <% else %>
         <%= link_to "Login", new_user_session_path, :class => "span2 text-left" %>
     <% end %>
-    <%= link_to "Contact", '#', :class => "span2 text-center" %>
+    <%= link_to "Contact", contact_path, :class => "span2 text-center" %>
     <%= link_to "License", license_path, :class => "span2 text-right" %>
     <div class="span3"></div>
   </div>
