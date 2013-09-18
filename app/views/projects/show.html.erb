@@ -2,7 +2,7 @@
 <p class="lead"><%= @project.lead %></p>
 
 <% @project.project_link_buttons.each do |button| %>
-    <%= link_to button.name, button.link, :class => "btn btn-primary btn-large" %>
+    <%= link_to button.name, button.link, :class => "btn btn-primary btn-large", :target => '_blank' %>
 <% end %>
 <br/>
 <br/>
