@@ -57,30 +57,6 @@ project_link_buttons:
     - '3'
     - '2013-09-01 19:08:07.374672'
     - '2013-09-01 19:08:07.374672'
-  - - '7'
-    - Launch Slow Version
-    - ! '#'
-    - '4'
-    - '2013-09-01 19:28:57.615182'
-    - '2013-09-01 19:28:57.615182'
-  - - '8'
-    - Launch Fast Version
-    - ! '#'
-    - '4'
-    - '2013-09-01 19:29:09.47986'
-    - '2013-09-01 19:29:09.47986'
-  - - '9'
-    - Documentation
-    - http://www.zachcotter.com/Mandelbrot/javadoc/
-    - '4'
-    - '2013-09-01 19:29:37.567467'
-    - '2013-09-01 19:29:37.567467'
-  - - '10'
-    - Code
-    - http://github.com/zcotter/Mandelbrot
-    - '4'
-    - '2013-09-01 19:29:56.946575'
-    - '2013-09-01 19:29:56.946575'
   - - '11'
     - Download
     - http://www.zachcotter.com/Tetris/AndroidTetris-release.apk
@@ -111,6 +87,30 @@ project_link_buttons:
     - '2'
     - '2013-09-18 17:17:36.094207'
     - '2013-09-18 17:17:36.094207'
+  - - '17'
+    - Launch Slow Version
+    - http://www.zachcotter.com/SlowMandelbrot.html
+    - '4'
+    - '2013-09-19 21:02:32.984761'
+    - '2013-09-19 21:02:32.984761'
+  - - '18'
+    - Launch Fast Version
+    - http://www.zachcotter.com/FastMandelbrot.html
+    - '4'
+    - '2013-09-19 21:02:59.251264'
+    - '2013-09-19 21:02:59.251264'
+  - - '19'
+    - Documentation
+    - http://www.zachcotter.com/Mandelbrot/javadoc/
+    - '4'
+    - '2013-09-19 21:03:45.452906'
+    - '2013-09-19 21:03:45.452906'
+  - - '20'
+    - Code
+    - http://github.com/zcotter/Mandelbrot
+    - '4'
+    - '2013-09-19 21:04:06.728123'
+    - '2013-09-19 21:04:06.728123'
 
 ---
 project_content_lists:
