@@ -1,17 +1,21 @@
 <h1>Blog</h1>
 
-<% @posts.each do |post| %>
-    <div class="row-fluid">
-      <a href="<%= post_path(post) %>" class="span12 project">
-        <div class="well">
-          <h3><%= post.title %></h3>
+<% if @posts.empty? %>
+    <p class='lead'>Coming Soon!</p>
+<% else %>
+    <% @posts.each do |post| %>
+        <div class="row-fluid">
+          <a href="<%= post_path(post) %>" class="span12 project">
+            <div class="well">
+              <h3><%= post.title %></h3>
 
-          <p class="lead"><%= "#{post.content[0..100]}... (see more)".html_safe %></p>
+              <p class="lead"><%= "#{post.content[0..100]}... (see more)".html_safe %></p>
 
-          <div class="clearfix">&nbsp;</div>
+              <div class="clearfix">&nbsp;</div>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
+    <% end %>
 <% end %>
 
 <br/>
