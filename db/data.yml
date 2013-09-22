@@ -46,13 +46,13 @@ project_link_buttons:
   records: 
   - - '4'
     - Launch
-    - http://www.zachcotter.com/Maze/MazeFrame.html
+    - http://files.zachcotter.com/Maze/MazeFrame.html
     - '3'
     - '2013-09-01 19:03:34.891087'
     - '2013-09-01 19:03:34.891087'
   - - '5'
     - Documentation
-    - http://www.zachcotter.com/Maze/javadoc/index.html
+    - http://files.zachcotter.com/Maze/javadoc/index.html
     - '3'
     - '2013-09-01 19:03:58.456435'
     - '2013-09-01 19:03:58.456435'
@@ -64,7 +64,7 @@ project_link_buttons:
     - '2013-09-01 19:08:07.374672'
   - - '11'
     - Download
-    - http://www.zachcotter.com/Tetris/AndroidTetris-release.apk
+    - http://files.zachcotter.com/Tetris/AndroidTetris-release.apk
     - '5'
     - '2013-09-01 19:41:12.479214'
     - '2013-09-01 19:41:12.479214'
@@ -76,13 +76,13 @@ project_link_buttons:
     - '2013-09-01 19:41:27.206056'
   - - '13'
     - Play
-    - http://www.zachcotter.com/tetris-frame-new.html
+    - http://files.zachcotter.com/tetris-frame-new.html
     - '2'
     - '2013-09-18 17:16:54.18881'
     - '2013-09-18 17:16:54.18881'
   - - '14'
     - Documentation
-    - http://www.zachcotter.com/Tetris/javadoc/index.html
+    - http://files.zachcotter.com/Tetris/javadoc/index.html
     - '2'
     - '2013-09-18 17:17:13.159895'
     - '2013-09-18 17:17:13.159895'
@@ -94,19 +94,19 @@ project_link_buttons:
     - '2013-09-18 17:17:36.094207'
   - - '17'
     - Launch Slow Version
-    - http://www.zachcotter.com/SlowMandelbrot.html
+    - http://files.zachcotter.com/SlowMandelbrot.html
     - '4'
     - '2013-09-19 21:02:32.984761'
     - '2013-09-19 21:02:32.984761'
   - - '18'
     - Launch Fast Version
-    - http://www.zachcotter.com/FastMandelbrot.html
+    - http://files.zachcotter.com/FastMandelbrot.html
     - '4'
     - '2013-09-19 21:02:59.251264'
     - '2013-09-19 21:02:59.251264'
   - - '19'
     - Documentation
-    - http://www.zachcotter.com/Mandelbrot/javadoc/
+    - http://files.zachcotter.com/Mandelbrot/javadoc/
     - '4'
     - '2013-09-19 21:03:45.452906'
     - '2013-09-19 21:03:45.452906'
