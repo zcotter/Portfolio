@@ -1,0 +1,459 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>TetrisView.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.character {color: #ce7b00}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center"> src\Android\Tetris\TetrisView.java</td></tr></table>
+<pre>
+<span class="line-number">  1</span> <span class="keyword-directive">package</span> Android.Tetris;
+<span class="line-number">  2</span> 
+<span class="line-number">  3</span> <span class="keyword-directive">import</span> android.content.Context;
+<span class="line-number">  4</span> <span class="keyword-directive">import</span> android.graphics.Canvas;
+<span class="line-number">  5</span> <span class="keyword-directive">import</span> android.graphics.Color;
+<span class="line-number">  6</span> <span class="keyword-directive">import</span> android.graphics.Paint;
+<span class="line-number">  7</span> <span class="keyword-directive">import</span> android.graphics.Rect;
+<span class="line-number">  8</span> <span class="keyword-directive">import</span> android.os.CountDownTimer;
+<span class="line-number">  9</span> <span class="keyword-directive">import</span> android.view.MotionEvent;
+<span class="line-number"> 10</span> <span class="keyword-directive">import</span> android.view.View;
+<span class="line-number"> 11</span> <span class="keyword-directive">import</span> java.util.Random;
+<span class="line-number"> 12</span> 
+<span class="line-number"> 13</span> <span class="comment">/**</span>
+<span class="line-number"> 14</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 15</span>  <span class="comment">*/</span>
+<span class="line-number"> 16</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> TetrisView <span class="keyword-directive">extends</span> View {
+<span class="line-number"> 17</span> 
+<span class="line-number"> 18</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> GRID_HEIGHT = 20;
+<span class="line-number"> 19</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> GRID_WIDTH = 10;
+<span class="line-number"> 20</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> TIMER_DELAY_DECREMENT_PER_THOUSAND_VALUE = 20;
+<span class="line-number"> 21</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> POINTS_PER_BLOCK = 10;
+<span class="line-number"> 22</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> POINTS_PER_TOTAL_CLEAR = 500;
+<span class="line-number"> 23</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> POINTS_PER_CLEAR = 100;
+<span class="line-number"> 24</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">int</span> panelHeight;
+<span class="line-number"> 25</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">int</span> panelWidth;
+<span class="line-number"> 26</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">int</span> middle;
+<span class="line-number"> 27</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">int</span> blockHeight;
+<span class="line-number"> 28</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">int</span> blockWidth;
+<span class="line-number"> 29</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> gameOver;
+<span class="line-number"> 30</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> gameInProgress;
+<span class="line-number"> 31</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> paused;
+<span class="line-number"> 32</span>     <span class="keyword-directive">private</span> Tetra current;
+<span class="line-number"> 33</span>     <span class="keyword-directive">private</span> Block[][] grid;
+<span class="line-number"> 34</span>     <span class="keyword-directive">private</span> TetrisCountdownTimer timer;
+<span class="line-number"> 35</span>     <span class="keyword-directive">private</span> Context theContext;
+<span class="line-number"> 36</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> score;
+<span class="line-number"> 37</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> lastThousandForScore;
+<span class="line-number"> 38</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> timerCountDown;
+<span class="line-number"> 39</span> 
+<span class="line-number"> 40</span>     <span class="comment">/**</span>
+<span class="line-number"> 41</span> <span class="comment">     * </span><span class="comment">Android</span><span class="comment">&#39;</span><span class="comment">s</span> <span class="comment">implementation</span> <span class="comment">of</span> <span class="comment">timer</span> <span class="comment">is</span> <span class="comment">a</span> <span class="comment">little</span> <span class="comment">different</span> <span class="comment">so</span> <span class="comment">I</span> <span class="comment">had</span> <span class="comment">to</span> <span class="comment">make</span>
+<span class="line-number"> 42</span> <span class="comment">     * </span><span class="comment">a</span> <span class="comment">few</span> <span class="comment">changes</span><span class="comment">.</span>
+<span class="line-number"> 43</span>      <span class="comment">*/</span>
+<span class="line-number"> 44</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">class</span> TetrisCountdownTimer <span class="keyword-directive">extends</span> CountDownTimer {
+<span class="line-number"> 45</span> 
+<span class="line-number"> 46</span>         <span class="keyword-directive">public</span> TetrisCountdownTimer(<span class="keyword-directive">long</span> millisInFuture,
+<span class="line-number"> 47</span>                                     <span class="keyword-directive">long</span> countDownInterval) {
+<span class="line-number"> 48</span>             <span class="keyword-directive">super</span>(millisInFuture,
+<span class="line-number"> 49</span>                   countDownInterval);
+<span class="line-number"> 50</span>         }
+<span class="line-number"> 51</span> 
+<span class="line-number"> 52</span>         @Override
+<span class="line-number"> 53</span>         <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> onTick(<span class="keyword-directive">long</span> millisUntilFinished) {
+<span class="line-number"> 54</span>             step();
+<span class="line-number"> 55</span>         }
+<span class="line-number"> 56</span> 
+<span class="line-number"> 57</span>         @Override
+<span class="line-number"> 58</span>         <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> onFinish() {
+<span class="line-number"> 59</span>             <span class="keyword-directive">this</span>.cancel();
+<span class="line-number"> 60</span>             initTimer();
+<span class="line-number"> 61</span>         }
+<span class="line-number"> 62</span>     }
+<span class="line-number"> 63</span> 
+<span class="line-number"> 64</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> initTimer() {
+<span class="line-number"> 65</span>         timer = <span class="keyword-directive">new</span> TetrisCountdownTimer(Long.MAX_VALUE,
+<span class="line-number"> 66</span>                                          timerCountDown);
+<span class="line-number"> 67</span>         timer.start();
+<span class="line-number"> 68</span>     }
+<span class="line-number"> 69</span> 
+<span class="line-number"> 70</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> step() {
+<span class="line-number"> 71</span>         <span class="keyword-directive">if</span> (!paused) {
+<span class="line-number"> 72</span>             attemptToMoveCurrent(0);
+<span class="line-number"> 73</span>             checkGameOver();
+<span class="line-number"> 74</span>             invalidate();
+<span class="line-number"> 75</span>         }
+<span class="line-number"> 76</span>     }
+<span class="line-number"> 77</span> 
+<span class="line-number"> 78</span>     <span class="keyword-directive">public</span> TetrisView(Context context,
+<span class="line-number"> 79</span>                       <span class="keyword-directive">int</span> xSize,
+<span class="line-number"> 80</span>                       <span class="keyword-directive">int</span> ySize) {
+<span class="line-number"> 81</span> 
+<span class="line-number"> 82</span>         <span class="keyword-directive">super</span>(context);
+<span class="line-number"> 83</span>         theContext = context;
+<span class="line-number"> 84</span>         panelHeight = ySize;
+<span class="line-number"> 85</span>         panelWidth = xSize;
+<span class="line-number"> 86</span>         gameInProgress = <span class="keyword-directive">false</span>;
+<span class="line-number"> 87</span>         paused = <span class="keyword-directive">false</span>;
+<span class="line-number"> 88</span>         gameOver = <span class="keyword-directive">false</span>;
+<span class="line-number"> 89</span>         timerCountDown = 800;
+<span class="line-number"> 90</span>         middle = panelWidth / 2;
+<span class="line-number"> 91</span>         blockHeight = panelHeight / GRID_HEIGHT;
+<span class="line-number"> 92</span>         blockWidth = panelWidth / GRID_WIDTH;
+<span class="line-number"> 93</span>         invalidate();
+<span class="line-number"> 94</span>         current = generateTetra();
+<span class="line-number"> 95</span>         initTimer();
+<span class="line-number"> 96</span>         grid = <span class="keyword-directive">new</span> Block[GRID_WIDTH][GRID_HEIGHT];
+<span class="line-number"> 97</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; GRID_WIDTH; x++) {
+<span class="line-number"> 98</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; GRID_HEIGHT; y++) {
+<span class="line-number"> 99</span>                 grid[x][y] = <span class="keyword-directive">null</span>;
+<span class="line-number">100</span>             }
+<span class="line-number">101</span>         }
+<span class="line-number">102</span>         score = 0;
+<span class="line-number">103</span>         lastThousandForScore = 0;
+<span class="line-number">104</span> 
+<span class="line-number">105</span>     }
+<span class="line-number">106</span>     
+<span class="line-number">107</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">float</span> downX;
+<span class="line-number">108</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">float</span> downY;
+<span class="line-number">109</span> 
+<span class="line-number">110</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> pause() {
+<span class="line-number">111</span>         paused = <span class="keyword-directive">true</span>;
+<span class="line-number">112</span>         timer = <span class="keyword-directive">null</span>;
+<span class="line-number">113</span>     }
+<span class="line-number">114</span> 
+<span class="line-number">115</span>     <span class="comment">/**</span>
+<span class="line-number">116</span> <span class="comment">     * </span><span class="comment">Continues</span> <span class="comment">the</span> <span class="comment">game</span> <span class="comment">on</span> <span class="comment">next</span> <span class="comment">paint</span>
+<span class="line-number">117</span>      <span class="comment">*/</span>
+<span class="line-number">118</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> unpause() {
+<span class="line-number">119</span>         paused = <span class="keyword-directive">false</span>;
+<span class="line-number">120</span>         timer = <span class="keyword-directive">new</span> TetrisCountdownTimer(Long.MAX_VALUE,
+<span class="line-number">121</span>                                          timerCountDown);
+<span class="line-number">122</span>     }
+<span class="line-number">123</span> 
+<span class="line-number">124</span>     @Override
+<span class="line-number">125</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">boolean</span> onTouchEvent(MotionEvent event) {
+<span class="line-number">126</span>         <span class="keyword-directive">int</span> action = event.getAction();
+<span class="line-number">127</span>         <span class="keyword-directive">if</span> (action == MotionEvent.ACTION_DOWN) {
+<span class="line-number">128</span>             downX = event.getX();
+<span class="line-number">129</span>             downY = event.getY();
+<span class="line-number">130</span>         }
+<span class="line-number">131</span>         <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (action == MotionEvent.ACTION_UP) {
+<span class="line-number">132</span>             <span class="keyword-directive">float</span> iX = downX;
+<span class="line-number">133</span>             <span class="keyword-directive">float</span> fX = event.getX();
+<span class="line-number">134</span>             <span class="keyword-directive">float</span> iY = downY;
+<span class="line-number">135</span>             <span class="keyword-directive">float</span> fY = event.getY();
+<span class="line-number">136</span>             <span class="keyword-directive">if</span> (Math.abs(iX - fX) &lt; 40) {
+<span class="line-number">137</span>                 <span class="comment">//check if down swipe</span>
+<span class="line-number">138</span>                 <span class="keyword-directive">if</span> (Math.abs(fY - iY) &gt; 100) {
+<span class="line-number">139</span>                     attemptToMoveCurrentToMaximumDownwardPosition();
+<span class="line-number">140</span>                 }
+<span class="line-number">141</span>                 <span class="keyword-directive">else</span> {
+<span class="line-number">142</span>                     <span class="keyword-directive">if</span> (fX &gt; middle) {
+<span class="line-number">143</span>                         attemptToRotateCurrent(<span class="keyword-directive">true</span>);
+<span class="line-number">144</span>                     }
+<span class="line-number">145</span>                     <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (fX &lt; middle) {
+<span class="line-number">146</span>                         attemptToRotateCurrent(<span class="keyword-directive">false</span>);
+<span class="line-number">147</span>                     }
+<span class="line-number">148</span>                 }
+<span class="line-number">149</span>             }
+<span class="line-number">150</span>             <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (iX &lt; fX) {
+<span class="line-number">151</span>                 attemptToMoveCurrent(1);
+<span class="line-number">152</span>             }
+<span class="line-number">153</span>             <span class="keyword-directive">else</span> {
+<span class="line-number">154</span>                 attemptToMoveCurrent(-1);
+<span class="line-number">155</span>             }
+<span class="line-number">156</span>             invalidate();
+<span class="line-number">157</span>         }
+<span class="line-number">158</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">159</span>     }
+<span class="line-number">160</span> 
+<span class="line-number">161</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> attemptToMoveCurrentToMaximumDownwardPosition() {
+<span class="line-number">162</span>         <span class="keyword-directive">boolean</span> keepGoing = <span class="keyword-directive">true</span>;
+<span class="line-number">163</span>         <span class="keyword-directive">while</span> (keepGoing) {
+<span class="line-number">164</span>             keepGoing = attemptToMoveCurrent(0);
+<span class="line-number">165</span>         }
+<span class="line-number">166</span>         <span class="keyword-directive">return</span> keepGoing;
+<span class="line-number">167</span>     }
+<span class="line-number">168</span> 
+<span class="line-number">169</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> attemptToRotateCurrent(<span class="keyword-directive">boolean</span> clockwise) {
+<span class="line-number">170</span>         <span class="keyword-directive">if</span> (clockwise) {
+<span class="line-number">171</span>             current.rotateClockwise();
+<span class="line-number">172</span>             <span class="keyword-directive">boolean</span> overlap = checkIfCurrentIntersectsPile();
+<span class="line-number">173</span>             <span class="keyword-directive">if</span> (overlap) {
+<span class="line-number">174</span>                 current.rotateCounterClockwise();
+<span class="line-number">175</span>             }
+<span class="line-number">176</span>         }
+<span class="line-number">177</span>         <span class="keyword-directive">else</span> {
+<span class="line-number">178</span>             current.rotateCounterClockwise();
+<span class="line-number">179</span>             <span class="keyword-directive">boolean</span> overlap = checkIfCurrentIntersectsPile();
+<span class="line-number">180</span>             <span class="keyword-directive">if</span> (overlap) {
+<span class="line-number">181</span>                 current.rotateClockwise();
+<span class="line-number">182</span>             }
+<span class="line-number">183</span>         }
+<span class="line-number">184</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">185</span>     }
+<span class="line-number">186</span> 
+<span class="line-number">187</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> checkIfCurrentIntersectsPile() {
+<span class="line-number">188</span>         <span class="keyword-directive">boolean</span> overlap = <span class="keyword-directive">false</span>;
+<span class="line-number">189</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; GRID_WIDTH; x++) {
+<span class="line-number">190</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; GRID_HEIGHT; y++) {
+<span class="line-number">191</span>                 <span class="keyword-directive">if</span> (grid[x][y] != <span class="keyword-directive">null</span>) {
+<span class="line-number">192</span>                     <span class="keyword-directive">for</span> (Block b : current.getTetra()) {
+<span class="line-number">193</span>                         <span class="keyword-directive">if</span> (b.equals(grid[x][y])) {
+<span class="line-number">194</span>                             overlap = <span class="keyword-directive">true</span>;
+<span class="line-number">195</span>                             <span class="keyword-directive">break</span>;
+<span class="line-number">196</span>                         }
+<span class="line-number">197</span>                     }
+<span class="line-number">198</span>                 }
+<span class="line-number">199</span>                 <span class="keyword-directive">if</span> (overlap == <span class="keyword-directive">true</span>) {
+<span class="line-number">200</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">201</span>                 }
+<span class="line-number">202</span>             }
+<span class="line-number">203</span>             <span class="keyword-directive">if</span> (overlap == <span class="keyword-directive">true</span>) {
+<span class="line-number">204</span>                 <span class="keyword-directive">break</span>;
+<span class="line-number">205</span>             }
+<span class="line-number">206</span>         }
+<span class="line-number">207</span>         <span class="keyword-directive">return</span> overlap;
+<span class="line-number">208</span>     }
+<span class="line-number">209</span> 
+<span class="line-number">210</span>     <span class="keyword-directive">private</span> Tetra generateTetra() {
+<span class="line-number">211</span>         Random generator = <span class="keyword-directive">new</span> Random();
+<span class="line-number">212</span>         <span class="keyword-directive">int</span> random = generator.nextInt(Tetra.NUMBER_OF_TETRAS);
+<span class="line-number">213</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Tetra(Tetra.TETRA_IDENTIFIERS[random]);
+<span class="line-number">214</span>     }
+<span class="line-number">215</span> 
+<span class="line-number">216</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">boolean</span> inbounds(<span class="keyword-directive">int</span> x,
+<span class="line-number">217</span>                                    <span class="keyword-directive">int</span> y) {
+<span class="line-number">218</span>         <span class="keyword-directive">return</span> ((x &gt;= 0)
+<span class="line-number">219</span>                 &amp;&amp; (x &lt; TetrisView.GRID_WIDTH)
+<span class="line-number">220</span>                 &amp;&amp; (y &gt;= 0)
+<span class="line-number">221</span>                 &amp;&amp; (y &lt; TetrisView.GRID_HEIGHT));
+<span class="line-number">222</span>     }
+<span class="line-number">223</span> 
+<span class="line-number">224</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> checkGameOver() {
+<span class="line-number">225</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; GRID_WIDTH; x++) {
+<span class="line-number">226</span>             <span class="keyword-directive">if</span> (grid[x][0] != <span class="keyword-directive">null</span>) {
+<span class="line-number">227</span>                 gameOver = <span class="keyword-directive">true</span>;
+<span class="line-number">228</span>                 pause();
+<span class="line-number">229</span>                 gameInProgress = <span class="keyword-directive">false</span>;
+<span class="line-number">230</span>                 ((AndroidTetris)theContext).gameOver(checkHighScorer());
+<span class="line-number">231</span>                 <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">232</span>             }
+<span class="line-number">233</span>         }
+<span class="line-number">234</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">235</span>     }
+<span class="line-number">236</span>     
+<span class="line-number">237</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> checkHighScorer() {
+<span class="line-number">238</span>         HighScore table = <span class="keyword-directive">new</span> HighScore();
+<span class="line-number">239</span>         <span class="keyword-directive">if</span>(score &gt; table.getValueToQualify()){
+<span class="line-number">240</span>             <span class="keyword-directive">return</span> score;
+<span class="line-number">241</span>         }
+<span class="line-number">242</span>         <span class="keyword-directive">return</span> 0;
+<span class="line-number">243</span>     }
+<span class="line-number">244</span> 
+<span class="line-number">245</span>     @Override
+<span class="line-number">246</span>     <span class="keyword-directive">protected</span> <span class="keyword-directive">void</span> onDraw(Canvas canvas) {
+<span class="line-number">247</span>         Paint textPaint = <span class="keyword-directive">new</span> Paint();
+<span class="line-number">248</span>         textPaint.setTextSize(20);
+<span class="line-number">249</span>         Paint p = <span class="keyword-directive">new</span> Paint();
+<span class="line-number">250</span>         p.setColor(Color.WHITE);
+<span class="line-number">251</span>         canvas.drawRect(<span class="keyword-directive">new</span> Rect(0,
+<span class="line-number">252</span>                                  0,
+<span class="line-number">253</span>                                  panelWidth,
+<span class="line-number">254</span>                                  panelHeight),
+<span class="line-number">255</span>                         p);
+<span class="line-number">256</span>         <span class="keyword-directive">if</span> (gameOver) {
+<span class="line-number">257</span>             
+<span class="line-number">258</span>             <span class="keyword-directive">return</span>;
+<span class="line-number">259</span>         }
+<span class="line-number">260</span>         
+<span class="line-number">261</span>         current.paint(canvas);
+<span class="line-number">262</span> 
+<span class="line-number">263</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; GRID_WIDTH; x++) {
+<span class="line-number">264</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; GRID_HEIGHT; y++) {
+<span class="line-number">265</span>                 Block b = grid[x][y];
+<span class="line-number">266</span>                 <span class="keyword-directive">if</span> (b != <span class="keyword-directive">null</span>) {
+<span class="line-number">267</span>                     b.paint(canvas);
+<span class="line-number">268</span>                 }
+<span class="line-number">269</span>             }
+<span class="line-number">270</span>         }
+<span class="line-number">271</span>         
+<span class="line-number">272</span>         <span class="keyword-directive">int</span> thousands = score / 1000;
+<span class="line-number">273</span>         <span class="keyword-directive">if</span> (thousands &gt; lastThousandForScore) {
+<span class="line-number">274</span>             lastThousandForScore = thousands;
+<span class="line-number">275</span>             timerCountDown -= TIMER_DELAY_DECREMENT_PER_THOUSAND_VALUE;
+<span class="line-number">276</span>             timer = <span class="keyword-directive">new</span> TetrisCountdownTimer(Long.MAX_VALUE,
+<span class="line-number">277</span>                                              timerCountDown);
+<span class="line-number">278</span>             timer.start();
+<span class="line-number">279</span>         }
+<span class="line-number">280</span> 
+<span class="line-number">281</span>         canvas.drawText(score + <span class="character">&quot;&quot;</span>,
+<span class="line-number">282</span>                         5,
+<span class="line-number">283</span>                         15,
+<span class="line-number">284</span>                         textPaint);
+<span class="line-number">285</span>     }
+<span class="line-number">286</span> 
+<span class="line-number">287</span>     <span class="comment">/**</span>
+<span class="line-number">288</span> <span class="comment">     * </span><span class="comment">Abstracts</span> <span class="comment">singular</span> <span class="comment">horizontal</span> <span class="comment">and</span> <span class="comment">vertical</span> <span class="comment">movements</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">Tetra</span>
+<span class="line-number">289</span> <span class="comment">     * </span><span class="comment">currently</span> <span class="comment">in</span> <span class="comment">motion</span><span class="comment">.</span> <span class="comment">Parameter</span> <span class="comment">indicates</span> <span class="comment">lateral</span> <span class="comment">offset</span> <span class="comment">of</span> <span class="comment">target</span>
+<span class="line-number">290</span> <span class="comment">     * </span><span class="comment">location</span><span class="comment">.</span> <span class="comment">A</span> <span class="comment">movement</span> <span class="comment">is</span> <span class="comment">made</span> <span class="comment">if</span> <span class="comment">and</span> <span class="comment">only</span> <span class="comment">if</span> <span class="comment">all</span> <span class="comment">Blocks</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">Tetra</span>
+<span class="line-number">291</span> <span class="comment">     * </span><span class="comment">currently</span> <span class="comment">in</span> <span class="comment">motion</span> <span class="comment">can</span> <span class="comment">complete</span> <span class="comment">the</span> <span class="comment">motion</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">same</span> <span class="comment">direction</span><span class="comment">.</span>
+<span class="line-number">292</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">direction</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">lateral</span> <span class="comment">offset</span> <span class="comment">of</span> <span class="comment">target</span> <span class="comment">location</span>
+<span class="line-number">293</span> <span class="comment">     * (</span><span class="comment">ie</span><span class="comment"> -1==</span><span class="comment">left</span><span class="comment">, 0==</span><span class="comment">down</span><span class="comment">, 1==</span><span class="comment">right</span><span class="comment">)</span>
+<span class="line-number">294</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">movement</span> <span class="comment">was</span> <span class="comment">successful</span>
+<span class="line-number">295</span>      <span class="comment">*/</span>
+<span class="line-number">296</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> attemptToMoveCurrent(<span class="keyword-directive">int</span> direction) {
+<span class="line-number">297</span>         <span class="keyword-directive">if</span> (direction == 5) {
+<span class="line-number">298</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">299</span>         }
+<span class="line-number">300</span>         <span class="keyword-directive">boolean</span> possible = <span class="keyword-directive">true</span>;
+<span class="line-number">301</span>         <span class="keyword-directive">boolean</span> putInPile = <span class="keyword-directive">false</span>;
+<span class="line-number">302</span>         <span class="comment">/*</span>
+<span class="line-number">303</span> <span class="comment">         * For each block in the tetra, the new x and y positions are</span>
+<span class="line-number">304</span> <span class="comment">         * determined by separate algorithms.</span>
+<span class="line-number">305</span> <span class="comment">         */</span>
+<span class="line-number">306</span>         <span class="keyword-directive">for</span> (Block b : current.getTetra()) {
+<span class="line-number">307</span>             <span class="keyword-directive">int</span> currentX = b.getX();
+<span class="line-number">308</span>             <span class="keyword-directive">int</span> currentY = b.getY();
+<span class="line-number">309</span>             <span class="keyword-directive">int</span> targetX = currentX + direction;
+<span class="line-number">310</span>             <span class="keyword-directive">int</span> targetY = -1;
+<span class="line-number">311</span>             <span class="keyword-directive">if</span> (direction == 0) {
+<span class="line-number">312</span>                 targetY = currentY + 1;
+<span class="line-number">313</span>             }
+<span class="line-number">314</span>             <span class="keyword-directive">else</span> {
+<span class="line-number">315</span>                 targetY = currentY;
+<span class="line-number">316</span>             }
+<span class="line-number">317</span>             <span class="keyword-directive">if</span> (TetrisView.inbounds(targetX,
+<span class="line-number">318</span>                                     targetY)) {
+<span class="line-number">319</span>                 <span class="keyword-directive">boolean</span> filled = (grid[targetX][targetY] != <span class="keyword-directive">null</span>);
+<span class="line-number">320</span>                 <span class="keyword-directive">if</span> (filled) {
+<span class="line-number">321</span>                     possible = <span class="keyword-directive">false</span>;
+<span class="line-number">322</span>                     <span class="keyword-directive">if</span> (direction == 0) {
+<span class="line-number">323</span>                         putInPile = <span class="keyword-directive">true</span>;
+<span class="line-number">324</span>                     }
+<span class="line-number">325</span>                 }
+<span class="line-number">326</span> 
+<span class="line-number">327</span>             }
+<span class="line-number">328</span>             <span class="keyword-directive">else</span> {
+<span class="line-number">329</span>                 possible = <span class="keyword-directive">false</span>;
+<span class="line-number">330</span>             }
+<span class="line-number">331</span>             <span class="keyword-directive">if</span> (!((targetY &gt;= 0) &amp;&amp; (targetY &lt; 20))) {
+<span class="line-number">332</span>                 putInPile = <span class="keyword-directive">true</span>;
+<span class="line-number">333</span>             }
+<span class="line-number">334</span>         }
+<span class="line-number">335</span>         <span class="keyword-directive">if</span> (possible) {
+<span class="line-number">336</span>             <span class="keyword-directive">if</span> (direction == 0) {
+<span class="line-number">337</span>                 current.moveDown();
+<span class="line-number">338</span>             }
+<span class="line-number">339</span>             <span class="keyword-directive">if</span> (direction == 1) {
+<span class="line-number">340</span>                 current.moveRight();
+<span class="line-number">341</span>             }
+<span class="line-number">342</span>             <span class="keyword-directive">if</span> (direction == -1) {
+<span class="line-number">343</span>                 current.moveLeft();
+<span class="line-number">344</span>             }
+<span class="line-number">345</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">346</span>         }
+<span class="line-number">347</span>         <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (putInPile) {
+<span class="line-number">348</span>             addCurrentToPile();
+<span class="line-number">349</span>             current = generateTetra();
+<span class="line-number">350</span>             invalidate();
+<span class="line-number">351</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">352</span>         }
+<span class="line-number">353</span>         <span class="keyword-directive">else</span> {
+<span class="line-number">354</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">355</span>         }
+<span class="line-number">356</span>     }
+<span class="line-number">357</span> 
+<span class="line-number">358</span>     <span class="comment">/**</span>
+<span class="line-number">359</span> <span class="comment">     * </span><span class="comment">Adds</span> <span class="comment">the</span> <span class="comment">current</span> <span class="comment">Tetra</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">pile</span><span class="comment">, </span><span class="comment">then</span> <span class="comment">processes</span> <span class="comment">the</span> <span class="comment">pile</span><span class="comment">.</span>
+<span class="line-number">360</span>      <span class="comment">*/</span>
+<span class="line-number">361</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> addCurrentToPile() {
+<span class="line-number">362</span>         <span class="keyword-directive">for</span> (Block b : current.getTetra()) {
+<span class="line-number">363</span>             grid[b.getX()][b.getY()] = b;
+<span class="line-number">364</span>             score += POINTS_PER_BLOCK;
+<span class="line-number">365</span>         }
+<span class="line-number">366</span>         dumpFullRows();
+<span class="line-number">367</span>         checkGridEmptyForScore();
+<span class="line-number">368</span>         invalidate();
+<span class="line-number">369</span>     }
+<span class="line-number">370</span> 
+<span class="line-number">371</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> checkGridEmptyForScore() {
+<span class="line-number">372</span>         <span class="keyword-directive">boolean</span> emptyGrid = <span class="keyword-directive">true</span>;
+<span class="line-number">373</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; GRID_HEIGHT; y++) {
+<span class="line-number">374</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; GRID_WIDTH; x++) {
+<span class="line-number">375</span>                 <span class="keyword-directive">if</span> (grid[x][y] != <span class="keyword-directive">null</span>) {
+<span class="line-number">376</span>                     emptyGrid = <span class="keyword-directive">false</span>;
+<span class="line-number">377</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">378</span>                 }
+<span class="line-number">379</span>             }
+<span class="line-number">380</span>             <span class="keyword-directive">if</span> (!emptyGrid) {
+<span class="line-number">381</span>                 <span class="keyword-directive">break</span>;
+<span class="line-number">382</span>             }
+<span class="line-number">383</span>         }
+<span class="line-number">384</span>         <span class="keyword-directive">if</span> (emptyGrid) {
+<span class="line-number">385</span>             score += POINTS_PER_TOTAL_CLEAR;
+<span class="line-number">386</span>         }
+<span class="line-number">387</span>     }
+<span class="line-number">388</span> 
+<span class="line-number">389</span>     <span class="comment">/**</span>
+<span class="line-number">390</span> <span class="comment">     * </span><span class="comment">Erases</span> <span class="comment">rows</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">grid</span> <span class="comment">that</span> <span class="comment">are</span> <span class="comment">full</span> <span class="comment">and</span> <span class="comment">moves</span> <span class="comment">rows</span> <span class="comment">above</span> <span class="comment">down</span> <span class="comment">as</span> <span class="comment">needed</span><span class="comment">.</span>
+<span class="line-number">391</span>      <span class="comment">*/</span>
+<span class="line-number">392</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> dumpFullRows() {
+<span class="line-number">393</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; GRID_HEIGHT; y++) {
+<span class="line-number">394</span>             <span class="keyword-directive">boolean</span> rowFull = <span class="keyword-directive">true</span>;
+<span class="line-number">395</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; GRID_WIDTH; x++) {
+<span class="line-number">396</span>                 <span class="keyword-directive">if</span> (grid[x][y] == <span class="keyword-directive">null</span>) {
+<span class="line-number">397</span>                     rowFull = <span class="keyword-directive">false</span>;
+<span class="line-number">398</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">399</span>                 }
+<span class="line-number">400</span>             }
+<span class="line-number">401</span>             <span class="keyword-directive">if</span> (rowFull) {
+<span class="line-number">402</span>                 deleteRow(y);
+<span class="line-number">403</span>                 score += POINTS_PER_CLEAR;
+<span class="line-number">404</span>             }
+<span class="line-number">405</span>         }
+<span class="line-number">406</span>     }
+<span class="line-number">407</span> 
+<span class="line-number">408</span>     <span class="comment">/**</span>
+<span class="line-number">409</span> <span class="comment">     * </span><span class="comment">Deletes</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">row</span> <span class="comment">and</span> <span class="comment">moves</span> <span class="comment">all</span> <span class="comment">rows</span> <span class="comment">above</span> <span class="comment">it</span> <span class="comment">down</span> <span class="comment">by</span> <span class="comment">one</span><span class="comment">.</span>
+<span class="line-number">410</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">row</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">row</span> <span class="comment">to</span> <span class="comment">delete</span><span class="comment">.</span>
+<span class="line-number">411</span>      <span class="comment">*/</span>
+<span class="line-number">412</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> deleteRow(<span class="keyword-directive">int</span> row) {
+<span class="line-number">413</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; GRID_WIDTH; x++) {
+<span class="line-number">414</span>             grid[x][row] = <span class="keyword-directive">null</span>;
+<span class="line-number">415</span>         }
+<span class="line-number">416</span>         shiftAllAboveDownOne(row);
+<span class="line-number">417</span>     }
+<span class="line-number">418</span> 
+<span class="line-number">419</span>     <span class="comment">/**</span>
+<span class="line-number">420</span> <span class="comment">     * </span><span class="comment">Shifts</span> <span class="comment">all</span> <span class="comment">rows</span> <span class="comment">above</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">row</span> <span class="comment">down</span> <span class="comment">one</span><span class="comment">.</span>
+<span class="line-number">421</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">row</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">highest</span> <span class="comment">row</span> <span class="comment">that</span> <span class="comment">is</span> <span class="comment">not</span> <span class="comment">moved</span> <span class="comment">down</span><span class="comment">.</span>
+<span class="line-number">422</span>      <span class="comment">*/</span>
+<span class="line-number">423</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> shiftAllAboveDownOne(<span class="keyword-directive">int</span> row) {
+<span class="line-number">424</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = row; y &gt;= 0; y--) {
+<span class="line-number">425</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; GRID_WIDTH; x++) {
+<span class="line-number">426</span>                 <span class="keyword-directive">if</span> (grid[x][y] != <span class="keyword-directive">null</span>) {
+<span class="line-number">427</span>                     grid[x][y].moveDown();
+<span class="line-number">428</span>                     grid[x][y + 1] = grid[x][y];
+<span class="line-number">429</span>                     grid[x][y] = <span class="keyword-directive">null</span>;
+<span class="line-number">430</span>                 }
+<span class="line-number">431</span>             }
+<span class="line-number">432</span>         }
+<span class="line-number">433</span>     }
+<span class="line-number">434</span> }
+<span class="line-number">435</span> 
+<span class="line-number">436</span> 
+</pre></body>
+</html>

@@ -1,0 +1,8 @@
+drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
+drwxr-xr-x   6 zcotter  pg4945649     4096 Apr 18 18:58 ..
+-rw-r--r--   1 zcotter  pg4945649     9706 May  8 14:44 index.twig
+-rw-r--r--   1 zcotter  pg4945649     3219 May 30  2013 userSettings.js
+-rw-r--r--   1 zcotter  pg4945649     7642 May 30  2013 userSettings.tpl
+-rw-r--r--   1 zcotter  pg4945649     9580 May  8 14:44 userSettings.twig
+-rw-r--r--   1 zcotter  pg4945649     8776 May 30  2013 UsersManager.js
+-rw-r--r--   1 zcotter  pg4945649     6672 May 30  2013 UsersManager.tpl

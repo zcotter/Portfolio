@@ -1,0 +1,347 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>MandelbrotApplet.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.character {color: #ce7b00}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center"></td></tr></table>
+<pre>
+<span class="line-number">  1</span> <span class="keyword-directive">package</span> mandelbrot;
+<span class="line-number">  2</span> 
+<span class="line-number">  3</span> <span class="keyword-directive">import</span> java.awt.BorderLayout;
+<span class="line-number">  4</span> <span class="keyword-directive">import</span> java.awt.Color;
+<span class="line-number">  5</span> <span class="keyword-directive">import</span> java.awt.Graphics;
+<span class="line-number">  6</span> <span class="keyword-directive">import</span> java.awt.GridLayout;
+<span class="line-number">  7</span> <span class="keyword-directive">import</span> java.awt.Rectangle;
+<span class="line-number">  8</span> <span class="keyword-directive">import</span> java.awt.event.ActionEvent;
+<span class="line-number">  9</span> <span class="keyword-directive">import</span> java.awt.event.ActionListener;
+<span class="line-number"> 10</span> <span class="keyword-directive">import</span> java.awt.event.MouseAdapter;
+<span class="line-number"> 11</span> <span class="keyword-directive">import</span> java.awt.event.MouseEvent;
+<span class="line-number"> 12</span> <span class="keyword-directive">import</span> java.util.Stack;
+<span class="line-number"> 13</span> <span class="keyword-directive">import</span> javax.swing.JApplet;
+<span class="line-number"> 14</span> <span class="keyword-directive">import</span> javax.swing.JButton;
+<span class="line-number"> 15</span> <span class="keyword-directive">import</span> javax.swing.JOptionPane;
+<span class="line-number"> 16</span> <span class="keyword-directive">import</span> javax.swing.JPanel;
+<span class="line-number"> 17</span> <span class="keyword-directive">import</span> javax.swing.JProgressBar;
+<span class="line-number"> 18</span> 
+<span class="line-number"> 19</span> <span class="comment">/**</span>
+<span class="line-number"> 20</span> <span class="comment"> * </span><span class="comment">Applet</span> <span class="comment">that</span> <span class="comment">draws</span> <span class="comment">the</span> <span class="comment">mandelbrot</span> <span class="comment">set</span> <span class="comment">and</span> <span class="comment">allows</span> <span class="comment">the</span> <span class="comment">user</span> <span class="comment">to</span> <span class="comment">zoom</span> <span class="comment">in</span> <span class="comment">and</span> <span class="comment">out</span>
+<span class="line-number"> 21</span> <span class="comment"> * </span><span class="comment">in</span> <span class="comment">order</span> <span class="comment">to</span> <span class="comment">examine</span> <span class="comment">different</span> <span class="comment">parts</span><span class="comment">.</span>
+<span class="line-number"> 22</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 23</span>  <span class="comment">*/</span>
+<span class="line-number"> 24</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> MandelbrotApplet <span class="keyword-directive">extends</span> JApplet {
+<span class="line-number"> 25</span> 
+<span class="line-number"> 26</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> SIZE = 550;
+<span class="line-number"> 27</span>     <span class="keyword-directive">private</span> Stack&lt;ZoomData&gt; oldZooms;
+<span class="line-number"> 28</span>     <span class="keyword-directive">private</span> Coordinate points[][];
+<span class="line-number"> 29</span>     <span class="keyword-directive">private</span> Color pixels[][];
+<span class="line-number"> 30</span>     <span class="keyword-directive">private</span> MandelbrotPanel panel;
+<span class="line-number"> 31</span>     <span class="keyword-directive">private</span> Rectangle zoom;
+<span class="line-number"> 32</span>     <span class="keyword-directive">private</span> ZoomData currentZoom;
+<span class="line-number"> 33</span>     <span class="keyword-directive">private</span> JProgressBar bar;
+<span class="line-number"> 34</span> 
+<span class="line-number"> 35</span>     <span class="comment">/**</span>
+<span class="line-number"> 36</span> <span class="comment">     * </span><span class="comment">Constructs</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">MandelbrotApplet</span>
+<span class="line-number"> 37</span>      <span class="comment">*/</span>
+<span class="line-number"> 38</span>     <span class="keyword-directive">public</span> MandelbrotApplet() {
+<span class="line-number"> 39</span>         oldZooms = <span class="keyword-directive">new</span> Stack&lt;ZoomData&gt;();
+<span class="line-number"> 40</span>         panel = <span class="keyword-directive">new</span> MandelbrotPanel();
+<span class="line-number"> 41</span> 
+<span class="line-number"> 42</span>         panel.addMouseListener(<span class="keyword-directive">new</span> MouseDragListener());
+<span class="line-number"> 43</span>         <span class="keyword-directive">this</span>.setLayout(<span class="keyword-directive">new</span> BorderLayout());
+<span class="line-number"> 44</span>         <span class="keyword-directive">this</span>.add(panel,
+<span class="line-number"> 45</span>                  BorderLayout.CENTER);
+<span class="line-number"> 46</span>         <span class="keyword-directive">this</span>.add(<span class="keyword-directive">new</span> ButtonPanel(),
+<span class="line-number"> 47</span>                  BorderLayout.SOUTH);
+<span class="line-number"> 48</span> 
+<span class="line-number"> 49</span>     }
+<span class="line-number"> 50</span> 
+<span class="line-number"> 51</span>     <span class="comment">//mouse listener that allows the user to make a square around the area</span>
+<span class="line-number"> 52</span>     <span class="comment">//they are zooming in on.</span>
+<span class="line-number"> 53</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">class</span> MouseDragListener <span class="keyword-directive">extends</span> MouseAdapter {
+<span class="line-number"> 54</span> 
+<span class="line-number"> 55</span>         <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> xPress;
+<span class="line-number"> 56</span>         <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> yPress;
+<span class="line-number"> 57</span> 
+<span class="line-number"> 58</span>         <span class="comment">//stores the pressed location</span>
+<span class="line-number"> 59</span>         @Override
+<span class="line-number"> 60</span>         <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> mousePressed(MouseEvent e) {
+<span class="line-number"> 61</span>             xPress = e.getX();
+<span class="line-number"> 62</span>             yPress = e.getY();
+<span class="line-number"> 63</span>         }
+<span class="line-number"> 64</span> 
+<span class="line-number"> 65</span>         <span class="comment">//forms a square with the mouse pressed location as the upper left</span>
+<span class="line-number"> 66</span>         <span class="comment">//corner, and the minimum of the x and y offsets between the press and</span>
+<span class="line-number"> 67</span>         <span class="comment">//release locations as the side length.</span>
+<span class="line-number"> 68</span>         @Override
+<span class="line-number"> 69</span>         <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> mouseReleased(MouseEvent e) {
+<span class="line-number"> 70</span>             <span class="keyword-directive">int</span> xRel = e.getX();
+<span class="line-number"> 71</span>             <span class="keyword-directive">int</span> yRel = e.getY();
+<span class="line-number"> 72</span>             <span class="keyword-directive">int</span> xDis = Math.abs(xRel - xPress);
+<span class="line-number"> 73</span>             <span class="keyword-directive">int</span> yDis = Math.abs(yRel - yPress);
+<span class="line-number"> 74</span>             <span class="keyword-directive">int</span> dis = Math.min(xDis,
+<span class="line-number"> 75</span>                                yDis);
+<span class="line-number"> 76</span>             zoom = <span class="keyword-directive">new</span> Rectangle(xPress,
+<span class="line-number"> 77</span>                                  yPress,
+<span class="line-number"> 78</span>                                  dis,
+<span class="line-number"> 79</span>                                  dis);
+<span class="line-number"> 80</span>             panel.paintIt(panel.getGraphics());
+<span class="line-number"> 81</span>         }
+<span class="line-number"> 82</span>     }
+<span class="line-number"> 83</span> 
+<span class="line-number"> 84</span>     <span class="comment">//panel in which the fractal is draw.</span>
+<span class="line-number"> 85</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">class</span> MandelbrotPanel <span class="keyword-directive">extends</span> JPanel {
+<span class="line-number"> 86</span> 
+<span class="line-number"> 87</span>         <span class="comment">//stores the point in the fractal represented by the pixel in</span>
+<span class="line-number"> 88</span>         <span class="comment">//the upper left corner of the panel.</span>
+<span class="line-number"> 89</span>         <span class="keyword-directive">private</span> <span class="keyword-directive">double</span> xPos;
+<span class="line-number"> 90</span>         <span class="keyword-directive">private</span> <span class="keyword-directive">double</span> yPos;
+<span class="line-number"> 91</span>         <span class="comment">//stores the width and height of the current fractal view (in units on the </span>
+<span class="line-number"> 92</span>         <span class="comment">//imaginary plane, not in pixels)</span>
+<span class="line-number"> 93</span>         <span class="keyword-directive">private</span> <span class="keyword-directive">double</span> width;
+<span class="line-number"> 94</span>         <span class="keyword-directive">private</span> <span class="keyword-directive">double</span> height;
+<span class="line-number"> 95</span> 
+<span class="line-number"> 96</span>         <span class="comment">/**</span>
+<span class="line-number"> 97</span> <span class="comment">         * </span><span class="comment">Constructs</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">mandelbrot</span> <span class="comment">panel</span><span class="comment">.</span>
+<span class="line-number"> 98</span>          <span class="comment">*/</span>
+<span class="line-number"> 99</span>         <span class="keyword-directive">public</span> MandelbrotPanel() {
+<span class="line-number">100</span>             <span class="keyword-directive">this</span>.setSize(SIZE,
+<span class="line-number">101</span>                          SIZE);
+<span class="line-number">102</span>             pixels = <span class="keyword-directive">new</span> Color[SIZE][SIZE];
+<span class="line-number">103</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; SIZE; x++) {
+<span class="line-number">104</span>                 <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; SIZE; y++) {
+<span class="line-number">105</span>                     pixels[x][y] = Color.GREEN;
+<span class="line-number">106</span>                 }
+<span class="line-number">107</span>             }
+<span class="line-number">108</span>             xPos = -2.0;
+<span class="line-number">109</span>             yPos = -2.0;
+<span class="line-number">110</span>             width = 4.0;
+<span class="line-number">111</span>             height = 4.0;
+<span class="line-number">112</span>             currentZoom = <span class="keyword-directive">new</span> ZoomData(xPos,
+<span class="line-number">113</span>                                        yPos,
+<span class="line-number">114</span>                                        width,
+<span class="line-number">115</span>                                        height);
+<span class="line-number">116</span>             calculate();
+<span class="line-number">117</span>         }
+<span class="line-number">118</span> 
+<span class="line-number">119</span>         <span class="comment">/**</span>
+<span class="line-number">120</span> <span class="comment">         * </span><span class="comment">Zooms</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">specified</span> <span class="comment">position</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">fractal</span>
+<span class="line-number">121</span> <span class="comment">         * </span><span class="ST0">@param</span> <span class="comment">xPos</span> <span class="comment">x</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">point</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">upper</span> <span class="comment">left</span> <span class="comment">corner</span> <span class="comment">of</span>
+<span class="line-number">122</span> <span class="comment">         * </span><span class="comment">the</span> <span class="comment">specified</span> <span class="comment">fractal</span> <span class="comment">view</span><span class="comment">.</span>
+<span class="line-number">123</span> <span class="comment">         * </span><span class="ST0">@param</span> <span class="comment">yPos</span> <span class="comment">y</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">point</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">upper</span> <span class="comment">left</span> <span class="comment">corner</span> <span class="comment">of</span> <span class="comment">the</span>
+<span class="line-number">124</span> <span class="comment">         * </span><span class="comment">specified</span> <span class="comment">fractal</span> <span class="comment">view</span><span class="comment">.</span>
+<span class="line-number">125</span> <span class="comment">         * </span><span class="ST0">@param</span> <span class="comment">width</span> <span class="comment">the</span> <span class="comment">width</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">fractal</span> <span class="comment">view</span>
+<span class="line-number">126</span> <span class="comment">         * </span><span class="ST0">@param</span> <span class="comment">height</span> <span class="comment">the</span> <span class="comment">height</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">fractal</span> <span class="comment">view</span><span class="comment">.</span>
+<span class="line-number">127</span>          <span class="comment">*/</span>
+<span class="line-number">128</span>         <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> makeView(<span class="keyword-directive">double</span> xPos,
+<span class="line-number">129</span>                              <span class="keyword-directive">double</span> yPos,
+<span class="line-number">130</span>                              <span class="keyword-directive">double</span> width,
+<span class="line-number">131</span>                              <span class="keyword-directive">double</span> height) {
+<span class="line-number">132</span>             <span class="keyword-directive">this</span>.xPos = xPos;
+<span class="line-number">133</span>             <span class="keyword-directive">this</span>.yPos = yPos;
+<span class="line-number">134</span>             <span class="keyword-directive">this</span>.width = width;
+<span class="line-number">135</span>             <span class="keyword-directive">this</span>.height = height;
+<span class="line-number">136</span>             calculate();
+<span class="line-number">137</span>             paintIt(<span class="keyword-directive">this</span>.getGraphics());
+<span class="line-number">138</span>         }
+<span class="line-number">139</span> 
+<span class="line-number">140</span>         <span class="comment">/**</span>
+<span class="line-number">141</span> <span class="comment">         * </span><span class="comment">Assigns</span> <span class="comment">a</span> <span class="comment">point</span> <span class="comment">on</span> <span class="comment">the</span> <span class="comment">fractal</span> <span class="comment">to</span> <span class="comment">each</span> <span class="comment">pixel</span> <span class="comment">within</span> <span class="comment">the</span> <span class="comment">panel</span><span class="comment">,</span>
+<span class="line-number">142</span> <span class="comment">         * </span><span class="comment">then</span> <span class="comment">determines</span> <span class="comment">if</span> <span class="comment">that</span> <span class="comment">point</span> <span class="comment">is</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">mandelbrot</span> <span class="comment">set</span> <span class="comment">within</span>
+<span class="line-number">143</span> <span class="comment">         * </span><span class="comment">a</span> <span class="comment">specified</span> <span class="comment">number</span> <span class="comment">of</span> <span class="comment">iterations</span><span class="comment">.</span> <span class="comment">If</span> <span class="comment">not</span><span class="comment">, </span><span class="comment">it</span> <span class="comment">stores</span> <span class="comment">the</span> <span class="comment">number</span> <span class="comment">of</span>
+<span class="line-number">144</span> <span class="comment">         * </span><span class="comment">iterations</span> <span class="comment">required</span> <span class="comment">to</span> <span class="comment">exclude</span> <span class="comment">it</span><span class="comment">.</span> <span class="comment">Then</span> <span class="comment">determines</span> <span class="comment">the</span> <span class="comment">appropriate</span>
+<span class="line-number">145</span> <span class="comment">         * </span><span class="comment">coloring</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">pixel</span><span class="comment">.</span>
+<span class="line-number">146</span>          <span class="comment">*/</span>
+<span class="line-number">147</span>         <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> calculate() {
+<span class="line-number">148</span>             points = <span class="keyword-directive">new</span> Coordinate[SIZE][SIZE];
+<span class="line-number">149</span>             pixels = <span class="keyword-directive">new</span> Color[SIZE][SIZE];
+<span class="line-number">150</span>             <span class="keyword-directive">double</span> xInc = width / SIZE;
+<span class="line-number">151</span>             <span class="keyword-directive">double</span> yInc = height / SIZE;
+<span class="line-number">152</span>             <span class="keyword-directive">double</span> progress = 0.0;
+<span class="line-number">153</span>             <span class="keyword-directive">double</span> progressIncrement = 100.0 / SIZE;
+<span class="line-number">154</span>             <span class="keyword-directive">int</span> lastUpdate = 0;
+<span class="line-number">155</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; SIZE; x++) {
+<span class="line-number">156</span>                 progress += progressIncrement;
+<span class="line-number">157</span>                 <span class="keyword-directive">if</span> (bar != <span class="keyword-directive">null</span> &amp;&amp; progress &gt;= lastUpdate + 5) {
+<span class="line-number">158</span>                     lastUpdate = (<span class="keyword-directive">int</span>) progress;
+<span class="line-number">159</span>                     bar.setValue((<span class="keyword-directive">int</span>) progress);
+<span class="line-number">160</span>                     bar.paint(bar.getGraphics());
+<span class="line-number">161</span>                 }
+<span class="line-number">162</span>                 <span class="keyword-directive">double</span> xCoord = xPos + (xInc * x);
+<span class="line-number">163</span>                 <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; SIZE; y++) {
+<span class="line-number">164</span>                     <span class="keyword-directive">double</span> yCoord = yPos + (yInc * y);
+<span class="line-number">165</span>                     points[x][y] = <span class="keyword-directive">new</span> Coordinate(xCoord,
+<span class="line-number">166</span>                                                   yCoord);
+<span class="line-number">167</span> 
+<span class="line-number">168</span>                     pixels[x][y] =
+<span class="line-number">169</span>                     MandelbrotCalculator.getPixelColor(
+<span class="line-number">170</span>                             MandelbrotCalculator.isMandelbrot(xCoord,
+<span class="line-number">171</span>                                                               yCoord,
+<span class="line-number">172</span>                                                               255));
+<span class="line-number">173</span>                     <span class="comment">/*</span>
+<span class="line-number">174</span> <span class="comment">                    pixels[x][y] =</span>
+<span class="line-number">175</span> <span class="comment">                    MandelbrotCalculator.getMaximumPrecisionColor(</span>
+<span class="line-number">176</span> <span class="comment">                    MandelbrotCalculator.isMandelbrot(xCoord,</span>
+<span class="line-number">177</span> <span class="comment">                    yCoord,</span>
+<span class="line-number">178</span> <span class="comment">                    1530));</span>
+<span class="line-number">179</span> <span class="comment">                     */</span>
+<span class="line-number">180</span>                 }
+<span class="line-number">181</span>             }
+<span class="line-number">182</span>         }
+<span class="line-number">183</span> 
+<span class="line-number">184</span>         <span class="comment">/**</span>
+<span class="line-number">185</span> <span class="comment">         * </span><span class="comment">Paints</span> <span class="comment">the</span> <span class="comment">current</span> <span class="comment">fractal</span> <span class="comment">view</span><span class="comment">, </span><span class="comment">and</span> <span class="comment">the</span> <span class="comment">square</span> <span class="comment">drawn</span> <span class="comment">by</span> <span class="comment">the</span> <span class="comment">user</span><span class="comment">,</span>
+<span class="line-number">186</span> <span class="comment">         * </span><span class="comment">if</span> <span class="comment">any</span><span class="comment">.</span>
+<span class="line-number">187</span> <span class="comment">         * </span><span class="ST0">@param</span> <span class="comment">g</span> <span class="comment">the</span> <span class="comment">Graphics</span> <span class="comment">to</span> <span class="comment">paint</span> <span class="comment">on</span><span class="comment">.</span> 
+<span class="line-number">188</span>          <span class="comment">*/</span>
+<span class="line-number">189</span>         <span class="comment">//the &quot;It&quot; allows me to avoid overriding the paint method in JPanel</span>
+<span class="line-number">190</span>         <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> paintIt(Graphics g) {
+<span class="line-number">191</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; SIZE; x++) {
+<span class="line-number">192</span>                 <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; SIZE; y++) {
+<span class="line-number">193</span>                     g.setColor(pixels[x][y]);
+<span class="line-number">194</span>                     g.fillRect(x,
+<span class="line-number">195</span>                                y,
+<span class="line-number">196</span>                                1,
+<span class="line-number">197</span>                                1);
+<span class="line-number">198</span>                 }
+<span class="line-number">199</span>             }
+<span class="line-number">200</span>             <span class="keyword-directive">if</span> (zoom != <span class="keyword-directive">null</span>) {
+<span class="line-number">201</span>                 g.setColor(Color.WHITE);
+<span class="line-number">202</span>                 g.drawRect(zoom.x,
+<span class="line-number">203</span>                            zoom.y,
+<span class="line-number">204</span>                            zoom.width,
+<span class="line-number">205</span>                            zoom.height);
+<span class="line-number">206</span> 
+<span class="line-number">207</span>             }
+<span class="line-number">208</span>         }
+<span class="line-number">209</span> 
+<span class="line-number">210</span>         <span class="comment">/**</span>
+<span class="line-number">211</span> <span class="comment">         * </span><span class="comment">Calls</span> <span class="comment">the</span> <span class="comment">paintIt</span> <span class="comment">method</span>
+<span class="line-number">212</span> <span class="comment">         * </span><span class="ST0">@param</span> <span class="comment">g</span> 
+<span class="line-number">213</span>          <span class="comment">*/</span>
+<span class="line-number">214</span>         @Override
+<span class="line-number">215</span>         <span class="keyword-directive">protected</span> <span class="keyword-directive">void</span> paintComponent(Graphics g) {
+<span class="line-number">216</span>             paintIt(g);
+<span class="line-number">217</span>         }
+<span class="line-number">218</span>     }
+<span class="line-number">219</span> 
+<span class="line-number">220</span>     <span class="comment">/**</span>
+<span class="line-number">221</span> <span class="comment">     * </span><span class="comment">Responds</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">zoom</span> <span class="comment">in</span> <span class="comment">button</span> <span class="comment">being</span> <span class="comment">pressed</span><span class="comment">.</span>
+<span class="line-number">222</span>      <span class="comment">*/</span>
+<span class="line-number">223</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> inButtonPressed() {
+<span class="line-number">224</span>         <span class="comment">//determines if the user has drawn a rectangle to zoom in to. if not,</span>
+<span class="line-number">225</span>         <span class="comment">//prompts them to.</span>
+<span class="line-number">226</span>         <span class="keyword-directive">if</span> (zoom == <span class="keyword-directive">null</span>) {
+<span class="line-number">227</span>             JOptionPane.showMessageDialog(<span class="keyword-directive">this</span>,
+<span class="line-number">228</span>                                           <span class="character">&quot;</span><span class="character">Please click and drag a rect on an area to zoom to first.</span><span class="character">&quot;</span>);
+<span class="line-number">229</span>             <span class="keyword-directive">return</span>;
+<span class="line-number">230</span>         }
+<span class="line-number">231</span>         <span class="comment">//determines the fractal view indicated by the rectangle drawn by the  user</span>
+<span class="line-number">232</span>         <span class="keyword-directive">double</span> px1 = points[zoom.x][zoom.y].getX();
+<span class="line-number">233</span>         <span class="keyword-directive">double</span> py1 = points[zoom.x][zoom.y].getY();
+<span class="line-number">234</span>         <span class="keyword-directive">int</span> x2 = zoom.x + zoom.width;
+<span class="line-number">235</span>         <span class="keyword-directive">int</span> y2 = zoom.y + zoom.height;
+<span class="line-number">236</span>         <span class="keyword-directive">double</span> px2 = points[x2][y2].getX();
+<span class="line-number">237</span>         <span class="keyword-directive">double</span> py2 = points[x2][y2].getY();
+<span class="line-number">238</span>         <span class="keyword-directive">double</span> width = px2 - px1;
+<span class="line-number">239</span>         <span class="keyword-directive">double</span> height = py2 - py1;
+<span class="line-number">240</span>         zoom = <span class="keyword-directive">null</span>;
+<span class="line-number">241</span> 
+<span class="line-number">242</span>         <span class="comment">/*</span>
+<span class="line-number">243</span> <span class="comment">         * zooms to the area selected by the user.</span>
+<span class="line-number">244</span> <span class="comment">         * adds the view area shown before the zoom to the stack of old views</span>
+<span class="line-number">245</span> <span class="comment">         * then records the current view area</span>
+<span class="line-number">246</span> <span class="comment">         */</span>
+<span class="line-number">247</span>         panel.makeView(px1,
+<span class="line-number">248</span>                        py1,
+<span class="line-number">249</span>                        width,
+<span class="line-number">250</span>                        height);
+<span class="line-number">251</span>         <span class="comment">//adds the view area shown before the zoom to the stack of old views</span>
+<span class="line-number">252</span>         oldZooms.push(currentZoom);
+<span class="line-number">253</span>         currentZoom = <span class="keyword-directive">new</span> ZoomData(px1,
+<span class="line-number">254</span>                                    py1,
+<span class="line-number">255</span>                                    width,
+<span class="line-number">256</span>                                    height);
+<span class="line-number">257</span>     }
+<span class="line-number">258</span> 
+<span class="line-number">259</span>     <span class="comment">/**</span>
+<span class="line-number">260</span> <span class="comment">     * </span><span class="comment">Responds</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">user</span> <span class="comment">pressing</span> <span class="comment">the</span> <span class="comment">zoom</span> <span class="comment">out</span> <span class="comment">button</span><span class="comment">.</span>
+<span class="line-number">261</span>      <span class="comment">*/</span>
+<span class="line-number">262</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> outButtonPressed() {
+<span class="line-number">263</span>         <span class="comment">//if the user has not zoomed in yet, displays an error message.</span>
+<span class="line-number">264</span>         <span class="keyword-directive">if</span> (oldZooms.isEmpty()) {
+<span class="line-number">265</span>             JOptionPane.showMessageDialog(<span class="keyword-directive">this</span>,
+<span class="line-number">266</span>                                           <span class="character">&quot;</span><span class="character">Can&#39;t zoom out further</span><span class="character">&quot;</span>);
+<span class="line-number">267</span>             <span class="keyword-directive">return</span>;
+<span class="line-number">268</span>         }
+<span class="line-number">269</span>         <span class="comment">//makes the current view the view stored at the top of the stack of old views.</span>
+<span class="line-number">270</span>         ZoomData back = oldZooms.pop();
+<span class="line-number">271</span>         currentZoom = back;
+<span class="line-number">272</span>         panel.makeView(back.getLowerXBound(),
+<span class="line-number">273</span>                        back.getLowerYBound(),
+<span class="line-number">274</span>                        back.getWidth(),
+<span class="line-number">275</span>                        back.getHeight());
+<span class="line-number">276</span> 
+<span class="line-number">277</span>     }
+<span class="line-number">278</span> 
+<span class="line-number">279</span>     <span class="comment">//holds the components at the bottom of the frame</span>
+<span class="line-number">280</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">class</span> ButtonPanel <span class="keyword-directive">extends</span> JPanel {
+<span class="line-number">281</span> 
+<span class="line-number">282</span>         <span class="keyword-directive">private</span> JButton inButton;
+<span class="line-number">283</span>         <span class="keyword-directive">private</span> JButton outButton;
+<span class="line-number">284</span> 
+<span class="line-number">285</span>         <span class="comment">/**</span>
+<span class="line-number">286</span> <span class="comment">         * </span><span class="comment">Cosntructs</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">button</span> <span class="comment">panel</span><span class="comment">.</span>
+<span class="line-number">287</span>          <span class="comment">*/</span>
+<span class="line-number">288</span>         <span class="keyword-directive">public</span> ButtonPanel() {
+<span class="line-number">289</span>             <span class="keyword-directive">this</span>.setLayout(<span class="keyword-directive">new</span> GridLayout(3,
+<span class="line-number">290</span>                                           1));
+<span class="line-number">291</span>             inButton = <span class="keyword-directive">new</span> JButton(<span class="character">&quot;</span><span class="character">Zoom In</span><span class="character">&quot;</span>);
+<span class="line-number">292</span>             inButton.addActionListener(<span class="keyword-directive">new</span> InButtonActionListener());
+<span class="line-number">293</span>             outButton = <span class="keyword-directive">new</span> JButton(<span class="character">&quot;</span><span class="character">Zoom Out</span><span class="character">&quot;</span>);
+<span class="line-number">294</span>             outButton.addActionListener(<span class="keyword-directive">new</span> OutButtonActionListener());
+<span class="line-number">295</span>             bar = <span class="keyword-directive">new</span> JProgressBar(0,
+<span class="line-number">296</span>                                    100);
+<span class="line-number">297</span>             bar.setValue(0);
+<span class="line-number">298</span>             bar.setStringPainted(<span class="keyword-directive">true</span>);
+<span class="line-number">299</span>             <span class="keyword-directive">this</span>.add(inButton);
+<span class="line-number">300</span>             <span class="keyword-directive">this</span>.add(outButton);
+<span class="line-number">301</span>             <span class="keyword-directive">this</span>.add(bar);
+<span class="line-number">302</span>         }
+<span class="line-number">303</span> 
+<span class="line-number">304</span>         <span class="comment">//action listener for the zoom in button</span>
+<span class="line-number">305</span>         <span class="keyword-directive">private</span> <span class="keyword-directive">class</span> InButtonActionListener <span class="keyword-directive">implements</span> ActionListener {
+<span class="line-number">306</span> 
+<span class="line-number">307</span>             @Override
+<span class="line-number">308</span>             <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> actionPerformed(ActionEvent e) {
+<span class="line-number">309</span>                 inButtonPressed();
+<span class="line-number">310</span>             }
+<span class="line-number">311</span>         }
+<span class="line-number">312</span> 
+<span class="line-number">313</span>         <span class="comment">//action listener for the zoom out button.</span>
+<span class="line-number">314</span>         <span class="keyword-directive">private</span> <span class="keyword-directive">class</span> OutButtonActionListener <span class="keyword-directive">implements</span> ActionListener {
+<span class="line-number">315</span> 
+<span class="line-number">316</span>             @Override
+<span class="line-number">317</span>             <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> actionPerformed(ActionEvent e) {
+<span class="line-number">318</span>                 outButtonPressed();
+<span class="line-number">319</span>             }
+<span class="line-number">320</span>         }
+<span class="line-number">321</span>     }
+<span class="line-number">322</span> }
+<span class="line-number">323</span> 
+<span class="line-number">324</span> 
+</pre></body>
+</html>

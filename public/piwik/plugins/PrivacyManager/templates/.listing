@@ -1,0 +1,7 @@
+drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
+drwxr-xr-x   4 zcotter  pg4945649     4096 Mar  6 16:26 ..
+-rw-r--r--   1 zcotter  pg4945649      337 May 30  2013 databaseSize.tpl
+-rw-r--r--   1 zcotter  pg4945649      394 May  8 14:44 getDatabaseSize.twig
+-rw-r--r--   1 zcotter  pg4945649     7226 May 30  2013 privacySettings.js
+-rw-r--r--   1 zcotter  pg4945649    16641 May 30  2013 privacySettings.tpl
+-rw-r--r--   1 zcotter  pg4945649    20783 May  8 14:44 privacySettings.twig

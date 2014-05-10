@@ -1,0 +1,25 @@
+drwxr-xr-x  13 zcotter  pg4945649     4096 Dec 17 09:41 .
+drwxr-xr-x   6 zcotter  pg4945649     4096 Sep 22  2013 ..
+-rw-r--r--   1 zcotter  pg4945649      951 May  8 14:44 composer.json
+-rw-r--r--   1 zcotter  pg4945649    34612 May  8 14:44 composer.lock
+drwxr-xr-x   2 zcotter  pg4945649     4096 Sep 21  2013 config
+-rw-r--r--   1 zcotter  pg4945649      961 May  8 14:44 console
+drwxr-xr-x  33 zcotter  pg4945649     4096 Apr 18 18:58 core
+-rw-r--r--   1 zcotter  pg4945649        0 Mar  6  2013 favicon.ico
+-rw-r--r--   1 zcotter  pg4945649      266 Jan  4  2011 How to install Piwik.html
+-rw-r--r--   1 zcotter  pg4945649     1546 May  8 14:45 index.php
+drwxr-xr-x   2 zcotter  pg4945649     4096 May 30  2013 js
+drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 lang
+-rw-r--r--   1 zcotter  pg4945649     7322 May  8 14:45 LEGALNOTICE
+drwxr-xr-x  24 zcotter  pg4945649     4096 Apr 18 18:58 libs
+drwxr-xr-x   8 zcotter  pg4945649     4096 Dec 17 09:41 misc
+-rw-r--r--   1 zcotter  pg4945649    23183 May  8 14:44 piwik.js
+-rw-r--r--   1 zcotter  pg4945649     5150 May  8 14:45 piwik.php
+drwxr-xr-x  59 zcotter  pg4945649     4096 Apr 18 18:58 plugins
+-rw-r--r--   1 zcotter  pg4945649     2640 Jan 20  2013 README
+-rw-r--r--   1 zcotter  pg4945649     3813 May  8 14:44 README.md
+-rw-r--r--   1 zcotter  pg4945649        0 Mar  6  2013 robots.txt
+drwxr-xr-x   2 zcotter  pg4945649     4096 Mar 11  2013 tests
+drwxr-xr-x   3 zcotter  pg4945649     4096 Mar  6  2013 themes
+drwxr-xr-x  10 zcotter  pg4945649     4096 Mar 14 08:48 tmp
+drwxr-xr-x  10 zcotter  pg4945649     4096 May  8 14:44 vendor

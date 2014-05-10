@@ -1,0 +1,12 @@
+drwxr-xr-x   5 zcotter  pg4945649     4096 Dec 20 13:14 .
+drwxr-xr-x  33 zcotter  pg4945649     4096 Apr 18 18:58 ..
+drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 20 13:14 UIAsset
+-rw-r--r--   1 zcotter  pg4945649     1508 May  8 14:45 UIAssetCacheBuster.php
+-rw-r--r--   1 zcotter  pg4945649     1340 May  8 14:45 UIAssetCatalog.php
+-rw-r--r--   1 zcotter  pg4945649     1512 May  8 14:45 UIAssetCatalogSorter.php
+drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 20 13:14 UIAssetFetcher
+-rw-r--r--   1 zcotter  pg4945649     2247 May  8 14:45 UIAssetFetcher.php
+drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 20 13:14 UIAssetMerger
+-rw-r--r--   1 zcotter  pg4945649     4549 May  8 14:45 UIAssetMerger.php
+-rw-r--r--   1 zcotter  pg4945649     1727 May  8 14:45 UIAssetMinifier.php
+-rw-r--r--   1 zcotter  pg4945649     1198 May  8 14:45 UIAsset.php

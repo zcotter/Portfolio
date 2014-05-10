@@ -1,0 +1,5 @@
+drwxr-xr-x   2 zcotter  pg4945649     4096 Jan  4  2011 .
+drwxr-xr-x   6 zcotter  pg4945649     4096 Jan  4  2011 ..
+-rw-r--r--   1 zcotter  pg4945649     1577 May 30  2013 Author.php
+-rw-r--r--   1 zcotter  pg4945649     1912 May 30  2013 Category.php
+-rw-r--r--   1 zcotter  pg4945649     1429 May 30  2013 CollectionAbstract.php

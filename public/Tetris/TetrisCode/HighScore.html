@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>HighScore.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.character {color: #ce7b00}
+.ST1 {color: #ce7b00; font-family: Courier New; font-weight: bold}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">HighScore.java</td></tr></table>
+<pre>
+<span class="line-number">  1</span> <span class="keyword-directive">import</span> java.io.IOException;
+<span class="line-number">  2</span> <span class="keyword-directive">import</span> java.io.ObjectInputStream;
+<span class="line-number">  3</span> <span class="keyword-directive">import</span> java.io.ObjectOutputStream;
+<span class="line-number">  4</span> <span class="keyword-directive">import</span> java.net.MalformedURLException;
+<span class="line-number">  5</span> <span class="keyword-directive">import</span> java.net.URL;
+<span class="line-number">  6</span> <span class="keyword-directive">import</span> java.net.URLConnection;
+<span class="line-number">  7</span> <span class="keyword-directive">import</span> java.util.Iterator;
+<span class="line-number">  8</span> <span class="keyword-directive">import</span> java.util.TreeMap;
+<span class="line-number">  9</span> 
+<span class="line-number"> 10</span> <span class="comment">/**</span>
+<span class="line-number"> 11</span> <span class="comment"> * </span><span class="comment">Handles</span> <span class="comment">online</span> <span class="comment">storage</span> <span class="comment">of</span> <span class="comment">high</span> <span class="comment">score</span> <span class="comment">data</span><span class="comment">.</span> <span class="comment">The</span> <span class="comment">top</span><span class="comment"> 10 </span><span class="comment">high</span> <span class="comment">scores</span><span class="comment">,</span>
+<span class="line-number"> 12</span> <span class="comment"> * </span><span class="comment">referenced</span> <span class="comment">by</span> <span class="comment">score</span><span class="comment">, </span><span class="comment">are</span> <span class="comment">stored</span> <span class="comment">in</span> <span class="comment">a</span> <span class="comment">Map</span><span class="ST0">&lt;Integer,String&gt;</span><span class="comment">, </span><span class="comment">which</span> <span class="comment">is</span> <span class="comment">written</span>
+<span class="line-number"> 13</span> <span class="comment"> * </span><span class="comment">and</span> <span class="comment">read</span> <span class="comment">between</span> <span class="comment">the</span> <span class="comment">client</span> <span class="comment">and</span> <span class="comment">server</span> <span class="comment">via</span> <span class="comment">ObjectIOStream</span><span class="comment">.</span> 
+<span class="line-number"> 14</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 15</span>  <span class="comment">*/</span>
+<span class="line-number"> 16</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> HighScore {
+<span class="line-number"> 17</span> 
+<span class="line-number"> 18</span>     <span class="keyword-directive">private</span> TreeMap&lt;Integer, String&gt; map;
+<span class="line-number"> 19</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> NUMBER_OF_FINALISTS = 10;
+<span class="line-number"> 20</span>     <span class="comment">//TODO censor login</span>
+<span class="line-number"> 21</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> String ftpUserName = ;<span class="comment">//CENSORED, replace null with username</span>
+<span class="line-number"> 22</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> String ftpPassword = ;<span class="comment">//CENSORED, replace null with password</span>
+<span class="line-number"> 23</span>     
+<span class="line-number"> 24</span>     <span class="comment">//TODO: change Integer to Integer Set to allow ties--&gt; restructure as needed</span>
+<span class="line-number"> 25</span> 
+<span class="line-number"> 26</span>     <span class="comment">/**</span>
+<span class="line-number"> 27</span> <span class="comment">     * </span><span class="comment">Constructs</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">HighScore</span><span class="comment">.</span>  <span class="comment">Attempts</span> <span class="comment">to</span> <span class="comment">read</span> <span class="comment">data</span> <span class="comment">from</span> <span class="comment">the</span> <span class="comment">server</span>
+<span class="line-number"> 28</span> <span class="comment">     * </span><span class="comment">into</span> <span class="comment">the</span> <span class="comment">Map</span><span class="comment">.</span> <span class="comment">If</span> <span class="comment">no</span> <span class="comment">file</span> <span class="comment">is</span> <span class="comment">found</span><span class="comment">, </span><span class="comment">a</span> <span class="comment">new</span> <span class="comment">Map</span> <span class="comment">and</span> <span class="comment">file</span> <span class="comment">are</span> <span class="comment">created</span><span class="comment">.</span>
+<span class="line-number"> 29</span>      <span class="comment">*/</span>
+<span class="line-number"> 30</span>     <span class="keyword-directive">public</span> HighScore() {
+<span class="line-number"> 31</span>         map = <span class="keyword-directive">new</span> TreeMap&lt;Integer, String&gt;();
+<span class="line-number"> 32</span>         URL scoreFileUrl = <span class="keyword-directive">null</span>;
+<span class="line-number"> 33</span>         <span class="keyword-directive">try</span> {
+<span class="line-number"> 34</span>             scoreFileUrl = <span class="keyword-directive">new</span> URL(<span class="character">&quot;</span><span class="character">ftp://</span><span class="character">&quot;</span> + ftpUserName + <span class="character">&quot;</span><span class="character">:</span><span class="character">&quot;</span> + ftpPassword + <span class="character">&quot;</span><span class="character">@www.zachcotter.com/zachcotter.com/Tetris/classes/hs.txt</span><span class="character">&quot;</span>);
+<span class="line-number"> 35</span>         }
+<span class="line-number"> 36</span>         <span class="keyword-directive">catch</span> (MalformedURLException ex) {
+<span class="line-number"> 37</span>             System.out.println(ex + <span class="character">&quot;</span><span class="character">0</span><span class="character">&quot;</span>);
+<span class="line-number"> 38</span>         }
+<span class="line-number"> 39</span>         readFromFile(scoreFileUrl);
+<span class="line-number"> 40</span>     }
+<span class="line-number"> 41</span> 
+<span class="line-number"> 42</span>     <span class="comment">/**</span>
+<span class="line-number"> 43</span> <span class="comment">     * </span><span class="comment">Constructs</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">HighScore</span> <span class="comment">with</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">data</span> <span class="comment">as</span> <span class="comment">the</span> <span class="comment">first</span> <span class="comment">and</span> <span class="comment">only</span>
+<span class="line-number"> 44</span> <span class="comment">     * </span><span class="comment">initial</span> <span class="comment">Map</span> <span class="comment">entry</span><span class="comment">.</span> <span class="comment">No</span> <span class="comment">data</span> <span class="comment">is</span> <span class="comment">read</span> <span class="comment">from</span> <span class="comment">the</span> <span class="comment">server</span><span class="comment">, </span><span class="comment">but</span> <span class="comment">the</span> <span class="comment">new</span> <span class="comment">data</span> <span class="comment">is</span>
+<span class="line-number"> 45</span> <span class="comment">     * </span><span class="comment">written</span> <span class="comment">there</span><span class="comment">.</span>  <span class="comment">If</span> <span class="comment">a</span> <span class="comment">file</span> <span class="comment">previously</span> <span class="comment">existed</span><span class="comment">, </span><span class="comment">it</span> <span class="comment">is</span> <span class="comment">overwritten</span> <span class="comment">by</span> <span class="comment">the</span>
+<span class="line-number"> 46</span> <span class="comment">     * </span><span class="comment">current</span> <span class="comment">data</span><span class="comment">.</span>
+<span class="line-number"> 47</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">firstName</span> <span class="comment">String</span> <span class="comment">to</span> <span class="comment">be</span> <span class="comment">put</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">first</span> <span class="comment">MapEntry</span><span class="comment"> (</span><span class="comment">name</span><span class="comment">)</span>
+<span class="line-number"> 48</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">firstScore</span> <span class="comment">Integer</span> <span class="comment">to</span> <span class="comment">be</span> <span class="comment">put</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">first</span> <span class="comment">MapEntry</span><span class="comment"> (</span><span class="comment">score</span><span class="comment">)</span>
+<span class="line-number"> 49</span>      <span class="comment">*/</span>
+<span class="line-number"> 50</span>     <span class="keyword-directive">public</span> HighScore(String firstName, <span class="keyword-directive">int</span> firstScore){
+<span class="line-number"> 51</span>         map = <span class="keyword-directive">new</span> TreeMap&lt;Integer, String&gt;();
+<span class="line-number"> 52</span>         map.put(firstScore, firstName);
+<span class="line-number"> 53</span>         save();
+<span class="line-number"> 54</span>     }
+<span class="line-number"> 55</span> 
+<span class="line-number"> 56</span>     <span class="comment">/**</span>
+<span class="line-number"> 57</span> <span class="comment">     * </span><span class="comment">Adds</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">data</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">map</span> <span class="comment">if</span> <span class="comment">the</span> <span class="comment">score</span> <span class="comment">qualifies</span> <span class="comment">as</span> <span class="comment">top</span> <span class="comment">ten</span><span class="comment">.</span>
+<span class="line-number"> 58</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">contendent</span> <span class="comment">Name</span> <span class="comment">of</span> <span class="comment">scorer</span>
+<span class="line-number"> 59</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">score</span> <span class="comment">Score</span> <span class="comment">to</span> <span class="comment">be</span> <span class="comment">added</span> <span class="comment">if</span> <span class="comment">possible</span>
+<span class="line-number"> 60</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">the</span> <span class="comment">data</span> <span class="comment">was</span> <span class="comment">eligible</span><span class="comment">.</span>
+<span class="line-number"> 61</span>      <span class="comment">*/</span>
+<span class="line-number"> 62</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">boolean</span> addListingIfEligible(String contendent, <span class="keyword-directive">int</span> score){
+<span class="line-number"> 63</span>         map.put(score, contendent);
+<span class="line-number"> 64</span>         <span class="keyword-directive">if</span>(map.size() &gt; 10){
+<span class="line-number"> 65</span>             map.remove(map.firstKey());
+<span class="line-number"> 66</span>         }
+<span class="line-number"> 67</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number"> 68</span>     }
+<span class="line-number"> 69</span> 
+<span class="line-number"> 70</span>     <span class="comment">/**</span>
+<span class="line-number"> 71</span> <span class="comment">     * </span><span class="comment">Writes</span> <span class="comment">the</span> <span class="comment">Map</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">server</span><span class="comment">.</span>
+<span class="line-number"> 72</span>      <span class="comment">*/</span>
+<span class="line-number"> 73</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> save(){
+<span class="line-number"> 74</span>         URL ftpurl = <span class="keyword-directive">null</span>;
+<span class="line-number"> 75</span>         <span class="keyword-directive">try</span> {
+<span class="line-number"> 76</span>             ftpurl =
+<span class="line-number"> 77</span>             <span class="keyword-directive">new</span> URL(<span class="character">&quot;</span><span class="character">ftp://</span><span class="character">&quot;</span> + ftpUserName + <span class="character">&quot;</span><span class="character">:</span><span class="character">&quot;</span> + ftpPassword +
+<span class="line-number"> 78</span>                     <span class="character">&quot;</span><span class="character">@www.zachcotter.com/zachcotter.com/Tetris/classes/hs.txt</span><span class="character">&quot;</span>);
+<span class="line-number"> 79</span>         }
+<span class="line-number"> 80</span>         <span class="keyword-directive">catch</span> (MalformedURLException ex) {
+<span class="line-number"> 81</span>             System.out.println(ex + <span class="character">&quot;</span><span class="character">1</span><span class="character">&quot;</span>);
+<span class="line-number"> 82</span>         }
+<span class="line-number"> 83</span>         <span class="keyword-directive">try</span> {
+<span class="line-number"> 84</span>             writeToFile(ftpurl);
+<span class="line-number"> 85</span>         }
+<span class="line-number"> 86</span>         <span class="keyword-directive">catch</span> (IOException ex) {
+<span class="line-number"> 87</span>             System.out.println(ex + <span class="character">&quot;</span><span class="character">2</span><span class="character">&quot;</span>);
+<span class="line-number"> 88</span>         }
+<span class="line-number"> 89</span>     }
+<span class="line-number"> 90</span> 
+<span class="line-number"> 91</span>     <span class="comment">/**</span>
+<span class="line-number"> 92</span> <span class="comment">     * </span><span class="comment">Reads</span> <span class="comment">data</span> <span class="comment">from</span> <span class="comment">the</span> <span class="comment">server</span> <span class="comment">at</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">URL</span> <span class="comment">using</span> <span class="comment">and</span> <span class="comment">ObjectOutputStream</span><span class="comment">.</span>
+<span class="line-number"> 93</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">httpURL</span> <span class="comment">URL</span> <span class="comment">of</span> <span class="comment">server</span> <span class="comment">and</span> <span class="comment">file</span> <span class="comment">location</span><span class="comment">.</span>
+<span class="line-number"> 94</span>      <span class="comment">*/</span>
+<span class="line-number"> 95</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> readFromFile(URL httpURL){
+<span class="line-number"> 96</span>         <span class="keyword-directive">try</span> {            
+<span class="line-number"> 97</span>             URLConnection connection = httpURL.openConnection();
+<span class="line-number"> 98</span>             connection.connect();
+<span class="line-number"> 99</span>             ObjectInputStream inStream = <span class="keyword-directive">new</span> ObjectInputStream(connection.getInputStream());
+<span class="line-number">100</span>             map = (TreeMap&lt;Integer, String&gt;) inStream.readObject();
+<span class="line-number">101</span>         }
+<span class="line-number">102</span>         <span class="keyword-directive">catch</span> (IOException ex) {
+<span class="line-number">103</span>             System.out.println(ex + <span class="character">&quot;</span><span class="character">3</span><span class="character">&quot;</span>);
+<span class="line-number">104</span>         }
+<span class="line-number">105</span>         <span class="keyword-directive">catch</span> (ClassNotFoundException ex){
+<span class="line-number">106</span>             System.out.println(ex + <span class="character">&quot;</span><span class="character">4</span><span class="character">&quot;</span>);
+<span class="line-number">107</span>         }
+<span class="line-number">108</span>     }
+<span class="line-number">109</span> 
+<span class="line-number">110</span>     <span class="comment">/**</span>
+<span class="line-number">111</span> <span class="comment">     * </span><span class="comment">Writes</span> <span class="comment">data</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">FileTransferProtocol</span> <span class="comment">server</span> <span class="comment">using</span> <span class="comment">the</span> <span class="comment">given</span>
+<span class="line-number">112</span> <span class="comment">     * </span><span class="comment">URL</span><span class="comment">, </span><span class="comment">which</span> <span class="comment">must</span> <span class="comment">include</span> <span class="comment">appropriate</span> <span class="comment">login</span> <span class="comment">information</span><span class="comment">.</span>
+<span class="line-number">113</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">loggedInFTP</span> <span class="comment">URL</span> <span class="comment">which</span> <span class="comment">has</span> <span class="comment">an</span> <span class="comment">open</span> <span class="comment">connection</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">data</span> <span class="comment">on</span> <span class="comment">the</span> <span class="comment">server</span>
+<span class="line-number">114</span> <span class="comment">     * </span><span class="ST0">@throws</span> <span class="comment">IOException</span> <span class="comment">if</span> <span class="comment">a</span> <span class="comment">connection</span> <span class="comment">error</span> <span class="comment">occurs</span><span class="comment">.</span>
+<span class="line-number">115</span>      <span class="comment">*/</span>
+<span class="line-number">116</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> writeToFile(URL loggedInFTP) <span class="keyword-directive">throws</span> IOException{
+<span class="line-number">117</span>         URLConnection connection = loggedInFTP.openConnection();
+<span class="line-number">118</span>         connection.setDoOutput(<span class="keyword-directive">true</span>);
+<span class="line-number">119</span>         ObjectOutputStream outStream = <span class="keyword-directive">new</span> ObjectOutputStream(connection.getOutputStream());
+<span class="line-number">120</span>         outStream.writeObject(map);
+<span class="line-number">121</span>         outStream.close();
+<span class="line-number">122</span>     }
+<span class="line-number">123</span> 
+<span class="line-number">124</span>     <span class="comment">/**</span>
+<span class="line-number">125</span> <span class="comment">     * </span><span class="comment">Determines</span> <span class="comment">the</span> <span class="comment">lowest</span> <span class="comment">score</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">Map</span>
+<span class="line-number">126</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">lowest</span> <span class="comment">score</span><span class="comment">.</span>
+<span class="line-number">127</span>      <span class="comment">*/</span>
+<span class="line-number">128</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> getMinimumToQualify(){
+<span class="line-number">129</span>         <span class="keyword-directive">return</span> map.firstKey();
+<span class="line-number">130</span>     }
+<span class="line-number">131</span> 
+<span class="line-number">132</span> 
+<span class="line-number">133</span>     <span class="comment">/**</span>
+<span class="line-number">134</span> <span class="comment">     * </span><span class="comment">String</span> <span class="comment">representation</span> <span class="comment">of</span> <span class="comment">data</span> <span class="comment">in</span> <span class="comment">Map</span><span class="comment">.</span>
+<span class="line-number">135</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">String</span> <span class="comment">representation</span> <span class="comment">as</span> <span class="comment">described</span> <span class="comment">above</span><span class="comment">.</span>
+<span class="line-number">136</span>      <span class="comment">*/</span>
+<span class="line-number">137</span>     @Override
+<span class="line-number">138</span>     <span class="keyword-directive">public</span> String toString() {
+<span class="line-number">139</span>         String str = <span class="character">&quot;&quot;</span>;
+<span class="line-number">140</span>         Iterator&lt;Integer&gt; scores = map.descendingKeySet().iterator();
+<span class="line-number">141</span>         <span class="keyword-directive">while</span>(scores.hasNext()){
+<span class="line-number">142</span>             <span class="keyword-directive">int</span> i = scores.next();
+<span class="line-number">143</span>             str += map.get(i) + <span class="character">&quot;</span><span class="character">: </span><span class="character">&quot;</span> + i + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character">&quot;</span>;
+<span class="line-number">144</span>         }
+<span class="line-number">145</span>         <span class="keyword-directive">return</span> str;
+<span class="line-number">146</span>     }
+<span class="line-number">147</span> }
+<span class="line-number">148</span> 
+</pre></body>
+</html>
