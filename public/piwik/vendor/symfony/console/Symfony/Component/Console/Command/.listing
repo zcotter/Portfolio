@@ -1,5 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
-drwxr-xr-x  11 zcotter  pg4945649     4096 Dec 17 09:41 ..
--rw-r--r--   1 zcotter  pg4945649    16436 May  8 14:44 Command.php
--rw-r--r--   1 zcotter  pg4945649     2655 May  8 14:44 HelpCommand.php
--rw-r--r--   1 zcotter  pg4945649     2752 May  8 14:44 ListCommand.php

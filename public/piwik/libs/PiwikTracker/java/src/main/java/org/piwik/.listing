@@ -1,7 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Aug 14  2012 .
-drwxr-xr-x   3 zcotter  pg4945649     4096 Aug 14  2012 ..
--rw-r--r--   1 zcotter  pg4945649      878 Jan 20  2013 EBrowserPlugins.java
--rw-r--r--   1 zcotter  pg4945649     1215 Jan 20  2013 IPiwikTracker.java
--rw-r--r--   1 zcotter  pg4945649      588 Jan 20  2013 PiwikException.java
--rw-r--r--   1 zcotter  pg4945649     2407 Jan 20  2013 ResponseData.java
--rw-r--r--   1 zcotter  pg4945649    29768 Jan 20  2013 SimplePiwikTracker.java

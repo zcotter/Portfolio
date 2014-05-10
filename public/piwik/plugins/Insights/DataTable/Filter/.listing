@@ -1,7 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Apr 18 18:58 .
-drwxr-xr-x   3 zcotter  pg4945649     4096 Apr 18 18:58 ..
--rw-r--r--   1 zcotter  pg4945649     1607 May  8 14:44 ExcludeLowValue.php
--rw-r--r--   1 zcotter  pg4945649     3876 May  8 14:44 Insight.php
--rw-r--r--   1 zcotter  pg4945649     1427 May  8 14:44 Limit.php
--rw-r--r--   1 zcotter  pg4945649     1489 May  8 14:44 MinGrowth.php
--rw-r--r--   1 zcotter  pg4945649     1984 May  8 14:44 OrderBy.php
