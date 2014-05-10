@@ -1,6 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 May 30  2013 .
-drwxr-xr-x  24 zcotter  pg4945649     4096 Apr 18 18:58 ..
--rw-r--r--   1 zcotter  pg4945649      950 Mar 11  2013 README
--rw-r--r--   1 zcotter  pg4945649      972 May  8 14:44 README.md
--rw-r--r--   1 zcotter  pg4945649    28445 May  8 14:44 UserAgentParser.php
--rw-r--r--   1 zcotter  pg4945649     4690 May  8 14:44 UserAgentParser.test.php

@@ -1,9 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Jan  4  2011 .
-drwxr-xr-x   3 zcotter  pg4945649     4096 Jan  4  2011 ..
--rw-r--r--   1 zcotter  pg4945649    17207 May 30  2013 Curl.php
--rw-r--r--   1 zcotter  pg4945649     1240 May 30  2013 Exception.php
--rw-r--r--   1 zcotter  pg4945649     2242 May 30  2013 Interface.php
--rw-r--r--   1 zcotter  pg4945649     9490 May 30  2013 Proxy.php
--rw-r--r--   1 zcotter  pg4945649    18591 May 30  2013 Socket.php
--rw-r--r--   1 zcotter  pg4945649     1468 May 30  2013 Stream.php
--rw-r--r--   1 zcotter  pg4945649     6756 May 30  2013 Test.php

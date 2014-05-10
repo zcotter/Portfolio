@@ -1,9 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 May 30  2013 .
-drwxr-xr-x  33 zcotter  pg4945649     4096 Apr 18 18:58 ..
--rw-r--r--   1 zcotter  pg4945649     7867 May  8 14:45 Countries.php
--rw-r--r--   1 zcotter  pg4945649     8648 May  8 14:45 Currencies.php
--rw-r--r--   1 zcotter  pg4945649     7317 May  8 14:45 Languages.php
--rw-r--r--   1 zcotter  pg4945649     2520 May  8 14:45 LanguageToCountry.php
--rw-r--r--   1 zcotter  pg4945649     1792 May  8 14:45 Providers.php
--rw-r--r--   1 zcotter  pg4945649    45747 May  8 14:45 SearchEngines.php
--rw-r--r--   1 zcotter  pg4945649     5467 May  8 14:45 Socials.php

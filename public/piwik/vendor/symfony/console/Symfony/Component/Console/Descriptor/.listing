@@ -1,9 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
-drwxr-xr-x  11 zcotter  pg4945649     4096 Dec 17 09:41 ..
--rw-r--r--   1 zcotter  pg4945649     3513 May  8 14:44 ApplicationDescription.php
--rw-r--r--   1 zcotter  pg4945649      737 May  8 14:44 DescriptorInterface.php
--rw-r--r--   1 zcotter  pg4945649     3516 May  8 14:44 Descriptor.php
--rw-r--r--   1 zcotter  pg4945649     4981 May  8 14:44 JsonDescriptor.php
--rw-r--r--   1 zcotter  pg4945649     4910 May  8 14:44 MarkdownDescriptor.php
--rw-r--r--   1 zcotter  pg4945649     8184 May  8 14:44 TextDescriptor.php
--rw-r--r--   1 zcotter  pg4945649     9712 May  8 14:44 XmlDescriptor.php

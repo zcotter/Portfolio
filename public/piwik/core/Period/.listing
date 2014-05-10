@@ -1,8 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 May  8 14:45 .
-drwxr-xr-x  33 zcotter  pg4945649     4096 Apr 18 18:58 ..
--rw-r--r--   1 zcotter  pg4945649     2058 May  8 14:45 Day.php
--rw-r--r--   1 zcotter  pg4945649     4098 May  8 14:45 Factory.php
--rw-r--r--   1 zcotter  pg4945649     1630 May  8 14:45 Month.php
--rw-r--r--   1 zcotter  pg4945649    15948 May  8 14:45 Range.php
--rw-r--r--   1 zcotter  pg4945649     2544 May  8 14:45 Week.php
--rw-r--r--   1 zcotter  pg4945649     1869 May  8 14:45 Year.php
