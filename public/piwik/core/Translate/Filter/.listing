@@ -1,0 +1,8 @@
+drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
+drwxr-xr-x   4 zcotter  pg4945649     4096 Dec 17 09:41 ..
+-rw-r--r--   1 zcotter  pg4945649     1711 May  8 14:45 ByBaseTranslations.php
+-rw-r--r--   1 zcotter  pg4945649     2399 May  8 14:45 ByParameterCount.php
+-rw-r--r--   1 zcotter  pg4945649     1140 May  8 14:45 EmptyTranslations.php
+-rw-r--r--   1 zcotter  pg4945649     1028 May  8 14:45 EncodedEntities.php
+-rw-r--r--   1 zcotter  pg4945649      651 May  8 14:45 FilterAbstract.php
+-rw-r--r--   1 zcotter  pg4945649     2408 May  8 14:45 UnnecassaryWhitespaces.php

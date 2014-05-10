@@ -1,0 +1,8 @@
+drwxr-xr-x   2 zcotter  pg4945649     4096 Apr 18 18:58 .
+drwxr-xr-x   4 zcotter  pg4945649     4096 Apr 18 18:58 ..
+-rw-r--r--   1 zcotter  pg4945649      955 May  8 14:44 dashboard-controller.js
+-rw-r--r--   1 zcotter  pg4945649     1097 May  8 14:44 dashboard-directive.js
+-rw-r--r--   1 zcotter  pg4945649     1962 May  8 14:44 dashboard-filter.js
+-rw-r--r--   1 zcotter  pg4945649     6925 May  8 14:44 dashboard.html
+-rw-r--r--   1 zcotter  pg4945649     2810 May  8 14:44 dashboard.less
+-rw-r--r--   1 zcotter  pg4945649     8908 May  8 14:44 dashboard-model.js

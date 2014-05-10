@@ -1,0 +1,14 @@
+drwxr-xr-x   2 zcotter  pg4945649     4096 Jan  4  2011 .
+drwxr-xr-x   8 zcotter  pg4945649     4096 Jan  4  2011 ..
+-rw-r--r--   1 zcotter  pg4945649     6779 May  8 14:45 Callback.php
+-rw-r--r--   1 zcotter  pg4945649     8708 May  8 14:45 Compare.php
+-rw-r--r--   1 zcotter  pg4945649     5371 May  8 14:45 Each.php
+-rw-r--r--   1 zcotter  pg4945649     3393 May  8 14:45 Empty.php
+-rw-r--r--   1 zcotter  pg4945649     9237 May  8 14:45 Length.php
+-rw-r--r--   1 zcotter  pg4945649     4880 May  8 14:45 MaxFileSize.php
+-rw-r--r--   1 zcotter  pg4945649     4841 May  8 14:45 MimeType.php
+-rw-r--r--   1 zcotter  pg4945649     5821 May  8 14:45 Nonempty.php
+-rw-r--r--   1 zcotter  pg4945649     3176 May  8 14:45 NotCallback.php
+-rw-r--r--   1 zcotter  pg4945649     4139 May  8 14:45 NotRegex.php
+-rw-r--r--   1 zcotter  pg4945649     5158 May  8 14:45 Regex.php
+-rw-r--r--   1 zcotter  pg4945649     3555 May  8 14:45 Required.php

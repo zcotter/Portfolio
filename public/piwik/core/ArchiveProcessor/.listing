@@ -1,0 +1,6 @@
+drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
+drwxr-xr-x  33 zcotter  pg4945649     4096 Apr 18 18:58 ..
+-rw-r--r--   1 zcotter  pg4945649     6875 May  8 14:45 Loader.php
+-rw-r--r--   1 zcotter  pg4945649     4312 May  8 14:45 Parameters.php
+-rw-r--r--   1 zcotter  pg4945649     5983 May  8 14:45 PluginsArchiver.php
+-rw-r--r--   1 zcotter  pg4945649    11465 May  8 14:45 Rules.php

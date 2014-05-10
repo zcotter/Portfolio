@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>MandelbrotCalculator.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center"></td></tr></table>
+<pre>
+<span class="line-number">  1</span> <span class="keyword-directive">package</span> mandelbrot;
+<span class="line-number">  2</span> 
+<span class="line-number">  3</span> <span class="keyword-directive">import</span> java.awt.Color;
+<span class="line-number">  4</span> 
+<span class="line-number">  5</span> <span class="comment">/**</span>
+<span class="line-number">  6</span> <span class="comment"> * </span><span class="comment">Methods</span> <span class="comment">used</span> <span class="comment">with</span> <span class="comment">the</span> <span class="comment">mandelbrot</span> <span class="comment">fractal</span><span class="comment">.</span> <span class="comment">According</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">recursive</span> <span class="comment">formula</span>
+<span class="line-number">  7</span> <span class="comment"> * </span><span class="comment">Z</span><span class="comment"> = </span><span class="comment">Z</span><span class="comment">^2 + </span><span class="comment">C</span><span class="comment"> (</span><span class="comment">where</span> <span class="comment">c</span> <span class="comment">and</span> <span class="comment">z</span> <span class="comment">are</span> <span class="comment">complex</span> <span class="comment">#</span><span class="comment">s</span><span class="comment">), </span><span class="comment">C</span> <span class="comment">is</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">mandelbrot</span> <span class="comment">set</span>
+<span class="line-number">  8</span> <span class="comment"> * </span><span class="comment">if</span> <span class="comment">the</span> <span class="comment">magnitude</span> <span class="comment">of</span> <span class="comment">Z</span> <span class="comment">continues</span> <span class="comment">to</span> <span class="comment">be</span> <span class="comment">less</span> <span class="comment">than</span><span class="comment"> 2</span><span class="comment">.</span>
+<span class="line-number">  9</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 10</span>  <span class="comment">*/</span>
+<span class="line-number"> 11</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> MandelbrotCalculator {
+<span class="line-number"> 12</span> 
+<span class="line-number"> 13</span>     <span class="comment">/**</span>
+<span class="line-number"> 14</span> <span class="comment">     * </span><span class="comment">Determines</span> <span class="comment">if</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">coordinates</span> <span class="comment">can</span> <span class="comment">be</span> <span class="comment">excluded</span> <span class="comment">from</span> <span class="comment">the</span> <span class="comment">mandelbrot</span>
+<span class="line-number"> 15</span> <span class="comment">     * </span><span class="comment">set</span> <span class="comment">within</span> <span class="comment">the</span> <span class="comment">specified</span> <span class="comment">number</span> <span class="comment">of</span> <span class="comment">iterations</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">algorithm</span><span class="comment">.</span>
+<span class="line-number"> 16</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">a</span> <span class="comment">The</span> <span class="comment">a</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">complex</span> <span class="comment">number</span>
+<span class="line-number"> 17</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">b</span> <span class="comment">The</span> <span class="comment">b</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">complex</span> <span class="comment">number</span>
+<span class="line-number"> 18</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">iterations</span> <span class="comment">the</span> <span class="comment">specified</span> <span class="comment">number</span> <span class="comment">of</span> <span class="comment">iterations</span>
+<span class="line-number"> 19</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">The</span> <span class="comment">number</span> <span class="comment">of</span> <span class="comment">iterations</span> <span class="comment">it</span> <span class="comment">took</span> <span class="comment">to</span> <span class="comment">exclude</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">number</span> <span class="comment">from</span>
+<span class="line-number"> 20</span> <span class="comment">     * </span><span class="comment">the</span> <span class="comment">set</span><span class="comment">, </span><span class="comment">or</span><span class="comment"> -1 </span><span class="comment">if</span> <span class="comment">it</span> <span class="comment">is</span> <span class="comment">part</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">set</span><span class="comment">.</span>
+<span class="line-number"> 21</span>      <span class="comment">*/</span>
+<span class="line-number"> 22</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">int</span> isMandelbrot(<span class="keyword-directive">double</span> a,
+<span class="line-number"> 23</span>                                    <span class="keyword-directive">double</span> b,
+<span class="line-number"> 24</span>                                    <span class="keyword-directive">int</span> iterations) {
+<span class="line-number"> 25</span>         <span class="keyword-directive">double</span> x = 0.0;
+<span class="line-number"> 26</span>         <span class="keyword-directive">double</span> y = 0.0;
+<span class="line-number"> 27</span>         <span class="keyword-directive">double</span> temp = 0.0;
+<span class="line-number"> 28</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> i = 0; i &lt; iterations; i++) {
+<span class="line-number"> 29</span>             temp = x;
+<span class="line-number"> 30</span>             x = (Math.pow(x,
+<span class="line-number"> 31</span>                           2.0) - Math.pow(y,
+<span class="line-number"> 32</span>                                           2.0)) + a;
+<span class="line-number"> 33</span>             y = 2.0 * temp * y + b;
+<span class="line-number"> 34</span>             <span class="keyword-directive">if</span> (!magnitudeLessThanTwo(x,
+<span class="line-number"> 35</span>                                       y)) {
+<span class="line-number"> 36</span>                 <span class="keyword-directive">return</span> i;
+<span class="line-number"> 37</span>             }
+<span class="line-number"> 38</span>         }
+<span class="line-number"> 39</span> 
+<span class="line-number"> 40</span>         <span class="keyword-directive">return</span> -1;
+<span class="line-number"> 41</span>     }
+<span class="line-number"> 42</span> 
+<span class="line-number"> 43</span>     <span class="comment">/**</span>
+<span class="line-number"> 44</span> <span class="comment">     * </span><span class="comment">determines</span> <span class="comment">if</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">pair</span> <span class="comment">is</span> <span class="comment">within</span> <span class="comment">two</span> <span class="comment">units</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">origin</span>
+<span class="line-number"> 45</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">x</span> <span class="comment">x</span> <span class="comment">coordinate</span>
+<span class="line-number"> 46</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">y</span> <span class="comment">y</span> <span class="comment">coordinate</span>
+<span class="line-number"> 47</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">whether</span> <span class="comment">the</span> <span class="comment">magnitude</span> <span class="comment">is</span> <span class="comment">less</span> <span class="comment">than</span><span class="comment"> 2</span><span class="comment">.</span>
+<span class="line-number"> 48</span>      <span class="comment">*/</span>
+<span class="line-number"> 49</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">boolean</span> magnitudeLessThanTwo(<span class="keyword-directive">double</span> x,
+<span class="line-number"> 50</span>                                                <span class="keyword-directive">double</span> y) {
+<span class="line-number"> 51</span>         <span class="keyword-directive">double</span> magnitude = Math.sqrt(Math.pow(x,
+<span class="line-number"> 52</span>                                               2.0) + Math.pow(y,
+<span class="line-number"> 53</span>                                                               2.0));
+<span class="line-number"> 54</span>         <span class="keyword-directive">return</span> magnitude &lt;= 2.0;
+<span class="line-number"> 55</span>     }
+<span class="line-number"> 56</span> 
+<span class="line-number"> 57</span>     <span class="comment">/**</span>
+<span class="line-number"> 58</span> <span class="comment">     * </span><span class="comment">Generates</span> <span class="comment">a</span> <span class="comment">color</span> <span class="comment">for</span> <span class="comment">each</span> <span class="comment">pixel</span> <span class="comment">depending</span> <span class="comment">on</span> <span class="comment">the</span> <span class="comment">number</span> <span class="comment">of</span> <span class="comment">iterations</span>
+<span class="line-number"> 59</span> <span class="comment">     * </span><span class="comment">it</span> <span class="comment">to</span> <span class="comment">exclude</span> <span class="comment">it</span> <span class="comment">from</span> <span class="comment">the</span> <span class="comment">mandelbrot</span> <span class="comment">set</span><span class="comment">.</span> <span class="comment">Uses</span><span class="comment"> 256 </span><span class="comment">colors</span><span class="comment">.</span>
+<span class="line-number"> 60</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">iterations</span> <span class="comment">the</span> <span class="comment">number</span> <span class="comment">of</span> <span class="comment">iterations</span> <span class="comment">it</span> <span class="comment">took</span> <span class="comment">to</span> <span class="comment">exclude</span> <span class="comment">a</span> <span class="comment">point</span> 
+<span class="line-number"> 61</span> <span class="comment">     * </span><span class="comment">from</span> <span class="comment">the</span> <span class="comment">mandelbrot</span> <span class="comment">set</span>
+<span class="line-number"> 62</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">A</span> <span class="comment">Color</span>
+<span class="line-number"> 63</span>      <span class="comment">*/</span>
+<span class="line-number"> 64</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> Color getPixelColor(<span class="keyword-directive">int</span> iterations) {
+<span class="line-number"> 65</span>         <span class="keyword-directive">if</span> (iterations == -1) {
+<span class="line-number"> 66</span>             <span class="keyword-directive">return</span> Color.black;
+<span class="line-number"> 67</span>         }
+<span class="line-number"> 68</span>         <span class="keyword-directive">if</span> (iterations &lt;= 42) {
+<span class="line-number"> 69</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(255,
+<span class="line-number"> 70</span>                              (<span class="keyword-directive">int</span>) ((<span class="keyword-directive">double</span>) iterations * (85.0 / 14.0)),
+<span class="line-number"> 71</span>                              0);
+<span class="line-number"> 72</span>         }
+<span class="line-number"> 73</span>         <span class="keyword-directive">if</span> (iterations &lt;= 84) {
+<span class="line-number"> 74</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(
+<span class="line-number"> 75</span>                     255 - (<span class="keyword-directive">int</span>) ((<span class="keyword-directive">double</span>) (iterations - 42) * (85.0 / 14.0)),
+<span class="line-number"> 76</span>                     255,
+<span class="line-number"> 77</span>                     0);
+<span class="line-number"> 78</span>         }
+<span class="line-number"> 79</span>         <span class="keyword-directive">if</span> (iterations &lt;= 126) {
+<span class="line-number"> 80</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(0,
+<span class="line-number"> 81</span>                              255,
+<span class="line-number"> 82</span>                              (<span class="keyword-directive">int</span>) ((<span class="keyword-directive">double</span>) (iterations - 84) * (85.0 / 14.0)));
+<span class="line-number"> 83</span>         }
+<span class="line-number"> 84</span>         <span class="keyword-directive">if</span> (iterations &lt;= 168) {
+<span class="line-number"> 85</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(0,
+<span class="line-number"> 86</span>                              255 - (<span class="keyword-directive">int</span>) ((<span class="keyword-directive">double</span>) (iterations - 126) * (85.0 / 14.0)),
+<span class="line-number"> 87</span>                              255);
+<span class="line-number"> 88</span>         }
+<span class="line-number"> 89</span>         <span class="keyword-directive">if</span> (iterations &lt;= 210) {
+<span class="line-number"> 90</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(
+<span class="line-number"> 91</span>                     (<span class="keyword-directive">int</span>) ((<span class="keyword-directive">double</span>) (iterations - 168) * (85.0 / 14.0)),
+<span class="line-number"> 92</span>                     0,
+<span class="line-number"> 93</span>                     255);
+<span class="line-number"> 94</span>         }
+<span class="line-number"> 95</span>         <span class="keyword-directive">if</span> (iterations &lt;= 255) {
+<span class="line-number"> 96</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(255,
+<span class="line-number"> 97</span>                              0,
+<span class="line-number"> 98</span>                              255 - (<span class="keyword-directive">int</span>) ((<span class="keyword-directive">double</span>) (iterations - 210) * (17.0 / 3.0)));
+<span class="line-number"> 99</span>         }
+<span class="line-number">100</span>         <span class="keyword-directive">else</span> {
+<span class="line-number">101</span>             <span class="keyword-directive">return</span> Color.black;
+<span class="line-number">102</span>         }
+<span class="line-number">103</span>     }
+<span class="line-number">104</span> 
+<span class="line-number">105</span>     <span class="comment">/**</span>
+<span class="line-number">106</span> <span class="comment">     * </span><span class="comment">A</span> <span class="comment">higher</span> <span class="comment">definition</span><span class="comment">, </span><span class="comment">but</span> <span class="comment">lower</span> <span class="comment">efficiency</span> <span class="comment">version</span> <span class="comment">of</span> <span class="comment">getPixelColor</span><span class="comment">()</span><span class="comment">.</span>
+<span class="line-number">107</span> <span class="comment">     * </span><span class="comment">Generates</span> <span class="comment">a</span> <span class="comment">color</span> <span class="comment">for</span> <span class="comment">each</span> <span class="comment">pixel</span> <span class="comment">depending</span> <span class="comment">on</span> <span class="comment">the</span> <span class="comment">number</span> <span class="comment">of</span> <span class="comment">iterations</span>
+<span class="line-number">108</span> <span class="comment">     * </span><span class="comment">it</span> <span class="comment">to</span> <span class="comment">exclude</span> <span class="comment">it</span> <span class="comment">from</span> <span class="comment">the</span> <span class="comment">mandelbrot</span> <span class="comment">set</span><span class="comment">.</span> <span class="comment">Uses</span><span class="comment"> 1530 </span><span class="comment">colors</span><span class="comment">.</span>
+<span class="line-number">109</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">iterations</span> <span class="comment">the</span> <span class="comment">number</span> <span class="comment">of</span> <span class="comment">iterations</span> <span class="comment">it</span> <span class="comment">took</span> <span class="comment">to</span> <span class="comment">exclude</span> <span class="comment">a</span> <span class="comment">point</span> 
+<span class="line-number">110</span> <span class="comment">     * </span><span class="comment">from</span> <span class="comment">the</span> <span class="comment">mandelbrot</span> <span class="comment">set</span>
+<span class="line-number">111</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">A</span> <span class="comment">Color</span>
+<span class="line-number">112</span>      <span class="comment">*/</span>
+<span class="line-number">113</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> Color getMaximumPrecisionColor(<span class="keyword-directive">int</span> color) {
+<span class="line-number">114</span>         <span class="keyword-directive">if</span> (color == -1) {
+<span class="line-number">115</span>             <span class="keyword-directive">return</span> Color.black;
+<span class="line-number">116</span>         }
+<span class="line-number">117</span>         <span class="keyword-directive">if</span> (color &lt;= 255) {
+<span class="line-number">118</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(255,
+<span class="line-number">119</span>                              color,
+<span class="line-number">120</span>                              0);
+<span class="line-number">121</span>         }
+<span class="line-number">122</span>         <span class="keyword-directive">if</span> (color &lt;= 510) {
+<span class="line-number">123</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(color - 255,
+<span class="line-number">124</span>                              255,
+<span class="line-number">125</span>                              0);
+<span class="line-number">126</span>         }
+<span class="line-number">127</span>         <span class="keyword-directive">if</span> (color &lt;= 765) {
+<span class="line-number">128</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(0,
+<span class="line-number">129</span>                              255,
+<span class="line-number">130</span>                              color - 510);
+<span class="line-number">131</span>         }
+<span class="line-number">132</span>         <span class="keyword-directive">if</span> (color &lt;= 1020) {
+<span class="line-number">133</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(0,
+<span class="line-number">134</span>                              color - 765,
+<span class="line-number">135</span>                              255);
+<span class="line-number">136</span>         }
+<span class="line-number">137</span>         <span class="keyword-directive">if</span> (color &lt;= 1275) {
+<span class="line-number">138</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(color - 1020,
+<span class="line-number">139</span>                              0,
+<span class="line-number">140</span>                              255);
+<span class="line-number">141</span>         }
+<span class="line-number">142</span>         <span class="keyword-directive">if</span> (color &lt;= 1530) {
+<span class="line-number">143</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Color(255,
+<span class="line-number">144</span>                              0,
+<span class="line-number">145</span>                              color - 1275);
+<span class="line-number">146</span>         }
+<span class="line-number">147</span>         <span class="keyword-directive">else</span> {
+<span class="line-number">148</span>             <span class="keyword-directive">return</span> Color.black;
+<span class="line-number">149</span>         }
+<span class="line-number">150</span>     }
+<span class="line-number">151</span> }
+<span class="line-number">152</span> 
+</pre></body>
+</html>

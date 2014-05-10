@@ -1,0 +1,14 @@
+drwxr-xr-x   3 zcotter  pg4945649     4096 Dec 17 09:41 .
+drwxr-xr-x   9 zcotter  pg4945649     4096 Apr 18 18:58 ..
+-rw-r--r--   1 zcotter  pg4945649      874 May  8 14:44 cloud.less
+-rw-r--r--   1 zcotter  pg4945649       42 May  8 14:44 color_manager.css
+-rw-r--r--   1 zcotter  pg4945649     4274 May  8 14:44 coreHome.less
+drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 dataTable
+-rw-r--r--   1 zcotter  pg4945649      366 May  8 14:44 dataTable.less
+-rw-r--r--   1 zcotter  pg4945649     2251 May  8 14:44 _donate.less
+-rw-r--r--   1 zcotter  pg4945649     2449 May  8 14:44 jqplotColors.less
+-rw-r--r--   1 zcotter  pg4945649     1200 May  8 14:44 jquery.ui.autocomplete.css
+-rw-r--r--   1 zcotter  pg4945649     2935 May  8 14:44 menu.less
+-rw-r--r--   1 zcotter  pg4945649     1612 May  8 14:44 notification.less
+-rw-r--r--   1 zcotter  pg4945649     1222 May  8 14:44 promo.less
+-rw-r--r--   1 zcotter  pg4945649      522 May  8 14:44 sparklineColors.less

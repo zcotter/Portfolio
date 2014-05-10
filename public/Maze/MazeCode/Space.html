@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Space.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">Space.java</td></tr></table>
+<pre>
+<span class="line-number"> 1</span> <span class="comment">/**</span>
+<span class="line-number"> 2</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 3</span>  <span class="comment">*/</span>
+<span class="line-number"> 4</span> 
+<span class="line-number"> 5</span> <span class="comment">/**</span>
+<span class="line-number"> 6</span> <span class="comment"> * </span><span class="comment">This</span> <span class="comment">class</span> <span class="comment">represents</span> <span class="comment">a</span> <span class="comment">space</span> <span class="comment">within</span> <span class="comment">a</span> <span class="comment">maze</span> <span class="comment">represented</span> <span class="comment">by</span> <span class="comment">a</span> <span class="comment">grid</span><span class="comment">.</span>
+<span class="line-number"> 7</span> <span class="comment"> * </span><span class="comment">Extensions</span> <span class="comment">of</span> <span class="comment">this</span> <span class="comment">class</span> <span class="comment">represent</span> <span class="comment">more</span> <span class="comment">specific</span> <span class="comment">types</span> <span class="comment">of</span> <span class="comment">spaces</span><span class="comment">.</span>
+<span class="line-number"> 8</span>  <span class="comment">*/</span>
+<span class="line-number"> 9</span> <span class="keyword-directive">public</span> <span class="keyword-directive">abstract</span> <span class="keyword-directive">class</span> Space {
+<span class="line-number">10</span>     <span class="keyword-directive">protected</span> <span class="keyword-directive">int</span> x;
+<span class="line-number">11</span>     <span class="keyword-directive">protected</span> <span class="keyword-directive">int</span> y;
+<span class="line-number">12</span> 
+<span class="line-number">13</span>     <span class="comment">/**</span>
+<span class="line-number">14</span> <span class="comment">     * </span><span class="comment">Creates</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">Space</span>
+<span class="line-number">15</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">xLoc</span> <span class="comment">x</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">space</span>
+<span class="line-number">16</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">yLoc</span> <span class="comment">y</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">space</span>
+<span class="line-number">17</span>      <span class="comment">*/</span>
+<span class="line-number">18</span>     <span class="keyword-directive">public</span> Space(<span class="keyword-directive">int</span> xLoc, <span class="keyword-directive">int</span> yLoc) {
+<span class="line-number">19</span>         x = xLoc;
+<span class="line-number">20</span>         y = yLoc;
+<span class="line-number">21</span>     }
+<span class="line-number">22</span> 
+<span class="line-number">23</span>     <span class="comment">/**</span>
+<span class="line-number">24</span> <span class="comment">     * </span><span class="comment">Accesses</span> <span class="comment">the</span> <span class="comment">x</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">this</span> <span class="comment">space</span><span class="comment">.</span>
+<span class="line-number">25</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">integer</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">x</span> <span class="comment">coordinate</span>
+<span class="line-number">26</span>      <span class="comment">*/</span>
+<span class="line-number">27</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> getX() {
+<span class="line-number">28</span>         <span class="keyword-directive">return</span> x;
+<span class="line-number">29</span>     }
+<span class="line-number">30</span> 
+<span class="line-number">31</span>     <span class="comment">/**</span>
+<span class="line-number">32</span> <span class="comment">     * </span><span class="comment">Accesses</span> <span class="comment">the</span> <span class="comment">y</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">this</span> <span class="comment">space</span><span class="comment">.</span>
+<span class="line-number">33</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">integer</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">y</span> <span class="comment">coordinate</span><span class="comment">.</span>
+<span class="line-number">34</span>      <span class="comment">*/</span>
+<span class="line-number">35</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> getY() {
+<span class="line-number">36</span>         <span class="keyword-directive">return</span> y;
+<span class="line-number">37</span>     }
+<span class="line-number">38</span> }
+<span class="line-number">39</span> 
+<span class="line-number">40</span> 
+</pre></body>
+</html>

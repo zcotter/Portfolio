@@ -1,0 +1,503 @@
+package mandelbrot;
+/*
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.util.Stack;
+import javax.swing.JApplet;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
+
+/**
+ * Applet for drawing the mandelbrot fractal
+ * @author Zach Cotter
+ */
+public class MandelbrotApplet extends JApplet {
+
+    private MandelbrotPanel mandelbrotPanel;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private Stack<ZoomData> oldZooms;
+    private boolean firstZoomOut;
+    private JPanel panel;
+    private JButton zoomInButton;
+    private JButton zoomOutButton;
+    private final int SIZE = 400;
+    private final double UNITS_PER_PIXEL = 4.0 / SIZE;
+
+    /**
+     * Panel that shows the fractal
+     */
+    private class MandelbrotPanel extends JPanel {
+
+        private Coordinate points[][];
+        private int pixels[][];
+        private final double DSIZE = 1.0 * SIZE;
+
+        /**
+         * Creates a new panel 800*800
+         */
+        public MandelbrotPanel() {
+            super();
+            points = new Coordinate[SIZE][SIZE];
+            pixels = new int[SIZE][SIZE];
+            setSize(SIZE,
+                    SIZE);
+        }
+
+        private void startThePanel() {
+            double unitsPerPixel = UNITS_PER_PIXEL;
+            double xValue = -2.0;
+            double yValue = -2.0;
+            for (int x = 0; x < SIZE; x++) {
+                for (int y = 0; y < SIZE; y++) {
+                    points[x][y] = new Coordinate(xValue,
+                                                  yValue);
+                    yValue += unitsPerPixel;
+                    pixels[x][y] =
+                    MandelbrotCalculator.isMandelbrot(points[x][y].getX(),
+                                                      points[x][y].getY(),
+                                                      255);
+                    Color color = getPixelColor(pixels[x][y]);
+                    Graphics g = getGraphics();
+                    g.setColor(color);
+                    g.fillRect(x,
+                               y,
+                               1,
+                               1);
+                }
+
+                yValue = -2.0;
+                xValue += unitsPerPixel;
+            }
+
+            oldZooms.push(new ZoomData(-2.0,
+                                       -2.0,
+                                       unitsPerPixel,
+                                       unitsPerPixel));
+            zoomTo(-2.0, -2.0, unitsPerPixel, unitsPerPixel);
+        }
+
+        //zooms to the given area
+        private void zoom(int pixelX,
+                          int pixelY,
+                          int pixelWidth,
+                          int pixelHeight) {
+            double lowerXBound = points[pixelX][pixelY].getX();
+            double lowerYBound = points[pixelX][pixelY].getY();
+            double upperXBound =
+                   points[pixelX + pixelWidth][pixelY + pixelHeight].getX();
+            double upperYBound =
+                   points[pixelX + pixelWidth][pixelY + pixelHeight].getY();
+            double width = Math.abs(lowerXBound - upperXBound);
+            double height = Math.abs(lowerYBound - upperYBound);
+            double xUnitIncrement = width / DSIZE;
+            double yUnitIncrement = height / DSIZE;
+            double xValue = lowerXBound;
+            double yValue = lowerYBound;
+            for (int x = 0; x < SIZE; x++) {
+                for (int y = 0; y < SIZE; y++) {
+                    points[x][y] = new Coordinate(xValue,
+                                                  yValue);
+                    yValue += yUnitIncrement;
+                    pixels[x][y] =
+                    MandelbrotCalculator.isMandelbrot(points[x][y].getX(),
+                                                      points[x][y].getY(),
+                                                      255);
+                    Color color = getPixelColor(pixels[x][y]);
+                    Graphics g = getGraphics();
+                    g.setColor(color);
+                    g.fillRect(x,
+                               y,
+                               1,
+                               1);
+                }
+
+                yValue = lowerYBound;
+                xValue += xUnitIncrement;
+            }
+
+            oldZooms.push(new ZoomData(lowerXBound,
+                                       lowerYBound,
+                                       xUnitIncrement,
+                                       yUnitIncrement));
+        }
+
+        //zooms to the given area
+        private void zoomTo(ZoomData data) {
+            zoomTo(data.getLowerXBound(),
+                   data.getLowerYBound(),
+                   data.getxUnitIncrement(),
+                   data.getyUnitIncrement());
+        }
+
+        //same thing as above with each ZoomData field passed separately
+        private void zoomTo(double lowerXBound,
+                            double lowerYBound,
+                            double xUnitIncrement,
+                            double yUnitIncrement) {
+            double xValue = lowerXBound;
+            double yValue = lowerYBound;
+            for (int x = 0; x < SIZE; x++) {
+                for (int y = 0; y < SIZE; y++) {
+                    points[x][y] = new Coordinate(xValue,
+                                                  yValue);
+                    yValue += yUnitIncrement;
+                    pixels[x][y] =
+                    MandelbrotCalculator.isMandelbrot(points[x][y].getX(),
+                                                      points[x][y].getY(),
+                                                      255);
+                    Color color = getPixelColor(pixels[x][y]);
+                    Graphics g = getGraphics();
+                    g.setColor(color);
+                    g.fillRect(x,
+                               y,
+                               1,
+                               1);
+                }
+
+                yValue = lowerYBound;
+                xValue += xUnitIncrement;
+            }
+
+        }
+
+        /**
+         * Paints the mandelbrot fractal on the given Graphics
+         * @param g the graphics to paint on.
+         */
+        @Override
+        protected void paintComponent(Graphics g) {
+            g.setPaintMode();
+            for (int x = 0; x < SIZE; x++) {
+                for (int y = 0; y < SIZE; y++) {
+                    int color = pixels[x][y];
+                    if (color == -1) {
+                        g.setColor(Color.black);
+                    }
+                    else if (color <= 42) {
+                        g.setColor(new Color(255,
+                                             (int) ((double) color * (85.0 / 14.0)),
+                                             0));
+                    }
+                    else if (color <= 84) {
+                        g.setColor(new Color(
+                                255 - (int) ((double) (color - 42) * (85.0 / 14.0)),
+                                255,
+                                0));
+                    }
+                    else if (color <= 126) {
+                        g.setColor(
+                                new Color(0,
+                                          255,
+                                          (int) ((double) (color - 84) * (85.0 / 14.0))));
+                    }
+                    else if (color <= 168) {
+                        g.setColor(new Color(0,
+                                             255 - (int) ((double) (color - 126) * (85.0 / 14.0)),
+                                             255));
+                    }
+                    else if (color <= 210) {
+                        g.setColor(new Color(
+                                (int) ((double) (color - 168) * (85.0 / 14.0)),
+                                0,
+                                255));
+                    }
+                    else if (color <= 255) {
+                        //System.out.println(255 - (int) ((double) (color - 210) * (85.0 / 14.0)));
+                        g.setColor(
+                                new Color(255,
+                                          0,
+                                          255 - (int) ((double) (color - 210) * (17.0 / 3.0))));
+                    }
+                    g.fillRect(x,
+                               y,
+                               1,
+                               1);
+                }
+
+            }
+
+        }
+
+        //determines the color given the number of iterations it took to exclude a number from the set.
+        private Color getPixelColor(int iterations) {
+            if (iterations == -1) {
+                return Color.black;
+            }
+            if (iterations <= 42) {
+                return new Color(255,
+                                 (int) ((double) iterations * (85.0 / 14.0)),
+                                 0);
+            }
+            if (iterations <= 84) {
+                return new Color(
+                        255 - (int) ((double) (iterations - 42) * (85.0 / 14.0)),
+                        255,
+                        0);
+            }
+            if (iterations <= 126) {
+                return new Color(0,
+                                 255,
+                                 (int) ((double) (iterations - 84) * (85.0 / 14.0)));
+            }
+            if (iterations <= 168) {
+                return new Color(0,
+                                 255 - (int) ((double) (iterations - 126) * (85.0 / 14.0)),
+                                 255);
+            }
+            if (iterations <= 210) {
+                return new Color(
+                        (int) ((double) (iterations - 168) * (85.0 / 14.0)),
+                        0,
+                        255);
+            }
+            if (iterations <= 255) {
+                return new Color(255,
+                                 0,
+                                 255 - (int) ((double) (iterations - 210) * (17.0 / 3.0)));
+            }
+            else {
+                return Color.black;
+            }
+        }
+
+        //A higher definition, but lower efficiency version of the above method.
+        public Color getMaximumPrecisionColor(int color) {
+            if (color == -1) {
+                return Color.black;
+            }
+            if (color <= 255) {
+                return new Color(255,
+                                 color,
+                                 0);
+            }
+            if (color <= 510) {
+                return new Color(color - 255,
+                                 255,
+                                 0);
+            }
+            if (color <= 765) {
+                return new Color(0,
+                                 255,
+                                 color - 510);
+            }
+            if (color <= 1020) {
+                return new Color(0,
+                                 color - 765,
+                                 255);
+            }
+            if (color <= 1275) {
+                return new Color(color - 1020,
+                                 0,
+                                 255);
+            }
+            if (color <= 1530) {
+                return new Color(255,
+                                 0,
+                                 color - 1275);
+            }
+            else {
+                return Color.black;
+            }
+        }
+
+        //a higher definition, but lower efficiency version of paintComponent
+        private void maximumPrecisionPaintComponent(Graphics g) {
+            g.setPaintMode();
+            for (int x = 0; x < SIZE; x++) {
+                for (int y = 0; y < SIZE; y++) {
+                    int color = pixels[x][y];
+                    if (color == -1) {
+                        g.setColor(Color.black);
+                    }
+                    else if (color <= 255) {
+                        g.setColor(new Color(255,
+                                             color,
+                                             0));
+                    }
+                    else if (color <= 510) {
+                        g.setColor(new Color(color - 255,
+                                             255,
+                                             0));
+                    }
+                    else if (color <= 765) {
+                        g.setColor(new Color(0,
+                                             255,
+                                             color - 510));
+                    }
+                    else if (color <= 1020) {
+                        g.setColor(new Color(0,
+                                             color - 765,
+                                             255));
+                    }
+                    else if (color <= 1275) {
+                        g.setColor(new Color(color - 1020,
+                                             0,
+                                             255));
+                    }
+                    else if (color <= 1530) {
+                        g.setColor(new Color(255,
+                                             0,
+                                             color - 1275));
+                    }
+                    g.fillRect(x,
+                               y,
+                               1,
+                               1);
+                }
+
+            }
+
+        }
+    }
+
+    private class MouseDragListener extends MouseInputAdapter {
+
+        @Override
+        public void mousePressed(MouseEvent evt) {
+            panelMousePressed(evt);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            panelMouseReleased(e);
+        }
+    }
+
+    /**
+     * Constructs the GUI portions of the applet
+     */
+    public MandelbrotApplet() {
+        initComponents();
+        oldZooms = new Stack<ZoomData>();
+        firstZoomOut = true;
+        zoomOutButton.setEnabled(false);
+        MouseDragListener mouseDragListener = new MouseDragListener();
+        mandelbrotPanel = new MandelbrotPanel();
+        mandelbrotPanel.addMouseListener(mouseDragListener);
+        mandelbrotPanel.addMouseMotionListener(mouseDragListener);
+        panel.add(mandelbrotPanel);
+        panel.addMouseListener(mouseDragListener);
+        panel.addMouseMotionListener(mouseDragListener);
+        x = 0;
+        y = 0;
+        width = 0;
+        height = 0;
+        this.setVisible(true);
+    }
+
+    /**
+     * displays the applet
+     */
+    @Override
+    public void init() {
+        new MandelbrotApplet().setVisible(true);
+    }
+
+    /**
+     * Starts the applet and initiates the panel
+     */
+    @Override
+    public void start() {
+        super.start();
+        mandelbrotPanel.startThePanel();
+    }
+
+    private class ButtonPanel extends JPanel {
+
+        public ButtonPanel() {
+            zoomInButton = new JButton("Zoom In");
+            zoomOutButton = new JButton("Zoom Out");
+            zoomInButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    zoomInButtonActionPerformed(e);
+                }
+            });
+            zoomOutButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    zoomOutButtonActionPerformed(e);
+                }
+            });
+            this.setLayout(new GridLayout(2,
+                                          1));
+            this.add(zoomInButton);
+            this.add(zoomOutButton);
+            this.setVisible(true);
+        }
+    }
+
+    private void initComponents() {
+        ButtonPanel b = new ButtonPanel();
+        this.setLayout(new BorderLayout());
+        this.add(b, BorderLayout.SOUTH);
+        panel = new MandelbrotPanel();
+        this.add(panel, BorderLayout.CENTER);
+        this.setVisible(true);
+    }
+
+    private void zoomInButtonActionPerformed(ActionEvent evt) {
+        firstZoomOut = true;
+        zoomOutButton.setEnabled(true);
+        mandelbrotPanel.zoom(x,
+                             y,
+                             width,
+                             height);
+        panel.repaint();
+    }
+
+    private void zoomOutButtonActionPerformed(ActionEvent evt) {
+        if (firstZoomOut) {
+            oldZooms.pop();
+        }
+        firstZoomOut = false;
+        mandelbrotPanel.zoomTo((ZoomData) oldZooms.pop());
+        panel.repaint();
+        if (oldZooms.empty()) {
+            zoomOutButton.setEnabled(false);
+            oldZooms.push(new ZoomData(-2.0,
+                                       -2.0,
+                                       UNITS_PER_PIXEL,//.005
+                                       UNITS_PER_PIXEL));
+        }
+    }
+
+    private void panelMousePressed(MouseEvent evt) {
+        panel.repaint();
+        Point p = evt.getPoint();
+        x = (int) p.getX();
+        y = (int) p.getY();
+        width = 0;
+        height = 0;
+    }
+
+    private void panelMouseReleased(MouseEvent e) {
+        Point p = e.getPoint();
+        width = Math.abs((int) p.getX() - x);
+        height = Math.abs((int) p.getY() - y);
+        if (width > height) {
+            height = width;
+        }
+        else if (height > width) {
+            width = height;
+        }
+        Graphics g = panel.getGraphics();
+        g.setColor(Color.WHITE);
+        g.drawRect(x,
+                   y,
+                   width,
+                   height);
+    }
+}

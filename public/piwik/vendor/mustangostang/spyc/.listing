@@ -1,0 +1,9 @@
+drwxr-xr-x   4 zcotter  pg4945649     4096 Apr 18 18:58 .
+drwxr-xr-x   3 zcotter  pg4945649     4096 Apr 18 18:58 ..
+-rw-r--r--   1 zcotter  pg4945649      588 May  8 14:44 composer.json
+-rw-r--r--   1 zcotter  pg4945649     1077 May  8 14:44 COPYING
+drwxr-xr-x   2 zcotter  pg4945649     4096 Apr 18 18:58 examples
+drwxr-xr-x   2 zcotter  pg4945649     4096 Apr 18 18:58 php4
+-rw-r--r--   1 zcotter  pg4945649     5772 May  8 14:44 README
+-rw-r--r--   1 zcotter  pg4945649    31690 May  8 14:44 Spyc.php
+-rw-r--r--   1 zcotter  pg4945649     3609 May  8 14:44 spyc.yaml

@@ -1,0 +1,9 @@
+drwxr-xr-x   4 zcotter  pg4945649     4096 Apr 18 18:58 .
+drwxr-xr-x  59 zcotter  pg4945649     4096 Apr 18 18:58 ..
+-rw-r--r--   1 zcotter  pg4945649     7610 May  8 14:44 API.php
+-rw-r--r--   1 zcotter  pg4945649     9467 May  8 14:44 Archiver.php
+-rw-r--r--   1 zcotter  pg4945649     2819 May  8 14:44 Controller.php
+-rw-r--r--   1 zcotter  pg4945649    11572 May  8 14:44 Events.php
+drwxr-xr-x   2 zcotter  pg4945649     4096 May  8 14:44 lang
+-rw-r--r--   1 zcotter  pg4945649      139 May  8 14:44 plugin.json
+drwxr-xr-x   2 zcotter  pg4945649     4096 Apr 18 18:58 templates
