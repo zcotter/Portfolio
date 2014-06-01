@@ -1,8 +1,0 @@
-drwxr-xr-x   3 zcotter  pg4945649     4096 Apr 18 18:58 .
-drwxr-xr-x   3 zcotter  pg4945649     4096 Apr 18 18:58 ..
--rw-r--r--   1 zcotter  pg4945649      958 May  8 14:44 composer.json
--rw-r--r--   1 zcotter  pg4945649    31360 May  8 14:44 DeviceDetector.php
--rw-r--r--   1 zcotter  pg4945649       30 May  8 14:44 .gitignore
--rw-r--r--   1 zcotter  pg4945649      391 May  8 14:44 README.md
-drwxr-xr-x   2 zcotter  pg4945649     4096 Apr 18 18:58 regexes
--rw-r--r--   1 zcotter  pg4945649      155 May  8 14:44 .travis.yml

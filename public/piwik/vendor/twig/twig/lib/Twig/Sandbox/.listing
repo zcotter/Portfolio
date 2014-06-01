@@ -1,5 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
-drwxr-xr-x  12 zcotter  pg4945649     4096 Dec 17 09:41 ..
--rw-r--r--   1 zcotter  pg4945649      384 May  8 14:44 SecurityError.php
--rw-r--r--   1 zcotter  pg4945649      560 May  8 14:44 SecurityPolicyInterface.php
--rw-r--r--   1 zcotter  pg4945649     3708 May  8 14:44 SecurityPolicy.php

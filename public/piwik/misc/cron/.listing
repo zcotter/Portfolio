@@ -1,7 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 May  8 14:44 .
-drwxr-xr-x   8 zcotter  pg4945649     4096 Dec 17 09:41 ..
--rw-r--r--   1 zcotter  pg4945649     1403 May  8 14:44 archive.php
--rwxr-xr-x   1 zcotter  pg4945649     1228 May  8 14:44 archive.sh
--rw-r--r--   1 zcotter  pg4945649     3456 Jan 17 17:48 archive.windows.ps1
--rw-r--r--   1 zcotter  pg4945649      103 May  8 14:44 .htaccess
--rw-r--r--   1 zcotter  pg4945649     1227 May  8 14:44 updatetoken.php

@@ -1,8 +1,0 @@
-drwxr-xr-x   3 zcotter  pg4945649     4096 Jan  4  2011 .
-drwxr-xr-x   7 zcotter  pg4945649     4096 Jan  4  2011 ..
--rw-r--r--   1 zcotter  pg4945649    11300 May  8 14:44 Abstract.php
--rw-r--r--   1 zcotter  pg4945649     1157 May  8 14:44 Exception.php
--rw-r--r--   1 zcotter  pg4945649    27668 May  8 14:44 Imap.php
--rw-r--r--   1 zcotter  pg4945649    13024 May  8 14:44 Pop3.php
-drwxr-xr-x   3 zcotter  pg4945649     4096 Jan  4  2011 Smtp
--rw-r--r--   1 zcotter  pg4945649    11894 May  8 14:44 Smtp.php

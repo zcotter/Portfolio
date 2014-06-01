@@ -1,9 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
-drwxr-xr-x   6 zcotter  pg4945649     4096 Dec 17 09:41 ..
--rw-r--r--   1 zcotter  pg4945649     1130 May  8 14:44 Constant.php
--rw-r--r--   1 zcotter  pg4945649     1607 May  8 14:44 Defined.php
--rw-r--r--   1 zcotter  pg4945649      747 May  8 14:44 Divisibleby.php
--rw-r--r--   1 zcotter  pg4945649      636 May  8 14:44 Even.php
--rw-r--r--   1 zcotter  pg4945649      618 May  8 14:44 Null.php
--rw-r--r--   1 zcotter  pg4945649      633 May  8 14:44 Odd.php
--rw-r--r--   1 zcotter  pg4945649      690 May  8 14:44 Sameas.php

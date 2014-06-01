@@ -1,7 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Apr 18 18:58 .
-drwxr-xr-x   5 zcotter  pg4945649     4096 Apr 18 18:58 ..
--rw-r--r--   1 zcotter  pg4945649     1869 May  8 14:44 siteselector-controller.js
--rw-r--r--   1 zcotter  pg4945649     2676 May  8 14:44 siteselector-directive.js
--rw-r--r--   1 zcotter  pg4945649     3049 May  8 14:44 siteselector.html
--rw-r--r--   1 zcotter  pg4945649     3527 May  8 14:44 siteselector.less
--rw-r--r--   1 zcotter  pg4945649     1909 May  8 14:44 siteselector-model.js

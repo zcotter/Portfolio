@@ -1,8 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
-drwxr-xr-x   3 zcotter  pg4945649     4096 Dec 17 09:41 ..
--rw-r--r--   1 zcotter  pg4945649      221 May  8 14:44 config.m4
--rw-r--r--   1 zcotter  pg4945649      149 May  8 14:44 config.w32
--rw-r--r--   1 zcotter  pg4945649      328 May  8 14:44 .gitignore
--rw-r--r--   1 zcotter  pg4945649     1527 May  8 14:44 LICENSE
--rw-r--r--   1 zcotter  pg4945649     1113 May  8 14:44 php_twig.h
--rw-r--r--   1 zcotter  pg4945649    30216 May  8 14:44 twig.c
