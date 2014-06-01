@@ -1,7 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
-drwxr-xr-x  11 zcotter  pg4945649     4096 Dec 17 09:41 ..
--rw-r--r--   1 zcotter  pg4945649     1760 May  8 14:44 OutputFormatterInterface.php
--rw-r--r--   1 zcotter  pg4945649     6332 May  8 14:44 OutputFormatter.php
--rw-r--r--   1 zcotter  pg4945649     1439 May  8 14:44 OutputFormatterStyleInterface.php
--rw-r--r--   1 zcotter  pg4945649     5926 May  8 14:44 OutputFormatterStyle.php
--rw-r--r--   1 zcotter  pg4945649     2788 May  8 14:44 OutputFormatterStyleStack.php

@@ -1,8 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Dec 17 09:41 .
-drwxr-xr-x   6 zcotter  pg4945649     4096 Dec 17 09:41 ..
--rw-r--r--   1 zcotter  pg4945649     2576 May  8 14:44 renderPopover.twig
--rw-r--r--   1 zcotter  pg4945649     3735 May 30  2013 transitions.css
--rw-r--r--   1 zcotter  pg4945649      647 May 30  2013 transitions_icon_hover.png
--rw-r--r--   1 zcotter  pg4945649      643 May 30  2013 transitions_icon.png
--rw-r--r--   1 zcotter  pg4945649    55407 May 30  2013 transitions.js
--rw-r--r--   1 zcotter  pg4945649     2584 May 30  2013 transitions.tpl

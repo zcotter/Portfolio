@@ -1,8 +1,0 @@
-drwxr-xr-x   2 zcotter  pg4945649     4096 Sep 21  2013 .
-drwxr-xr-x  13 zcotter  pg4945649     4096 Dec 17 09:41 ..
--rw-r--r--   1 zcotter  pg4945649     3525 Mar  6 16:26 config.ini.php
--rw-r--r--   1 zcotter  pg4945649      708 May 30  2013 config.ini.sample.php
--rw-r--r--   1 zcotter  pg4945649    28859 May  8 14:44 global.ini.auto-backup-before-update.php
--rw-r--r--   1 zcotter  pg4945649    29752 May  8 14:44 global.ini.php
--rw-r--r--   1 zcotter  pg4945649      222 Mar  6  2013 .htaccess
--rw-r--r--   1 zcotter  pg4945649   321631 May  8 14:44 manifest.inc.php
