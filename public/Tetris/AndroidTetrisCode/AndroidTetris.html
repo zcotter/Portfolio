@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>AndroidTetris.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center"> src\Android\Tetris\AndroidTetris.java</td></tr></table>
+<pre>
+<span class="line-number"> 1</span> <span class="keyword-directive">package</span> Android.Tetris;
+<span class="line-number"> 2</span> 
+<span class="line-number"> 3</span> <span class="keyword-directive">import</span> android.app.Activity;
+<span class="line-number"> 4</span> <span class="keyword-directive">import</span> android.os.Bundle;
+<span class="line-number"> 5</span> <span class="keyword-directive">import</span> android.view.View;
+<span class="line-number"> 6</span> <span class="keyword-directive">import</span> android.view.Window;
+<span class="line-number"> 7</span> <span class="keyword-directive">import</span> android.view.WindowManager;
+<span class="line-number"> 8</span> <span class="keyword-directive">import</span> android.widget.EditText;
+<span class="line-number"> 9</span> <span class="keyword-directive">import</span> android.widget.TextView;
+<span class="line-number">10</span> 
+<span class="line-number">11</span> <span class="comment">/**</span>
+<span class="line-number">12</span> <span class="comment"> * </span>
+<span class="line-number">13</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number">14</span>  <span class="comment">*/</span>
+<span class="line-number">15</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> AndroidTetris <span class="keyword-directive">extends</span> Activity {
+<span class="line-number">16</span> 
+<span class="line-number">17</span>     <span class="comment">/**</span> <span class="comment">Called</span> <span class="comment">when</span> <span class="comment">the</span> <span class="comment">activity</span> <span class="comment">is</span> <span class="comment">first</span> <span class="comment">created</span><span class="comment">.</span> <span class="comment">*/</span>
+<span class="line-number">18</span>     <span class="keyword-directive">private</span> TetrisView v;
+<span class="line-number">19</span> 
+<span class="line-number">20</span>     @Override
+<span class="line-number">21</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> onCreate(Bundle savedInstanceState) {
+<span class="line-number">22</span>         <span class="keyword-directive">super</span>.onCreate(savedInstanceState);
+<span class="line-number">23</span>         <span class="keyword-directive">this</span>.requestWindowFeature(Window.FEATURE_NO_TITLE);
+<span class="line-number">24</span>         <span class="keyword-directive">this</span>.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+<span class="line-number">25</span>                                   WindowManager.LayoutParams.FLAG_FULLSCREEN);
+<span class="line-number">26</span> 
+<span class="line-number">27</span>         setContentView(R.layout.game_over);
+<span class="line-number">28</span>     }
+<span class="line-number">29</span> 
+<span class="line-number">30</span>     @Override
+<span class="line-number">31</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> onBackPressed() {
+<span class="line-number">32</span>         homeButtonPressed(<span class="keyword-directive">null</span>);
+<span class="line-number">33</span>     }
+<span class="line-number">34</span> 
+<span class="line-number">35</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> startButtonPressed(View view) {
+<span class="line-number">36</span>         v = <span class="keyword-directive">new</span> TetrisView(<span class="keyword-directive">this</span>,
+<span class="line-number">37</span>                            getWindowManager().getDefaultDisplay().getWidth(),
+<span class="line-number">38</span>                            getWindowManager().getDefaultDisplay().getHeight());
+<span class="line-number">39</span> 
+<span class="line-number">40</span>         setContentView(v);
+<span class="line-number">41</span>         v.invalidate();
+<span class="line-number">42</span>     }
+<span class="line-number">43</span> 
+<span class="line-number">44</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> highScoreButtonPressed(View view) {
+<span class="line-number">45</span>         setContentView(R.layout.high_scores);
+<span class="line-number">46</span>         TextView t = (TextView) findViewById(R.id.high);
+<span class="line-number">47</span>         HighScore table = <span class="keyword-directive">new</span> HighScore();
+<span class="line-number">48</span>         t.setText(table.toString());
+<span class="line-number">49</span>         t.invalidate();
+<span class="line-number">50</span>     }
+<span class="line-number">51</span> 
+<span class="line-number">52</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> controlsButtonPressed(View view) {
+<span class="line-number">53</span>         setContentView(R.layout.controls);
+<span class="line-number">54</span>     }
+<span class="line-number">55</span> 
+<span class="line-number">56</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> homeButtonPressed(View view) {
+<span class="line-number">57</span>         setContentView(R.layout.menu);
+<span class="line-number">58</span>     }
+<span class="line-number">59</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> score;
+<span class="line-number">60</span> 
+<span class="line-number">61</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> newEntryButtonPressed(View view) {
+<span class="line-number">62</span>         EditText t = (EditText) <span class="keyword-directive">this</span>.findViewById(R.id.field);
+<span class="line-number">63</span>         CharSequence name = t.getText();
+<span class="line-number">64</span>         HighScore.postScore(<span class="keyword-directive">new</span> HighScoreEntry(name.toString(),
+<span class="line-number">65</span>                                                score));
+<span class="line-number">66</span>         setContentView(R.layout.menu);
+<span class="line-number">67</span>     }
+<span class="line-number">68</span> 
+<span class="line-number">69</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> gameOver(<span class="keyword-directive">int</span> highScore) {
+<span class="line-number">70</span>         score = highScore;
+<span class="line-number">71</span>         <span class="keyword-directive">if</span> (highScore == 0) {
+<span class="line-number">72</span>             setContentView(R.layout.game_over);
+<span class="line-number">73</span>         }
+<span class="line-number">74</span>         <span class="keyword-directive">else</span> {
+<span class="line-number">75</span>             setContentView(R.layout.new_high_score);
+<span class="line-number">76</span>         }
+<span class="line-number">77</span>     }
+<span class="line-number">78</span> }
+<span class="line-number">79</span> 
+<span class="line-number">80</span> 
+</pre></body>
+</html>

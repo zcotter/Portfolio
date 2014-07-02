@@ -1,0 +1,457 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tetra.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.character {color: #ce7b00}
+.ST1 {color: #ce7b00; font-family: Courier New; font-weight: bold}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">Tetra.java</td></tr></table>
+<pre>
+<span class="line-number">  1</span> <span class="keyword-directive">import</span> java.awt.Color;
+<span class="line-number">  2</span> <span class="keyword-directive">import</span> java.awt.Graphics;
+<span class="line-number">  3</span> <span class="keyword-directive">import</span> java.util.Arrays;
+<span class="line-number">  4</span> <span class="keyword-directive">import</span> java.util.HashSet;
+<span class="line-number">  5</span> 
+<span class="line-number">  6</span> <span class="comment">/**</span>
+<span class="line-number">  7</span> <span class="comment"> * </span><span class="comment">Represents</span> <span class="comment">a</span> <span class="comment">Tetra</span> <span class="comment">piece</span> <span class="comment">for</span> <span class="comment">the</span> <span class="comment">tetris</span> <span class="comment">game</span><span class="comment">.</span>  <span class="comment">A</span> <span class="comment">Tetra</span> <span class="comment">has</span> <span class="comment">a</span> <span class="comment">Set</span><span class="ST0">&lt;Block&gt;</span> <span class="comment">representing</span>
+<span class="line-number">  8</span> <span class="comment"> * </span><span class="comment">it</span><span class="comment">&#39;</span><span class="comment">s</span> <span class="comment">Blocks</span><span class="comment">.</span> <span class="comment">It</span> <span class="comment">contains</span> <span class="comment">methods</span> <span class="comment">to</span> <span class="comment">move</span> <span class="comment">each</span> <span class="comment">block</span> <span class="comment">in</span> <span class="comment">unison</span> <span class="comment">as</span> <span class="comment">a</span> <span class="comment">single</span>
+<span class="line-number">  9</span> <span class="comment"> * </span><span class="comment">cohesive</span> <span class="comment">unit</span><span class="comment">.</span> <span class="comment">Each</span> <span class="comment">Block</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">Set</span> <span class="comment">is</span> <span class="comment">rotated</span> <span class="comment">around</span> <span class="comment">a</span> <span class="comment">defined</span> <span class="comment">center</span>
+<span class="line-number"> 10</span> <span class="comment"> * </span><span class="comment">Coordinate</span><span class="comment">.</span>
+<span class="line-number"> 11</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 12</span>  <span class="comment">*/</span>
+<span class="line-number"> 13</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> Tetra{
+<span class="line-number"> 14</span> 
+<span class="line-number"> 15</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> NUMBER_OF_TETRAS = 7;
+<span class="line-number"> 16</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">char</span>[] TETRA_IDENTIFIERS = {<span class="character">&#39;o&#39;</span>, <span class="character">&#39;i&#39;</span>, <span class="character">&#39;l&#39;</span>, <span class="character">&#39;j&#39;</span>, <span class="character">&#39;t&#39;</span>, <span class="character">&#39;z&#39;</span>, <span class="character">&#39;s&#39;</span>};
+<span class="line-number"> 17</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Block[] O_BLOCKS = {<span class="keyword-directive">new</span> Block(4, 0, Color.GREEN),
+<span class="line-number"> 18</span>                                                 <span class="keyword-directive">new</span> Block(5, 0, Color.GREEN),
+<span class="line-number"> 19</span>                                                 <span class="keyword-directive">new</span> Block(4, 1, Color.GREEN),
+<span class="line-number"> 20</span>                                                 <span class="keyword-directive">new</span> Block(5, 1, Color.GREEN)};
+<span class="line-number"> 21</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Block[] I_BLOCKS = {<span class="keyword-directive">new</span> Block(3, 0, Color.BLUE),
+<span class="line-number"> 22</span>                                                 <span class="keyword-directive">new</span> Block(4, 0, Color.BLUE),
+<span class="line-number"> 23</span>                                                 <span class="keyword-directive">new</span> Block(5, 0, Color.BLUE),
+<span class="line-number"> 24</span>                                                 <span class="keyword-directive">new</span> Block(6, 0, Color.BLUE)};
+<span class="line-number"> 25</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Block[] L_BLOCKS = {<span class="keyword-directive">new</span> Block(3, 1, Color.MAGENTA),
+<span class="line-number"> 26</span>                                                 <span class="keyword-directive">new</span> Block(4, 1, Color.MAGENTA),
+<span class="line-number"> 27</span>                                                 <span class="keyword-directive">new</span> Block(5, 1, Color.MAGENTA),
+<span class="line-number"> 28</span>                                                 <span class="keyword-directive">new</span> Block(5, 0, Color.MAGENTA)};
+<span class="line-number"> 29</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Block[] J_BLOCKS = {<span class="keyword-directive">new</span> Block(3, 1, Color.CYAN),
+<span class="line-number"> 30</span>                                                 <span class="keyword-directive">new</span> Block(4, 1, Color.CYAN),
+<span class="line-number"> 31</span>                                                 <span class="keyword-directive">new</span> Block(5, 1, Color.CYAN),
+<span class="line-number"> 32</span>                                                 <span class="keyword-directive">new</span> Block(3, 0, Color.CYAN)};
+<span class="line-number"> 33</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Block[] T_BLOCKS = {<span class="keyword-directive">new</span> Block(3, 1, Color.ORANGE),
+<span class="line-number"> 34</span>                                                 <span class="keyword-directive">new</span> Block(4, 1, Color.ORANGE),
+<span class="line-number"> 35</span>                                                 <span class="keyword-directive">new</span> Block(5, 1, Color.ORANGE),
+<span class="line-number"> 36</span>                                                 <span class="keyword-directive">new</span> Block(4, 0, Color.ORANGE)};
+<span class="line-number"> 37</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Block[] Z_BLOCKS = {<span class="keyword-directive">new</span> Block(3, 0, Color.PINK),
+<span class="line-number"> 38</span>                                                 <span class="keyword-directive">new</span> Block(4, 0, Color.PINK),
+<span class="line-number"> 39</span>                                                 <span class="keyword-directive">new</span> Block(4, 1, Color.PINK),
+<span class="line-number"> 40</span>                                                 <span class="keyword-directive">new</span> Block(5, 1, Color.PINK)};
+<span class="line-number"> 41</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Block[] S_BLOCKS = {<span class="keyword-directive">new</span> Block(3, 1, Color.RED),
+<span class="line-number"> 42</span>                                                 <span class="keyword-directive">new</span> Block(4, 0, Color.RED),
+<span class="line-number"> 43</span>                                                 <span class="keyword-directive">new</span> Block(4, 1, Color.RED),
+<span class="line-number"> 44</span>                                                 <span class="keyword-directive">new</span> Block(5, 0, Color.RED)};
+<span class="line-number"> 45</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Coordinate O_CENTER = <span class="keyword-directive">new</span> Coordinate(4, 0);
+<span class="line-number"> 46</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Coordinate I_CENTER = <span class="keyword-directive">new</span> Coordinate(4, 0);
+<span class="line-number"> 47</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Coordinate L_CENTER = <span class="keyword-directive">new</span> Coordinate(5, 1);
+<span class="line-number"> 48</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Coordinate J_CENTER = <span class="keyword-directive">new</span> Coordinate(3, 1);
+<span class="line-number"> 49</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Coordinate T_CENTER = <span class="keyword-directive">new</span> Coordinate(4, 1);
+<span class="line-number"> 50</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Coordinate Z_CENTER = <span class="keyword-directive">new</span> Coordinate(4, 1);
+<span class="line-number"> 51</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">final</span> Coordinate S_CENTER = <span class="keyword-directive">new</span> Coordinate(4, 1);
+<span class="line-number"> 52</span> 
+<span class="line-number"> 53</span>     
+<span class="line-number"> 54</span>     <span class="keyword-directive">private</span> HashSet&lt;Block&gt; tetra;
+<span class="line-number"> 55</span>     <span class="keyword-directive">private</span> Coordinate center;
+<span class="line-number"> 56</span> 
+<span class="line-number"> 57</span>     <span class="comment">/**</span>
+<span class="line-number"> 58</span> <span class="comment">     * </span><span class="comment">Constructs</span> <span class="comment">a</span> <span class="comment">Tetra</span> <span class="comment">that</span> <span class="comment">has</span> <span class="comment">no</span> <span class="comment">blocks</span> <span class="comment">and</span> <span class="comment">has</span> <span class="comment">a</span> <span class="comment">center</span> <span class="comment">at</span><span class="comment"> (-1,-1)</span>
+<span class="line-number"> 59</span>      <span class="comment">*/</span>
+<span class="line-number"> 60</span>     <span class="keyword-directive">public</span> Tetra() {
+<span class="line-number"> 61</span>         tetra = <span class="keyword-directive">new</span> HashSet&lt;Block&gt;();
+<span class="line-number"> 62</span>         center = <span class="keyword-directive">new</span> Coordinate(-1, -1);
+<span class="line-number"> 63</span>     }
+<span class="line-number"> 64</span> 
+<span class="line-number"> 65</span>     <span class="comment">/**</span>
+<span class="line-number"> 66</span> <span class="comment">     * </span><span class="comment">Constructs</span> <span class="comment">a</span> <span class="comment">tetra</span> <span class="comment">specific</span> <span class="comment">to</span> <span class="comment">Tetris</span><span class="comment">.</span> <span class="comment">Tetras</span> <span class="comment">are</span> <span class="comment">identified</span> <span class="comment">by</span> <span class="comment">a</span>
+<span class="line-number"> 67</span> <span class="comment">     * </span><span class="comment">letter</span> <span class="comment">that</span> <span class="comment">appears</span> <span class="comment">similar</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">grouping</span> <span class="comment">of</span> <span class="comment">their</span> <span class="comment">Blocks</span><span class="comment">.</span>
+<span class="line-number"> 68</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">identifier</span> <span class="comment">char</span> <span class="comment">representing</span> <span class="comment">predefined</span> <span class="comment">target</span> <span class="comment">Tetra</span>
+<span class="line-number"> 69</span>      <span class="comment">*/</span>
+<span class="line-number"> 70</span>     <span class="keyword-directive">public</span> Tetra(<span class="keyword-directive">char</span> identifier) {
+<span class="line-number"> 71</span>         <span class="keyword-directive">if</span> (identifier == <span class="character">&#39;o&#39;</span>) {
+<span class="line-number"> 72</span>             constructorHelper(O_BLOCKS, O_CENTER);
+<span class="line-number"> 73</span>         } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (identifier == <span class="character">&#39;i&#39;</span>) {
+<span class="line-number"> 74</span>             constructorHelper(I_BLOCKS, I_CENTER);
+<span class="line-number"> 75</span>         } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (identifier == <span class="character">&#39;l&#39;</span>) {
+<span class="line-number"> 76</span>             constructorHelper(L_BLOCKS, L_CENTER);
+<span class="line-number"> 77</span>         } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (identifier == <span class="character">&#39;j&#39;</span>){
+<span class="line-number"> 78</span>             constructorHelper(J_BLOCKS, J_CENTER);
+<span class="line-number"> 79</span>         } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (identifier == <span class="character">&#39;t&#39;</span>){
+<span class="line-number"> 80</span>             constructorHelper(T_BLOCKS, T_CENTER);
+<span class="line-number"> 81</span>         } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (identifier == <span class="character">&#39;z&#39;</span>){
+<span class="line-number"> 82</span>             constructorHelper(Z_BLOCKS, Z_CENTER);
+<span class="line-number"> 83</span>         } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (identifier == <span class="character">&#39;s&#39;</span>){
+<span class="line-number"> 84</span>             constructorHelper(S_BLOCKS, S_CENTER);
+<span class="line-number"> 85</span>         }
+<span class="line-number"> 86</span>     }
+<span class="line-number"> 87</span> 
+<span class="line-number"> 88</span>     <span class="comment">/**</span>
+<span class="line-number"> 89</span> <span class="comment">     * </span><span class="comment">Constructs</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">Tetra</span> <span class="comment">from</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">Blocks</span> <span class="comment">and</span> <span class="comment">center</span> <span class="comment">Coordinate</span><span class="comment">.</span>
+<span class="line-number"> 90</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">blocks</span> <span class="comment">Blocks</span> <span class="comment">to</span> <span class="comment">be</span> <span class="comment">placed</span> <span class="comment">in</span> <span class="comment">this</span> <span class="comment">Tetra</span><span class="comment">&#39;</span><span class="comment">s</span> <span class="comment">Set</span><span class="ST0">&lt;Block&gt;</span>
+<span class="line-number"> 91</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">center</span> <span class="comment">Coordinate</span> <span class="comment">representing</span> <span class="comment">this</span> <span class="comment">tetra</span><span class="comment">&#39;</span><span class="comment">s</span> <span class="comment">center</span><span class="comment">/</span><span class="comment">axis</span> <span class="comment">of</span> <span class="comment">rotation</span>
+<span class="line-number"> 92</span>      <span class="comment">*/</span>
+<span class="line-number"> 93</span>     <span class="keyword-directive">public</span> Tetra(Block[] blocks, Coordinate center){
+<span class="line-number"> 94</span>         constructorHelper(blocks, center);
+<span class="line-number"> 95</span>     }
+<span class="line-number"> 96</span> 
+<span class="line-number"> 97</span>     <span class="comment">/**</span>
+<span class="line-number"> 98</span> <span class="comment">     * </span><span class="comment">Copy</span> <span class="comment">Constructor</span>
+<span class="line-number"> 99</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">tetra</span> <span class="comment">HashSet</span><span class="ST0">&lt;Block&gt;</span> <span class="comment">for</span> <span class="comment">new</span> <span class="comment">Tetra</span>
+<span class="line-number">100</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">center</span> <span class="comment">Coordinate</span> <span class="comment">center</span> <span class="comment">of</span> <span class="comment">new</span> <span class="comment">Tetra</span>
+<span class="line-number">101</span>      <span class="comment">*/</span>
+<span class="line-number">102</span>     <span class="keyword-directive">public</span> Tetra(HashSet&lt;Block&gt; tetra, Coordinate center) {
+<span class="line-number">103</span>         <span class="keyword-directive">this</span>.tetra = tetra;
+<span class="line-number">104</span>         <span class="keyword-directive">this</span>.center = center;
+<span class="line-number">105</span>     }
+<span class="line-number">106</span> 
+<span class="line-number">107</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> constructorHelper(Block[] blocks, Coordinate center) {
+<span class="line-number">108</span>         tetra = <span class="keyword-directive">new</span> HashSet&lt;Block&gt;();
+<span class="line-number">109</span>         tetra.addAll(Arrays.asList(blocks));
+<span class="line-number">110</span>         <span class="keyword-directive">this</span>.center = center;
+<span class="line-number">111</span>     }
+<span class="line-number">112</span> 
+<span class="line-number">113</span>     <span class="comment">/**</span>
+<span class="line-number">114</span> <span class="comment">     * </span><span class="comment">Instantiates</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">Tetra</span> <span class="comment">with</span> <span class="comment">the</span> <span class="comment">same</span> <span class="comment">values</span> <span class="comment">as</span> <span class="comment">this</span><span class="comment">.</span> <span class="comment">Calls</span> <span class="comment">copy</span>
+<span class="line-number">115</span> <span class="comment">     * </span><span class="comment">constructors</span> <span class="comment">of</span> <span class="comment">each</span> <span class="comment">field</span> <span class="comment">with</span> <span class="comment">as</span> <span class="comment">much</span> <span class="comment">depth</span> <span class="comment">as</span> <span class="comment">necessary</span> <span class="comment">to</span> <span class="comment">make</span>
+<span class="line-number">116</span> <span class="comment">     * </span><span class="comment">the</span> <span class="comment">new</span> <span class="comment">Tetra</span> <span class="comment">completely</span> <span class="comment">independent</span><span class="comment">.</span>
+<span class="line-number">117</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">a</span> <span class="comment">new</span><span class="comment">, </span><span class="comment">identical</span> <span class="comment">Tetra</span>
+<span class="line-number">118</span>      <span class="comment">*/</span>
+<span class="line-number">119</span>     <span class="keyword-directive">public</span> Tetra cloneMethod(){
+<span class="line-number">120</span>         HashSet&lt;Block&gt; cloneSet = <span class="keyword-directive">new</span> HashSet&lt;Block&gt;();
+<span class="line-number">121</span>         <span class="keyword-directive">for</span> (Block b : tetra) {
+<span class="line-number">122</span>             <span class="keyword-directive">int</span> x = b.getX();
+<span class="line-number">123</span>             <span class="keyword-directive">int</span> y = b.getY();
+<span class="line-number">124</span>             Color color = b.getColor();
+<span class="line-number">125</span>             <span class="keyword-directive">int</span> r = color.getRed();
+<span class="line-number">126</span>             <span class="keyword-directive">int</span> g = color.getGreen();
+<span class="line-number">127</span>             <span class="keyword-directive">int</span> bl = color.getBlue();
+<span class="line-number">128</span>             cloneSet.add(<span class="keyword-directive">new</span> Block(x, y, <span class="keyword-directive">new</span> Color(r,g,bl)));
+<span class="line-number">129</span>         }
+<span class="line-number">130</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Tetra(cloneSet, <span class="keyword-directive">new</span> Coordinate(1000, 1000));
+<span class="line-number">131</span>     }    
+<span class="line-number">132</span> 
+<span class="line-number">133</span>     <span class="comment">/**</span>
+<span class="line-number">134</span> <span class="comment">     * </span><span class="comment">Mutates</span> <span class="comment">the</span> <span class="comment">color</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">blocks</span> <span class="comment">in</span> <span class="comment">this</span> <span class="comment">tetra</span>
+<span class="line-number">135</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">c</span> <span class="comment">Color</span> <span class="comment">the</span> <span class="comment">blocks</span> <span class="comment">will</span> <span class="comment">change</span> <span class="comment">to</span><span class="comment">.</span>
+<span class="line-number">136</span>      <span class="comment">*/</span>
+<span class="line-number">137</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> setColor(Color c) {
+<span class="line-number">138</span>         <span class="keyword-directive">for</span> (Block b : tetra) {
+<span class="line-number">139</span>             b.setColor(c);
+<span class="line-number">140</span>         }
+<span class="line-number">141</span>     }
+<span class="line-number">142</span> 
+<span class="line-number">143</span>     <span class="comment">/**</span>
+<span class="line-number">144</span> <span class="comment">     * </span><span class="comment">Accessor</span> <span class="comment">for</span> <span class="comment">center</span> <span class="comment">Coordinate</span> <span class="comment">of</span> <span class="comment">this</span><span class="comment">.</span>
+<span class="line-number">145</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Coordinate</span> <span class="comment">representing</span> <span class="comment">center</span><span class="comment">/</span><span class="comment">rotation</span> <span class="comment">point</span><span class="comment">.</span>
+<span class="line-number">146</span>      <span class="comment">*/</span>
+<span class="line-number">147</span>     <span class="keyword-directive">public</span> Coordinate getCenter() {
+<span class="line-number">148</span>         <span class="keyword-directive">return</span> center;
+<span class="line-number">149</span>     }
+<span class="line-number">150</span> 
+<span class="line-number">151</span>     <span class="comment">/**</span>
+<span class="line-number">152</span> <span class="comment">     * </span><span class="comment">Calls</span> <span class="comment">paint</span><span class="comment">() </span><span class="comment">on</span> <span class="comment">each</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">Blocks</span> <span class="comment">owned</span> <span class="comment">by</span> <span class="comment">this</span> <span class="comment">Tetra</span> <span class="comment">using</span> <span class="comment">the</span>
+<span class="line-number">153</span> <span class="comment">     * </span><span class="comment">provided</span> <span class="comment">Graphics</span> <span class="comment">to</span> <span class="comment">fill</span> <span class="comment">the</span> <span class="comment">parameter</span><span class="comment">.</span>
+<span class="line-number">154</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">g</span> <span class="comment">Graphics</span> <span class="comment">of</span> <span class="comment">Component</span> <span class="comment">to</span> <span class="comment">paint</span> <span class="comment">on</span><span class="comment">.</span>
+<span class="line-number">155</span>      <span class="comment">*/</span>
+<span class="line-number">156</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> paint(Graphics g) {
+<span class="line-number">157</span>         <span class="keyword-directive">for</span> (Block b : tetra) {
+<span class="line-number">158</span>             b.paint(g);
+<span class="line-number">159</span>         }
+<span class="line-number">160</span>     }
+<span class="line-number">161</span> 
+<span class="line-number">162</span>     <span class="comment">/**</span>
+<span class="line-number">163</span> <span class="comment">     * </span><span class="comment">Calls</span> <span class="comment">paintAsEmpty</span><span class="comment">() </span><span class="comment">on</span> <span class="comment">each</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">Blocks</span> <span class="comment">owned</span> <span class="comment">by</span> <span class="comment">this</span> <span class="comment">Tetra</span> <span class="comment">using</span> <span class="comment">the</span>
+<span class="line-number">164</span> <span class="comment">     * </span><span class="comment">provided</span> <span class="comment">Graphics</span> <span class="comment">to</span> <span class="comment">fill</span> <span class="comment">the</span> <span class="comment">parameter</span><span class="comment">.</span>
+<span class="line-number">165</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">g</span> <span class="comment">Graphics</span> <span class="comment">of</span> <span class="comment">Component</span> <span class="comment">to</span> <span class="comment">paint</span> <span class="comment">on</span><span class="comment">.</span>
+<span class="line-number">166</span>      <span class="comment">*/</span>
+<span class="line-number">167</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> paintAsEmpty(Graphics g){
+<span class="line-number">168</span>         <span class="keyword-directive">for</span> (Block b : tetra) {
+<span class="line-number">169</span>             b.paintAsEmpty(g);
+<span class="line-number">170</span>         }
+<span class="line-number">171</span>     }
+<span class="line-number">172</span> 
+<span class="line-number">173</span>     <span class="comment">/**</span>
+<span class="line-number">174</span> <span class="comment">     * </span><span class="comment">Mutator</span> <span class="comment">for</span> <span class="comment">the</span> <span class="comment">Coordinate</span> <span class="comment">representing</span> <span class="comment">the</span> <span class="comment">center</span> <span class="comment">point</span> <span class="comment">of</span> <span class="comment">this</span><span class="comment">.</span>
+<span class="line-number">175</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">center</span> <span class="comment">Coordinate</span> <span class="comment">representing</span> <span class="comment">new</span> <span class="comment">center</span> <span class="comment">point</span><span class="comment">.</span>
+<span class="line-number">176</span>      <span class="comment">*/</span>
+<span class="line-number">177</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> setCenter(Coordinate center) {
+<span class="line-number">178</span>         <span class="keyword-directive">this</span>.center = center;
+<span class="line-number">179</span>     }
+<span class="line-number">180</span> 
+<span class="line-number">181</span>     <span class="comment">/**</span>
+<span class="line-number">182</span> <span class="comment">     * </span><span class="comment">Adds</span> <span class="comment">the</span> <span class="comment">provided</span> <span class="comment">Block</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">Set</span><span class="comment">.</span>
+<span class="line-number">183</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">newBlock</span> <span class="comment">Block</span> <span class="comment">to</span> <span class="comment">be</span> <span class="comment">added</span>
+<span class="line-number">184</span>      <span class="comment">*/</span>
+<span class="line-number">185</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> addBlock(Block newBlock) {
+<span class="line-number">186</span>         tetra.add(newBlock);
+<span class="line-number">187</span>     }
+<span class="line-number">188</span> 
+<span class="line-number">189</span>     <span class="comment">/**</span>
+<span class="line-number">190</span> <span class="comment">     * </span><span class="comment">Removes</span> <span class="comment">the</span> <span class="comment">provided</span> <span class="comment">block</span> <span class="comment">from</span> <span class="comment">the</span> <span class="comment">set</span><span class="comment">, </span><span class="comment">if</span> <span class="comment">it</span> <span class="comment">is</span> <span class="comment">present</span>
+<span class="line-number">191</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">target</span> <span class="comment">Block</span> <span class="comment">to</span> <span class="comment">be</span> <span class="comment">removed</span><span class="comment">.</span>
+<span class="line-number">192</span>      <span class="comment">*/</span>
+<span class="line-number">193</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> removeBlock(Block target) {
+<span class="line-number">194</span>         tetra.remove(target);
+<span class="line-number">195</span>     }
+<span class="line-number">196</span> 
+<span class="line-number">197</span>     <span class="comment">/**</span>
+<span class="line-number">198</span> <span class="comment">     * </span><span class="comment">Accesses</span> <span class="comment">the</span> <span class="comment">Set</span> <span class="comment">containing</span> <span class="comment">this</span> <span class="comment">Tetra</span><span class="comment">&#39;</span><span class="comment">s</span> <span class="comment">Blocks</span><span class="comment">.</span>
+<span class="line-number">199</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Set</span><span class="ST0">&lt;Block&gt;</span> <span class="comment">containing</span> <span class="comment">this</span> <span class="comment">Tetra</span><span class="comment">&#39;</span><span class="comment">s</span> <span class="comment">Blocks</span><span class="comment">, </span><span class="comment">in</span> <span class="comment">no</span> <span class="comment">particular</span> <span class="comment">order</span><span class="comment">.</span>
+<span class="line-number">200</span>      <span class="comment">*/</span>
+<span class="line-number">201</span>     <span class="keyword-directive">public</span> HashSet&lt;Block&gt; getTetra() {
+<span class="line-number">202</span>         <span class="keyword-directive">return</span> tetra;
+<span class="line-number">203</span>     }
+<span class="line-number">204</span> 
+<span class="line-number">205</span>     <span class="comment">/**</span>
+<span class="line-number">206</span> <span class="comment">     * </span><span class="comment">Mutates</span> <span class="comment">the</span> <span class="comment">Set</span> <span class="comment">containing</span> <span class="comment">this</span> <span class="comment">Tetra</span><span class="comment">&#39;</span><span class="comment">s</span> <span class="comment">Blocks</span>
+<span class="line-number">207</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">tetra</span> <span class="comment">The</span> <span class="comment">new</span> <span class="comment">HashSet</span><span class="comment">.</span>
+<span class="line-number">208</span>      <span class="comment">*/</span>
+<span class="line-number">209</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> setTetra(HashSet&lt;Block&gt; tetra) {
+<span class="line-number">210</span>         <span class="keyword-directive">this</span>.tetra = tetra;
+<span class="line-number">211</span>     }
+<span class="line-number">212</span> 
+<span class="line-number">213</span>     <span class="comment">/**</span>
+<span class="line-number">214</span> <span class="comment">     * </span><span class="comment">Determines</span> <span class="comment">if</span> <span class="comment">all</span> <span class="comment">Blocks</span> <span class="comment">owned</span> <span class="comment">by</span> <span class="comment">this</span> <span class="comment">are</span> <span class="comment">inbounds</span>
+<span class="line-number">215</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">they</span> <span class="comment">are</span> <span class="comment">all</span> <span class="comment">inbounds</span>
+<span class="line-number">216</span>      <span class="comment">*/</span>
+<span class="line-number">217</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">boolean</span> inbounds() {
+<span class="line-number">218</span>         <span class="keyword-directive">for</span> (Block b : tetra) {
+<span class="line-number">219</span>             <span class="keyword-directive">if</span> (!b.inbounds()) {
+<span class="line-number">220</span>                 <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">221</span>             }
+<span class="line-number">222</span>         }
+<span class="line-number">223</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">224</span>     }
+<span class="line-number">225</span> 
+<span class="line-number">226</span>     <span class="comment">/**</span>
+<span class="line-number">227</span> <span class="comment">     * </span><span class="comment">Moves</span> <span class="comment">all</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">blocks</span> <span class="comment">in</span> <span class="comment">this</span> <span class="comment">tetra</span> <span class="comment">down</span> <span class="comment">if</span> <span class="comment">and</span> <span class="comment">only</span> <span class="comment">if</span> <span class="comment">they</span> <span class="comment">can</span> <span class="comment">all</span>
+<span class="line-number">228</span> <span class="comment">     * </span><span class="comment">be</span> <span class="comment">moved</span> <span class="comment">down</span><span class="comment">.</span>
+<span class="line-number">229</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">a</span> <span class="comment">movement</span> <span class="comment">could</span> <span class="comment">be</span> <span class="comment">made</span><span class="comment">.</span>
+<span class="line-number">230</span>      <span class="comment">*/</span>
+<span class="line-number">231</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">boolean</span> moveDown() {
+<span class="line-number">232</span>         HashSet&lt;Block&gt; newBlocks = <span class="keyword-directive">new</span> HashSet&lt;Block&gt;();
+<span class="line-number">233</span>         <span class="keyword-directive">for</span> (Block b : tetra) {
+<span class="line-number">234</span>             <span class="keyword-directive">boolean</span> success = b.moveDown();
+<span class="line-number">235</span>             <span class="keyword-directive">if</span> (success) {
+<span class="line-number">236</span>                 newBlocks.add(b);
+<span class="line-number">237</span>             } <span class="keyword-directive">else</span> {
+<span class="line-number">238</span>                 <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">239</span>             }
+<span class="line-number">240</span>         }
+<span class="line-number">241</span>         <span class="keyword-directive">this</span>.setTetra(newBlocks);
+<span class="line-number">242</span>         <span class="keyword-directive">this</span>.setCenter(<span class="keyword-directive">new</span> Coordinate(
+<span class="line-number">243</span>                 <span class="keyword-directive">this</span>.getCenter().getX(),
+<span class="line-number">244</span>                 <span class="keyword-directive">this</span>.getCenter().getY() + 1));
+<span class="line-number">245</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">246</span>     }   
+<span class="line-number">247</span> 
+<span class="line-number">248</span>     <span class="comment">/**</span>
+<span class="line-number">249</span> <span class="comment">     * </span><span class="comment">Moves</span> <span class="comment">all</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">blocks</span> <span class="comment">in</span> <span class="comment">this</span> <span class="comment">tetra</span> <span class="comment">left</span> <span class="comment">if</span> <span class="comment">and</span> <span class="comment">only</span> <span class="comment">if</span> <span class="comment">they</span> <span class="comment">can</span> <span class="comment">all</span>
+<span class="line-number">250</span> <span class="comment">     * </span><span class="comment">be</span> <span class="comment">moved</span> <span class="comment">left</span><span class="comment">.</span>
+<span class="line-number">251</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">a</span> <span class="comment">movement</span> <span class="comment">could</span> <span class="comment">be</span> <span class="comment">made</span><span class="comment">.</span>
+<span class="line-number">252</span>      <span class="comment">*/</span>
+<span class="line-number">253</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">boolean</span> moveLeft() {
+<span class="line-number">254</span>         Tetra newTetra = <span class="keyword-directive">new</span> Tetra();
+<span class="line-number">255</span>         Block[] temp = tetra.toArray(<span class="keyword-directive">new</span> Block[1]);
+<span class="line-number">256</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> count = 0; count &lt; temp.length; count++) {
+<span class="line-number">257</span>             Block b = temp[count];
+<span class="line-number">258</span>             <span class="keyword-directive">boolean</span> success = b.moveLeft();
+<span class="line-number">259</span>             <span class="keyword-directive">if</span> (success) {
+<span class="line-number">260</span>                 newTetra.addBlock(b);
+<span class="line-number">261</span>             } <span class="keyword-directive">else</span> {
+<span class="line-number">262</span>                 <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">263</span>             }
+<span class="line-number">264</span>         }
+<span class="line-number">265</span>         <span class="keyword-directive">this</span>.setTetra(<span class="keyword-directive">null</span>);
+<span class="line-number">266</span>         <span class="keyword-directive">this</span>.setTetra(newTetra.getTetra());
+<span class="line-number">267</span>         <span class="keyword-directive">this</span>.setCenter(<span class="keyword-directive">new</span> Coordinate(
+<span class="line-number">268</span>                        <span class="keyword-directive">this</span>.getCenter().getX() - 1,
+<span class="line-number">269</span>                        <span class="keyword-directive">this</span>.getCenter().getY()));
+<span class="line-number">270</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">271</span>     }
+<span class="line-number">272</span> 
+<span class="line-number">273</span>     <span class="comment">/**</span>
+<span class="line-number">274</span> <span class="comment">     * </span><span class="comment">Moves</span> <span class="comment">all</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">blocks</span> <span class="comment">in</span> <span class="comment">this</span> <span class="comment">tetra</span> <span class="comment">right</span> <span class="comment">if</span> <span class="comment">and</span> <span class="comment">only</span> <span class="comment">if</span> <span class="comment">they</span> <span class="comment">can</span> <span class="comment">all</span>
+<span class="line-number">275</span> <span class="comment">     * </span><span class="comment">be</span> <span class="comment">moved</span> <span class="comment">right</span><span class="comment">.</span>
+<span class="line-number">276</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">a</span> <span class="comment">movement</span> <span class="comment">could</span> <span class="comment">be</span> <span class="comment">made</span><span class="comment">.</span>
+<span class="line-number">277</span>      <span class="comment">*/</span>
+<span class="line-number">278</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">boolean</span> moveRight() {
+<span class="line-number">279</span>         Tetra newTetra = <span class="keyword-directive">new</span> Tetra();
+<span class="line-number">280</span>         <span class="keyword-directive">for</span> (Block b : <span class="keyword-directive">this</span>.getTetra()) {
+<span class="line-number">281</span>             <span class="keyword-directive">boolean</span> success = b.moveRight();
+<span class="line-number">282</span>             <span class="keyword-directive">if</span> (success) {
+<span class="line-number">283</span>                 newTetra.addBlock(b);
+<span class="line-number">284</span>             } <span class="keyword-directive">else</span> {
+<span class="line-number">285</span>                 <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">286</span>             }
+<span class="line-number">287</span>         }
+<span class="line-number">288</span>         <span class="keyword-directive">this</span>.setTetra(newTetra.getTetra());
+<span class="line-number">289</span>         <span class="keyword-directive">this</span>.setCenter(<span class="keyword-directive">new</span> Coordinate(
+<span class="line-number">290</span>                 <span class="keyword-directive">this</span>.getCenter().getX() + 1,
+<span class="line-number">291</span>                 <span class="keyword-directive">this</span>.getCenter().getY()));
+<span class="line-number">292</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">293</span>     }
+<span class="line-number">294</span> 
+<span class="line-number">295</span>     <span class="comment">/**</span>
+<span class="line-number">296</span> <span class="comment">     * </span><span class="comment">Determines</span> <span class="comment">if</span> <span class="comment">all</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">blocks</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">Tetra</span> <span class="comment">are</span> <span class="comment">equivalent</span><span class="comment"> (</span><span class="comment">for</span>
+<span class="line-number">297</span> <span class="comment">     * </span><span class="comment">this</span> <span class="comment">games</span> <span class="comment">purposes</span><span class="comment">) </span><span class="comment">to</span> <span class="comment">this</span><span class="comment">.</span> <span class="comment">Equivalent</span> <span class="comment">does</span> <span class="comment">not</span> <span class="comment">necessarily</span> <span class="comment">mean</span> <span class="comment">they</span>
+<span class="line-number">298</span> <span class="comment">     * </span><span class="comment">are</span> <span class="comment">identical</span><span class="comment">(</span><span class="comment">reference</span> <span class="comment">the</span> <span class="comment">same</span> <span class="comment">memory</span> <span class="comment">location</span><span class="comment">)</span>
+<span class="line-number">299</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">other</span> <span class="comment">The</span> <span class="comment">Tetra</span> <span class="comment">to</span> <span class="comment">compare</span> <span class="comment">this</span> <span class="comment">to</span><span class="comment">.</span>
+<span class="line-number">300</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">True</span> <span class="comment">if</span> <span class="comment">the</span> <span class="comment">two</span> <span class="comment">Tetras</span> <span class="comment">are</span> <span class="comment">equivalent</span><span class="comment">.</span>
+<span class="line-number">301</span>      <span class="comment">*/</span>
+<span class="line-number">302</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">boolean</span> equals(Tetra other) {
+<span class="line-number">303</span>         <span class="keyword-directive">boolean</span> equivalent = <span class="keyword-directive">true</span>;
+<span class="line-number">304</span>         <span class="keyword-directive">if</span> (other.getTetra().size() != getTetra().size()) {
+<span class="line-number">305</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">306</span>         }
+<span class="line-number">307</span>         <span class="keyword-directive">for</span> (Block b : tetra) {
+<span class="line-number">308</span>             <span class="keyword-directive">boolean</span> found = <span class="keyword-directive">false</span>;
+<span class="line-number">309</span>             <span class="keyword-directive">for</span> (Block otherBlock : tetra) {
+<span class="line-number">310</span>                 <span class="keyword-directive">if</span> (b.equals(otherBlock)) {
+<span class="line-number">311</span>                     found = <span class="keyword-directive">true</span>;
+<span class="line-number">312</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">313</span>                 }
+<span class="line-number">314</span>             }
+<span class="line-number">315</span>             <span class="keyword-directive">if</span> (!found) {
+<span class="line-number">316</span>                 equivalent = <span class="keyword-directive">false</span>;
+<span class="line-number">317</span>                 <span class="keyword-directive">break</span>;
+<span class="line-number">318</span>             }
+<span class="line-number">319</span>         }
+<span class="line-number">320</span>         <span class="keyword-directive">return</span> equivalent;
+<span class="line-number">321</span>     }
+<span class="line-number">322</span>     
+<span class="line-number">323</span>     <span class="comment">//TODO implement hashCode</span>
+<span class="line-number">324</span> 
+<span class="line-number">325</span>     <span class="comment">/**</span>
+<span class="line-number">326</span> <span class="comment">     * </span><span class="comment">Rotates</span> <span class="comment">each</span> <span class="comment">Block</span> <span class="comment">owned</span> <span class="comment">by</span> <span class="comment">this</span> <span class="comment">Tetra</span> <span class="comment">clockwise</span> <span class="comment">around</span> <span class="comment">the</span> <span class="comment">Tetra</span><span class="comment">&#39;</span><span class="comment">s</span>
+<span class="line-number">327</span> <span class="comment">     * </span><span class="comment">center</span> <span class="comment">point</span><span class="comment">, </span><span class="comment">if</span> <span class="comment">and</span> <span class="comment">only</span> <span class="comment">if</span> <span class="comment">all</span> <span class="comment">rotations</span> <span class="comment">would</span> <span class="comment">be</span> <span class="comment">successful</span><span class="comment">.</span>
+<span class="line-number">328</span>      <span class="comment">*/</span>
+<span class="line-number">329</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> rotateClockwise() {
+<span class="line-number">330</span>         <span class="keyword-directive">boolean</span> possible = <span class="keyword-directive">true</span>;
+<span class="line-number">331</span>         <span class="keyword-directive">for</span>(Block b : tetra){
+<span class="line-number">332</span>             <span class="keyword-directive">if</span>(b.canRotateCW(center) == <span class="keyword-directive">false</span>){
+<span class="line-number">333</span>                 possible = <span class="keyword-directive">false</span>;
+<span class="line-number">334</span>                 <span class="keyword-directive">break</span>;
+<span class="line-number">335</span>             }
+<span class="line-number">336</span>         }
+<span class="line-number">337</span>         <span class="keyword-directive">if</span>(possible){
+<span class="line-number">338</span>             <span class="keyword-directive">for</span>(Block b : tetra){
+<span class="line-number">339</span>                 b.rotateCW(center);
+<span class="line-number">340</span>             }
+<span class="line-number">341</span>         }
+<span class="line-number">342</span>     }
+<span class="line-number">343</span> 
+<span class="line-number">344</span>     <span class="comment">/**</span>
+<span class="line-number">345</span> <span class="comment">     * </span><span class="comment">Rotates</span> <span class="comment">each</span> <span class="comment">Block</span> <span class="comment">owned</span> <span class="comment">by</span> <span class="comment">this</span> <span class="comment">Tetra</span> <span class="comment">counter</span><span class="comment">-</span><span class="comment">clockwise</span> <span class="comment">around</span> <span class="comment">the</span> <span class="comment">Tetra</span><span class="comment">&#39;</span><span class="comment">s</span>
+<span class="line-number">346</span> <span class="comment">     * </span><span class="comment">center</span> <span class="comment">point</span><span class="comment">, </span><span class="comment">if</span> <span class="comment">and</span> <span class="comment">only</span> <span class="comment">if</span> <span class="comment">all</span> <span class="comment">rotations</span> <span class="comment">would</span> <span class="comment">be</span> <span class="comment">successful</span><span class="comment">.</span>
+<span class="line-number">347</span>      <span class="comment">*/</span>
+<span class="line-number">348</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> rotateCounterClockwise() {
+<span class="line-number">349</span>         <span class="keyword-directive">boolean</span> possible = <span class="keyword-directive">true</span>;
+<span class="line-number">350</span>         <span class="keyword-directive">for</span>(Block b : tetra){
+<span class="line-number">351</span>             <span class="keyword-directive">if</span>(b.canRotateCCW(center) == <span class="keyword-directive">false</span>){
+<span class="line-number">352</span>                 possible = <span class="keyword-directive">false</span>;
+<span class="line-number">353</span>                 <span class="keyword-directive">break</span>;
+<span class="line-number">354</span>             }
+<span class="line-number">355</span>         }
+<span class="line-number">356</span>         <span class="keyword-directive">if</span>(possible){
+<span class="line-number">357</span>             <span class="keyword-directive">for</span>(Block b : tetra){
+<span class="line-number">358</span>                 b.rotateCCW(center);
+<span class="line-number">359</span>             }
+<span class="line-number">360</span>         }
+<span class="line-number">361</span>     }
+<span class="line-number">362</span> 
+<span class="line-number">363</span>     <span class="comment">/**</span>
+<span class="line-number">364</span> <span class="comment">     * </span><span class="comment">Returns</span> <span class="comment">the</span> <span class="comment">maximum</span> <span class="comment">y</span> <span class="comment">location</span> <span class="comment">held</span> <span class="comment">by</span> <span class="comment">any</span> <span class="comment">Block</span> <span class="comment">owned</span> <span class="comment">by</span> <span class="comment">this</span> <span class="comment">Tetra</span><span class="comment">.</span>
+<span class="line-number">365</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">max</span> <span class="comment">y</span>
+<span class="line-number">366</span>      <span class="comment">*/</span>
+<span class="line-number">367</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> findTopBound(){
+<span class="line-number">368</span>         <span class="keyword-directive">int</span> max = 0;
+<span class="line-number">369</span>         <span class="keyword-directive">for</span>(Block b : tetra){
+<span class="line-number">370</span>             <span class="keyword-directive">if</span>(b.getY() &gt; max){
+<span class="line-number">371</span>                 max = b.getY();
+<span class="line-number">372</span>             }
+<span class="line-number">373</span>         }
+<span class="line-number">374</span>         <span class="keyword-directive">return</span> max;
+<span class="line-number">375</span>     }
+<span class="line-number">376</span> 
+<span class="line-number">377</span>     <span class="comment">/**</span>
+<span class="line-number">378</span> <span class="comment">     * </span><span class="comment">Returns</span> <span class="comment">minumum</span> <span class="comment">x</span> <span class="comment">location</span> <span class="comment">held</span> <span class="comment">by</span> <span class="comment">any</span> <span class="comment">Block</span> <span class="comment">owned</span> <span class="comment">by</span> <span class="comment">this</span> <span class="comment">Tetra</span><span class="comment">.</span>
+<span class="line-number">379</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">min</span> <span class="comment">x</span>
+<span class="line-number">380</span>      <span class="comment">*/</span>
+<span class="line-number">381</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> findLeftBound(){
+<span class="line-number">382</span>         <span class="keyword-directive">int</span> min = 100;
+<span class="line-number">383</span>         <span class="keyword-directive">for</span>(Block b : tetra){
+<span class="line-number">384</span>             <span class="keyword-directive">if</span>(b.getX() &lt; min){
+<span class="line-number">385</span>                 min = b.getX();
+<span class="line-number">386</span>             }
+<span class="line-number">387</span>         }
+<span class="line-number">388</span>         <span class="keyword-directive">return</span> min;
+<span class="line-number">389</span>     }
+<span class="line-number">390</span> 
+<span class="line-number">391</span>     <span class="comment">/**</span>
+<span class="line-number">392</span> <span class="comment">     * </span><span class="comment">Returns</span> <span class="comment">maximum</span> <span class="comment">x</span> <span class="comment">location</span> <span class="comment">held</span> <span class="comment">by</span> <span class="comment">any</span> <span class="comment">Block</span> <span class="comment">owned</span> <span class="comment">by</span> <span class="comment">this</span> <span class="comment">Tetra</span><span class="comment">.</span>
+<span class="line-number">393</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">max</span> <span class="comment">x</span>
+<span class="line-number">394</span>      <span class="comment">*/</span>
+<span class="line-number">395</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> findRightBound(){
+<span class="line-number">396</span>         <span class="keyword-directive">int</span> max = 0;
+<span class="line-number">397</span>         <span class="keyword-directive">for</span>(Block b : tetra){
+<span class="line-number">398</span>             <span class="keyword-directive">if</span>(b.getX() &gt; max){
+<span class="line-number">399</span>                 max = b.getX();
+<span class="line-number">400</span>             }
+<span class="line-number">401</span>         }
+<span class="line-number">402</span>         <span class="keyword-directive">return</span> max;
+<span class="line-number">403</span>     }
+<span class="line-number">404</span> 
+<span class="line-number">405</span>     <span class="comment">/**</span>
+<span class="line-number">406</span> <span class="comment">     * </span><span class="comment">Returns</span> <span class="comment">the</span> <span class="comment">minimum</span> <span class="comment">y</span> <span class="comment">location</span> <span class="comment">held</span> <span class="comment">by</span> <span class="comment">any</span> <span class="comment">Block</span> <span class="comment">owned</span> <span class="comment">by</span> <span class="comment">this</span> <span class="comment">Tetra</span><span class="comment">.</span>
+<span class="line-number">407</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">min</span> <span class="comment">y</span>
+<span class="line-number">408</span>      <span class="comment">*/</span>
+<span class="line-number">409</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> findBottomBound(){
+<span class="line-number">410</span>         <span class="keyword-directive">int</span> min = 100;
+<span class="line-number">411</span>         <span class="keyword-directive">for</span>(Block b : tetra){
+<span class="line-number">412</span>             <span class="keyword-directive">if</span>(b.getY() &lt; min){
+<span class="line-number">413</span>                 min = b.getY();
+<span class="line-number">414</span>             }
+<span class="line-number">415</span>         }
+<span class="line-number">416</span>         <span class="keyword-directive">return</span> min;
+<span class="line-number">417</span>     }
+<span class="line-number">418</span> 
+<span class="line-number">419</span>     <span class="comment">/**</span>
+<span class="line-number">420</span> <span class="comment">     * </span><span class="comment">Creates</span> <span class="comment">a</span> <span class="comment">String</span> <span class="comment">representing</span> <span class="comment">this</span> <span class="comment">Tetra</span><span class="comment">&#39;</span><span class="comment">s</span> <span class="comment">fields</span> <span class="comment">for</span> <span class="comment">testing</span> <span class="comment">and</span>
+<span class="line-number">421</span> <span class="comment">     * </span><span class="comment">error</span> <span class="comment">reporting</span> <span class="comment">purposes</span><span class="comment">.</span>
+<span class="line-number">422</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">String</span> <span class="comment">representation</span> <span class="comment">as</span> <span class="comment">described</span> <span class="comment">above</span><span class="comment">.</span>
+<span class="line-number">423</span>      <span class="comment">*/</span>
+<span class="line-number">424</span>     @Override
+<span class="line-number">425</span>     <span class="keyword-directive">public</span> String toString() {
+<span class="line-number">426</span>         String toString = <span class="character">&quot;</span><span class="character">Tetra:</span><span class="ST1">\n</span><span class="character">Center: </span><span class="character">&quot;</span> + center.toString() + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character">[</span><span class="ST1">\n</span><span class="character">&quot;</span>;
+<span class="line-number">427</span>         <span class="keyword-directive">for</span> (Block b : tetra) {
+<span class="line-number">428</span>             toString += b.toString() + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character">&quot;</span>;
+<span class="line-number">429</span>         }
+<span class="line-number">430</span>         <span class="keyword-directive">return</span> toString + <span class="character">&quot;</span><span class="character">]</span><span class="character">&quot;</span>;
+<span class="line-number">431</span>     }
+<span class="line-number">432</span> }
+<span class="line-number">433</span> 
+</pre></body>
+</html>

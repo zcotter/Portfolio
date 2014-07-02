@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>ZoomData.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">ZoomData.java</td></tr></table>
+<pre>
+<span class="line-number"> 1</span> <span class="comment">/**</span>
+<span class="line-number"> 2</span> <span class="comment"> * </span><span class="comment">Stores</span> <span class="comment">parameters</span> <span class="comment">required</span> <span class="comment">to</span> <span class="comment">recreate</span> <span class="comment">a</span> <span class="comment">view</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">mandelbrot</span> <span class="comment">set</span><span class="comment">.</span>
+<span class="line-number"> 3</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 4</span>  <span class="comment">*/</span>
+<span class="line-number"> 5</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> ZoomData
+<span class="line-number"> 6</span> {
+<span class="line-number"> 7</span>     <span class="keyword-directive">public</span> ZoomData(<span class="keyword-directive">double</span> lowerXBound, <span class="keyword-directive">double</span> lowerYBound, <span class="keyword-directive">double</span> xUnitIncrement, <span class="keyword-directive">double</span> yUnitIncrement)
+<span class="line-number"> 8</span>     {
+<span class="line-number"> 9</span>         <span class="keyword-directive">this</span>.lowerXBound = lowerXBound;
+<span class="line-number">10</span>         <span class="keyword-directive">this</span>.lowerYBound = lowerYBound;
+<span class="line-number">11</span>         <span class="keyword-directive">this</span>.xUnitIncrement = xUnitIncrement;
+<span class="line-number">12</span>         <span class="keyword-directive">this</span>.yUnitIncrement = yUnitIncrement;
+<span class="line-number">13</span>     }
+<span class="line-number">14</span> 
+<span class="line-number">15</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">double</span> getLowerXBound()
+<span class="line-number">16</span>     {
+<span class="line-number">17</span>         <span class="keyword-directive">return</span> lowerXBound;
+<span class="line-number">18</span>     }
+<span class="line-number">19</span> 
+<span class="line-number">20</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">double</span> getLowerYBound()
+<span class="line-number">21</span>     {
+<span class="line-number">22</span>         <span class="keyword-directive">return</span> lowerYBound;
+<span class="line-number">23</span>     }
+<span class="line-number">24</span> 
+<span class="line-number">25</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">double</span> getxUnitIncrement()
+<span class="line-number">26</span>     {
+<span class="line-number">27</span>         <span class="keyword-directive">return</span> xUnitIncrement;
+<span class="line-number">28</span>     }
+<span class="line-number">29</span> 
+<span class="line-number">30</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">double</span> getyUnitIncrement()
+<span class="line-number">31</span>     {
+<span class="line-number">32</span>         <span class="keyword-directive">return</span> yUnitIncrement;
+<span class="line-number">33</span>     }
+<span class="line-number">34</span> 
+<span class="line-number">35</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> setLowerXBound(<span class="keyword-directive">double</span> lowerXBound)
+<span class="line-number">36</span>     {
+<span class="line-number">37</span>         <span class="keyword-directive">this</span>.lowerXBound = lowerXBound;
+<span class="line-number">38</span>     }
+<span class="line-number">39</span> 
+<span class="line-number">40</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> setLowerYBound(<span class="keyword-directive">double</span> lowerYBound)
+<span class="line-number">41</span>     {
+<span class="line-number">42</span>         <span class="keyword-directive">this</span>.lowerYBound = lowerYBound;
+<span class="line-number">43</span>     }
+<span class="line-number">44</span> 
+<span class="line-number">45</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> setxUnitIncrement(<span class="keyword-directive">double</span> xUnitIncrement)
+<span class="line-number">46</span>     {
+<span class="line-number">47</span>         <span class="keyword-directive">this</span>.xUnitIncrement = xUnitIncrement;
+<span class="line-number">48</span>     }
+<span class="line-number">49</span> 
+<span class="line-number">50</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> setyUnitIncrement(<span class="keyword-directive">double</span> yUnitIncrement)
+<span class="line-number">51</span>     {
+<span class="line-number">52</span>         <span class="keyword-directive">this</span>.yUnitIncrement = yUnitIncrement;
+<span class="line-number">53</span>     }
+<span class="line-number">54</span> 
+<span class="line-number">55</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">double</span> lowerXBound;
+<span class="line-number">56</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">double</span> lowerYBound;
+<span class="line-number">57</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">double</span> xUnitIncrement;
+<span class="line-number">58</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">double</span> yUnitIncrement;
+<span class="line-number">59</span> }
+<span class="line-number">60</span> 
+</pre></body>
+</html>

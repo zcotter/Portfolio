@@ -2,22 +2,25 @@ development:
   adapter: postgresql
   encoding: unicode
   database: Portfolio_development
+  host: localhost
   pool: 5
-  username: postgres
-  password:
+  username: zcotter
+  password: ZuluCharlie7
 
 test:
   adapter: postgresql
   encoding: unicode
   database: Portfolio_test
+  host: localhost
   pool: 5
-  username: postgres
-  password:
+  username: zcotter
+  password: ZuluCharlie7
 
 production:
   adapter: postgresql
   encoding: unicode
   database: Portfolio_production
+  host: localhost
   pool: 5
-  username: postgres
-  password:
+  username: zcotter
+  password: ZuluCharlie7
