@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Coordinate.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.character {color: #ce7b00}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">Coordinate.java</td></tr></table>
+<pre>
+<span class="line-number"> 1</span> <span class="comment">/**</span>
+<span class="line-number"> 2</span> <span class="comment"> * </span><span class="comment">Represents</span> <span class="comment">integer</span> <span class="comment">cartesian</span> <span class="comment">coordinates</span><span class="comment">.</span>
+<span class="line-number"> 3</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 4</span>  <span class="comment">*/</span>
+<span class="line-number"> 5</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> Coordinate{
+<span class="line-number"> 6</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> x;
+<span class="line-number"> 7</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> y;
+<span class="line-number"> 8</span> 
+<span class="line-number"> 9</span>     <span class="comment">/**</span>
+<span class="line-number">10</span> <span class="comment">     * </span><span class="comment">Creates</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">coordinate</span><span class="comment"> (-1,-1)</span><span class="comment">.</span>
+<span class="line-number">11</span>      <span class="comment">*/</span>
+<span class="line-number">12</span>     <span class="keyword-directive">public</span> Coordinate() {
+<span class="line-number">13</span>         x = -1;
+<span class="line-number">14</span>         y = -1;
+<span class="line-number">15</span>     }
+<span class="line-number">16</span> 
+<span class="line-number">17</span>     <span class="comment">/**</span>
+<span class="line-number">18</span> <span class="comment">     * </span><span class="comment">Creates</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">coordinate</span><span class="comment"> (</span><span class="comment">x</span><span class="comment">,</span><span class="comment">y</span><span class="comment">)</span>
+<span class="line-number">19</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">x</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">x</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">new</span> <span class="comment">coordinate</span>
+<span class="line-number">20</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">y</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">y</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">new</span> <span class="comment">coordinate</span>
+<span class="line-number">21</span>      <span class="comment">*/</span>
+<span class="line-number">22</span>     <span class="keyword-directive">public</span> Coordinate(<span class="keyword-directive">int</span> x, <span class="keyword-directive">int</span> y) {
+<span class="line-number">23</span>         <span class="keyword-directive">this</span>.x = x;
+<span class="line-number">24</span>         <span class="keyword-directive">this</span>.y = y;
+<span class="line-number">25</span>     }
+<span class="line-number">26</span> 
+<span class="line-number">27</span>     <span class="comment">/**</span>
+<span class="line-number">28</span> <span class="comment">     * </span><span class="comment">Accessor</span> <span class="comment">for</span> <span class="comment">x</span> <span class="comment">value</span>
+<span class="line-number">29</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">x</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">this</span>
+<span class="line-number">30</span>      <span class="comment">*/</span>
+<span class="line-number">31</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> getX() {
+<span class="line-number">32</span>         <span class="keyword-directive">return</span> x;
+<span class="line-number">33</span>     }
+<span class="line-number">34</span> 
+<span class="line-number">35</span>     <span class="comment">/**</span>
+<span class="line-number">36</span> <span class="comment">     * </span><span class="comment">Accessor</span> <span class="comment">for</span> <span class="comment">y</span> <span class="comment">value</span>
+<span class="line-number">37</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">y</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">this</span>
+<span class="line-number">38</span>      <span class="comment">*/</span>
+<span class="line-number">39</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> getY() {
+<span class="line-number">40</span>         <span class="keyword-directive">return</span> y;
+<span class="line-number">41</span>     }
+<span class="line-number">42</span> 
+<span class="line-number">43</span>     <span class="comment">/**</span>
+<span class="line-number">44</span> <span class="comment">     * </span><span class="comment">Mutator</span> <span class="comment">for</span> <span class="comment">x</span> <span class="comment">value</span>
+<span class="line-number">45</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">x</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">new</span> <span class="comment">x</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">this</span>
+<span class="line-number">46</span>      <span class="comment">*/</span>
+<span class="line-number">47</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> setX(<span class="keyword-directive">int</span> x) {
+<span class="line-number">48</span>         <span class="keyword-directive">this</span>.x = x;
+<span class="line-number">49</span>     }
+<span class="line-number">50</span> 
+<span class="line-number">51</span>     <span class="comment">/**</span>
+<span class="line-number">52</span> <span class="comment">     * </span><span class="comment">Mutator</span> <span class="comment">for</span> <span class="comment">y</span> <span class="comment">value</span>
+<span class="line-number">53</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">y</span> <span class="comment">int</span> <span class="comment">representing</span> <span class="comment">new</span> <span class="comment">y</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">this</span>
+<span class="line-number">54</span>      <span class="comment">*/</span>
+<span class="line-number">55</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> setY(<span class="keyword-directive">int</span> y) {
+<span class="line-number">56</span>         <span class="keyword-directive">this</span>.y = y;
+<span class="line-number">57</span>     }
+<span class="line-number">58</span> 
+<span class="line-number">59</span>     <span class="comment">/**</span>
+<span class="line-number">60</span> <span class="comment">     * </span><span class="comment">Returns</span> <span class="comment">a</span> <span class="comment">String</span> <span class="comment">representing</span> <span class="comment">this</span><span class="comment">.</span>
+<span class="line-number">61</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">A</span> <span class="comment">String</span> <span class="comment">representation</span> <span class="comment">of</span> <span class="comment">this</span> <span class="comment">coordinate</span><span class="comment">: (</span><span class="comment">x</span><span class="comment">,</span><span class="comment">y</span><span class="comment">)</span>
+<span class="line-number">62</span>      <span class="comment">*/</span>
+<span class="line-number">63</span>     @Override
+<span class="line-number">64</span>     <span class="keyword-directive">public</span> String toString() {
+<span class="line-number">65</span>         <span class="keyword-directive">return</span> <span class="character">&quot;</span><span class="character">(</span><span class="character">&quot;</span> + getX() + <span class="character">&quot;</span><span class="character">, </span><span class="character">&quot;</span> + getY() + <span class="character">&quot;</span><span class="character">)</span><span class="character">&quot;</span>;
+<span class="line-number">66</span>     }
+<span class="line-number">67</span> 
+<span class="line-number">68</span>     <span class="comment">/**</span>
+<span class="line-number">69</span> <span class="comment">     * </span><span class="comment">Determines</span> <span class="comment">if</span> <span class="comment">this</span> <span class="comment">is</span> <span class="comment">equivalent</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">object</span><span class="comment">, </span><span class="comment">if</span> <span class="comment">it</span> <span class="comment">is</span> <span class="comment">even</span> <span class="comment">an</span>
+<span class="line-number">70</span> <span class="comment">     * </span><span class="comment">instanceof</span> <span class="comment">Coordinate</span>
+<span class="line-number">71</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">obj</span> <span class="comment">Object</span> <span class="comment">to</span> <span class="comment">be</span> <span class="comment">compared</span> <span class="comment">to</span> <span class="comment">this</span><span class="comment">.</span>
+<span class="line-number">72</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">the</span> <span class="comment">objects</span> <span class="comment">are</span> <span class="comment">equivalent</span>
+<span class="line-number">73</span>      <span class="comment">*/</span>
+<span class="line-number">74</span>     @Override
+<span class="line-number">75</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">boolean</span> equals(Object obj) {
+<span class="line-number">76</span>         <span class="keyword-directive">if</span>(obj <span class="keyword-directive">instanceof</span> Coordinate){
+<span class="line-number">77</span>             Coordinate o = (Coordinate) obj;
+<span class="line-number">78</span>             <span class="keyword-directive">return</span> getX() == o.getX() &amp;&amp; getY() == o.getY();
+<span class="line-number">79</span>         }
+<span class="line-number">80</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">81</span>     }
+<span class="line-number">82</span> }
+<span class="line-number">83</span> 
+</pre></body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Path.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">Path.java</td></tr></table>
+<pre>
+<span class="line-number"> 1</span> <span class="comment">/**</span>
+<span class="line-number"> 2</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 3</span>  <span class="comment">*/</span>
+<span class="line-number"> 4</span> 
+<span class="line-number"> 5</span> <span class="comment">/**</span>
+<span class="line-number"> 6</span> <span class="comment"> * </span><span class="comment">This</span> <span class="comment">class</span> <span class="comment">represents</span> <span class="comment">the</span> <span class="comment">path</span> <span class="comment">in</span> <span class="comment">a</span> <span class="comment">maze</span><span class="comment">.</span>
+<span class="line-number"> 7</span> <span class="comment"> * </span><span class="comment">A</span> <span class="comment">path</span> <span class="comment">is</span> <span class="comment">any</span> <span class="comment">space</span> <span class="comment">that</span> <span class="comment">can</span> <span class="comment">be</span> <span class="comment">moved</span> <span class="comment">to</span> <span class="comment">besides</span> <span class="comment">the</span> <span class="comment">StartPoint</span> <span class="comment">and</span> <span class="comment">EndPoint</span><span class="comment">.</span>
+<span class="line-number"> 8</span>  <span class="comment">*/</span>
+<span class="line-number"> 9</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> Path <span class="keyword-directive">extends</span> Space {
+<span class="line-number">10</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> visited;
+<span class="line-number">11</span> 
+<span class="line-number">12</span>     <span class="comment">/**</span>
+<span class="line-number">13</span> <span class="comment">     * </span><span class="comment">Creates</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">Path</span>
+<span class="line-number">14</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">xLoc</span> <span class="comment">x</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">path</span>
+<span class="line-number">15</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">yLoc</span> <span class="comment">y</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">path</span>
+<span class="line-number">16</span>      <span class="comment">*/</span>
+<span class="line-number">17</span>     <span class="keyword-directive">public</span> Path(<span class="keyword-directive">int</span> xLoc, <span class="keyword-directive">int</span> yLoc) {
+<span class="line-number">18</span>         <span class="keyword-directive">super</span>(xLoc, yLoc);
+<span class="line-number">19</span>         visited = <span class="keyword-directive">false</span>;
+<span class="line-number">20</span>     }
+<span class="line-number">21</span> 
+<span class="line-number">22</span>     <span class="comment">/**</span>
+<span class="line-number">23</span> <span class="comment">     * </span><span class="comment">Marks</span> <span class="comment">that</span> <span class="comment">this</span> <span class="comment">space</span> <span class="comment">has</span> <span class="comment">been</span> <span class="comment">passed</span> <span class="comment">over</span> <span class="comment">by</span> <span class="comment">the</span> <span class="comment">navigator</span><span class="comment">.</span>
+<span class="line-number">24</span>      <span class="comment">*/</span>
+<span class="line-number">25</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> visit() {
+<span class="line-number">26</span>         visited = <span class="keyword-directive">true</span>;
+<span class="line-number">27</span>     }
+<span class="line-number">28</span> 
+<span class="line-number">29</span>     <span class="comment">/**</span>
+<span class="line-number">30</span> <span class="comment">     * </span><span class="comment">Determines</span> <span class="comment">whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">this</span> <span class="comment">space</span> <span class="comment">has</span> <span class="comment">been</span> <span class="comment">passed</span> <span class="comment">over</span> <span class="comment">by</span> <span class="comment">the</span> <span class="comment">navigator</span><span class="comment">.</span>
+<span class="line-number">31</span> <span class="comment">     * </span><span class="ST0">@return</span>
+<span class="line-number">32</span>      <span class="comment">*/</span>
+<span class="line-number">33</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">boolean</span> isVisited() {
+<span class="line-number">34</span>         <span class="keyword-directive">return</span> visited;
+<span class="line-number">35</span>     }
+<span class="line-number">36</span> }
+<span class="line-number">37</span> 
+</pre></body>
+</html>

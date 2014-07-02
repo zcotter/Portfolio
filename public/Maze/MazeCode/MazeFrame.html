@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>MazeFrame.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.character {color: #ce7b00}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">MazeFrame.java</td></tr></table>
+<pre>
+<span class="line-number">  1</span> 
+<span class="line-number">  2</span> <span class="keyword-directive">import</span> java.awt.BorderLayout;
+<span class="line-number">  3</span> <span class="keyword-directive">import</span> java.awt.GridLayout;
+<span class="line-number">  4</span> <span class="keyword-directive">import</span> java.awt.event.ActionEvent;
+<span class="line-number">  5</span> <span class="keyword-directive">import</span> java.awt.event.ActionListener;
+<span class="line-number">  6</span> <span class="keyword-directive">import</span> javax.swing.JApplet;
+<span class="line-number">  7</span> <span class="keyword-directive">import</span> javax.swing.JButton;
+<span class="line-number">  8</span> <span class="keyword-directive">import</span> javax.swing.JOptionPane;
+<span class="line-number">  9</span> <span class="keyword-directive">import</span> javax.swing.JPanel;
+<span class="line-number"> 10</span> 
+<span class="line-number"> 11</span> <span class="comment">/**</span>
+<span class="line-number"> 12</span> <span class="comment"> * </span><span class="comment">Applet</span> <span class="comment">for</span> <span class="comment">the</span> <span class="comment">Maze</span> <span class="comment">GUI</span>
+<span class="line-number"> 13</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 14</span>  <span class="comment">*/</span>
+<span class="line-number"> 15</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> MazeFrame <span class="keyword-directive">extends</span> JApplet {
+<span class="line-number"> 16</span> 
+<span class="line-number"> 17</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> String SOLVE_TEXT = <span class="character">&quot;</span><span class="character">Solve</span><span class="character">&quot;</span>;
+<span class="line-number"> 18</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> String NEW_TEXT = <span class="character">&quot;</span><span class="character">New Maze</span><span class="character">&quot;</span>;
+<span class="line-number"> 19</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> String BUILD_TEXT = <span class="character">&quot;</span><span class="character">Build</span><span class="character">&quot;</span>;
+<span class="line-number"> 20</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> String DIRECTIONS_TEXT = <span class="character">&quot;</span><span class="character">Click grid to toggle: </span><span class="character">&quot;</span>
+<span class="line-number"> 21</span>                                                   + <span class="character">&quot;</span><span class="character">Green=Start, Red=End, </span><span class="character">&quot;</span>
+<span class="line-number"> 22</span>                                                   + <span class="character">&quot;</span><span class="character">White=Path, Black=Wall</span><span class="character">&quot;</span>;
+<span class="line-number"> 23</span>     <span class="keyword-directive">private</span> MazePanel panel;
+<span class="line-number"> 24</span>     <span class="keyword-directive">private</span> ButtonPanel buttonPanel;
+<span class="line-number"> 25</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> String[] presetMazes = {Resources.A,
+<span class="line-number"> 26</span>                                                  Resources.B,
+<span class="line-number"> 27</span>                                                  Resources.C,
+<span class="line-number"> 28</span>                                                  Resources.D,
+<span class="line-number"> 29</span>                                                  Resources.E,
+<span class="line-number"> 30</span>                                                  Resources.F};
+<span class="line-number"> 31</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> counter;
+<span class="line-number"> 32</span> 
+<span class="line-number"> 33</span>     <span class="comment">/**</span>
+<span class="line-number"> 34</span> <span class="comment">     * </span><span class="comment">Creates</span> <span class="comment">the</span> <span class="comment">Applet</span>
+<span class="line-number"> 35</span>      <span class="comment">*/</span>
+<span class="line-number"> 36</span>     <span class="keyword-directive">public</span> MazeFrame() {
+<span class="line-number"> 37</span>         counter = 0;
+<span class="line-number"> 38</span>         <span class="keyword-directive">this</span>.setLayout(<span class="keyword-directive">new</span> BorderLayout());
+<span class="line-number"> 39</span>         buttonPanel = <span class="keyword-directive">new</span> ButtonPanel();
+<span class="line-number"> 40</span>         <span class="keyword-directive">this</span>.add(buttonPanel,
+<span class="line-number"> 41</span>                  BorderLayout.PAGE_END);
+<span class="line-number"> 42</span>         initPanel();
+<span class="line-number"> 43</span>         <span class="keyword-directive">this</span>.setVisible(<span class="keyword-directive">true</span>);
+<span class="line-number"> 44</span>     }
+<span class="line-number"> 45</span> 
+<span class="line-number"> 46</span>     <span class="comment">//intializes the panel</span>
+<span class="line-number"> 47</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> initPanel() {
+<span class="line-number"> 48</span>         <span class="keyword-directive">try</span> {
+<span class="line-number"> 49</span>             <span class="keyword-directive">this</span>.remove(panel);
+<span class="line-number"> 50</span>         }
+<span class="line-number"> 51</span>         <span class="keyword-directive">catch</span> (Exception e) {<span class="comment">//if the panel isn&#39;t there, don&#39;t worry about it</span>
+<span class="line-number"> 52</span>         }
+<span class="line-number"> 53</span>         counter++;
+<span class="line-number"> 54</span>         <span class="keyword-directive">if</span> (counter == presetMazes.length) {
+<span class="line-number"> 55</span>             counter = 0;
+<span class="line-number"> 56</span>         }
+<span class="line-number"> 57</span>         panel = <span class="keyword-directive">new</span> MazePanel(presetMazes[counter]);
+<span class="line-number"> 58</span>         <span class="keyword-directive">this</span>.add(panel,
+<span class="line-number"> 59</span>                  BorderLayout.CENTER);
+<span class="line-number"> 60</span> 
+<span class="line-number"> 61</span>         panel.setVisible(<span class="keyword-directive">true</span>);
+<span class="line-number"> 62</span>         panel.show();
+<span class="line-number"> 63</span>     }
+<span class="line-number"> 64</span>     
+<span class="line-number"> 65</span>     <span class="keyword-directive">private</span> JButton solveButton;
+<span class="line-number"> 66</span>     <span class="keyword-directive">private</span> JButton buildButton;
+<span class="line-number"> 67</span> 
+<span class="line-number"> 68</span>     <span class="comment">/**</span>
+<span class="line-number"> 69</span> <span class="comment">     * </span><span class="comment">Panel</span> <span class="comment">containing</span> <span class="comment">the</span> <span class="comment">solve</span> <span class="comment">and</span> <span class="comment">build</span> <span class="comment">buttons</span>
+<span class="line-number"> 70</span>      <span class="comment">*/</span>
+<span class="line-number"> 71</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">class</span> ButtonPanel <span class="keyword-directive">extends</span> JPanel {
+<span class="line-number"> 72</span> 
+<span class="line-number"> 73</span>         <span class="comment">/**</span>
+<span class="line-number"> 74</span> <span class="comment">         * </span><span class="comment">Creates</span> <span class="comment">the</span> <span class="comment">panel</span>
+<span class="line-number"> 75</span>          <span class="comment">*/</span>
+<span class="line-number"> 76</span>         <span class="keyword-directive">public</span> ButtonPanel() {
+<span class="line-number"> 77</span>             <span class="keyword-directive">this</span>.setLayout(<span class="keyword-directive">new</span> GridLayout(2,
+<span class="line-number"> 78</span>                                           1));
+<span class="line-number"> 79</span>             solveButton = <span class="keyword-directive">new</span> JButton(SOLVE_TEXT);
+<span class="line-number"> 80</span>             buildButton = <span class="keyword-directive">new</span> JButton(BUILD_TEXT);
+<span class="line-number"> 81</span>             solveButton.addActionListener(<span class="keyword-directive">new</span> SolveButtonActionListener());
+<span class="line-number"> 82</span>             buildButton.addActionListener(<span class="keyword-directive">new</span> BuildButtonActionListener());
+<span class="line-number"> 83</span>             <span class="keyword-directive">this</span>.add(solveButton);
+<span class="line-number"> 84</span>             <span class="keyword-directive">this</span>.add(buildButton);
+<span class="line-number"> 85</span>         }
+<span class="line-number"> 86</span>     }
+<span class="line-number"> 87</span> 
+<span class="line-number"> 88</span>     <span class="comment">//called when the build button is pressed</span>
+<span class="line-number"> 89</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> buildActionPerformed() {
+<span class="line-number"> 90</span>         <span class="keyword-directive">boolean</span> inputVerified = <span class="keyword-directive">false</span>;
+<span class="line-number"> 91</span>         <span class="keyword-directive">int</span> selectedSize = 10;
+<span class="line-number"> 92</span>         <span class="keyword-directive">while</span> (!inputVerified) {
+<span class="line-number"> 93</span>             String input =
+<span class="line-number"> 94</span>                    JOptionPane.showInputDialog(<span class="keyword-directive">this</span>,
+<span class="line-number"> 95</span>                                                <span class="character">&quot;</span><span class="character">Please choose a size for your maze</span><span class="character">&quot;</span>,
+<span class="line-number"> 96</span>                                                10);
+<span class="line-number"> 97</span>             <span class="keyword-directive">try</span> {
+<span class="line-number"> 98</span>                 selectedSize = Integer.parseInt(input);
+<span class="line-number"> 99</span>                 <span class="keyword-directive">if</span> (selectedSize &lt; 2) {
+<span class="line-number">100</span>                     <span class="keyword-directive">throw</span> <span class="keyword-directive">new</span> NumberFormatException();
+<span class="line-number">101</span>                 }
+<span class="line-number">102</span>                 inputVerified = <span class="keyword-directive">true</span>;
+<span class="line-number">103</span>             }
+<span class="line-number">104</span>             <span class="keyword-directive">catch</span> (Exception e) {
+<span class="line-number">105</span>                 inputVerified = <span class="keyword-directive">false</span>;
+<span class="line-number">106</span>                 JOptionPane.showMessageDialog(<span class="keyword-directive">this</span>,
+<span class="line-number">107</span>                                               <span class="character">&quot;</span><span class="character">Please enter an integer larger than 2</span><span class="character">&quot;</span>);
+<span class="line-number">108</span>             }
+<span class="line-number">109</span>         }
+<span class="line-number">110</span>         remove(panel);
+<span class="line-number">111</span> 
+<span class="line-number">112</span>         panel = <span class="keyword-directive">new</span> MazePanel(selectedSize,
+<span class="line-number">113</span>                               selectedSize);
+<span class="line-number">114</span>         add(panel,
+<span class="line-number">115</span>             BorderLayout.CENTER);
+<span class="line-number">116</span>         panel.repaint();
+<span class="line-number">117</span>         buildButton.setEnabled(<span class="keyword-directive">false</span>);
+<span class="line-number">118</span>         buildButton.setText(DIRECTIONS_TEXT);
+<span class="line-number">119</span>         <span class="comment">//pack();</span>
+<span class="line-number">120</span>         panel.setVisible(<span class="keyword-directive">true</span>);
+<span class="line-number">121</span>         panel.show();
+<span class="line-number">122</span>         <span class="keyword-directive">this</span>.repaint();
+<span class="line-number">123</span>         solveButton.setText(SOLVE_TEXT);
+<span class="line-number">124</span>     }
+<span class="line-number">125</span> 
+<span class="line-number">126</span>     <span class="comment">//called when the solve button is pressed.</span>
+<span class="line-number">127</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> solveButtonActionPerformed() {
+<span class="line-number">128</span>         buildButton.setText(BUILD_TEXT);
+<span class="line-number">129</span>         buildButton.setEnabled(<span class="keyword-directive">true</span>);
+<span class="line-number">130</span>         <span class="keyword-directive">if</span> (solveButton.getText().equals(SOLVE_TEXT)) {
+<span class="line-number">131</span> 
+<span class="line-number">132</span>             <span class="keyword-directive">try</span> {
+<span class="line-number">133</span>                 Space[][] data = panel.getSpaceArray();
+<span class="line-number">134</span>                 Grid maze = <span class="keyword-directive">new</span> Grid(data);
+<span class="line-number">135</span>                 System.out.println(maze.encode());
+<span class="line-number">136</span>                 maze.solve();
+<span class="line-number">137</span>                 panel.showRoute(maze.getRoute());
+<span class="line-number">138</span>                 panel.repaint();
+<span class="line-number">139</span>                 <span class="keyword-directive">this</span>.repaint();
+<span class="line-number">140</span>                 solveButton.setText(NEW_TEXT);
+<span class="line-number">141</span>             }
+<span class="line-number">142</span>             <span class="keyword-directive">catch</span> (Grid.InvalidMazeException ex) {
+<span class="line-number">143</span>                 JOptionPane.showMessageDialog(<span class="keyword-directive">this</span>,
+<span class="line-number">144</span>                                               ex.getMessage());
+<span class="line-number">145</span>             }
+<span class="line-number">146</span> 
+<span class="line-number">147</span>         }
+<span class="line-number">148</span>         <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (solveButton.getText().equals(NEW_TEXT)) {
+<span class="line-number">149</span>             initPanel();
+<span class="line-number">150</span>             solveButton.setText(SOLVE_TEXT);
+<span class="line-number">151</span>             panel.repaint();
+<span class="line-number">152</span>             <span class="keyword-directive">this</span>.repaint();
+<span class="line-number">153</span>         }
+<span class="line-number">154</span>     }
+<span class="line-number">155</span> 
+<span class="line-number">156</span>     <span class="comment">//action listener for the solve button</span>
+<span class="line-number">157</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">class</span> SolveButtonActionListener <span class="keyword-directive">implements</span> ActionListener {
+<span class="line-number">158</span> 
+<span class="line-number">159</span>         @Override
+<span class="line-number">160</span>         <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> actionPerformed(ActionEvent e) {
+<span class="line-number">161</span>             solveButtonActionPerformed();
+<span class="line-number">162</span>         }
+<span class="line-number">163</span>     }
+<span class="line-number">164</span> 
+<span class="line-number">165</span>     <span class="comment">//action listener for the build button.</span>
+<span class="line-number">166</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">class</span> BuildButtonActionListener <span class="keyword-directive">implements</span> ActionListener {
+<span class="line-number">167</span> 
+<span class="line-number">168</span>         @Override
+<span class="line-number">169</span>         <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> actionPerformed(ActionEvent e) {
+<span class="line-number">170</span>             buildActionPerformed();
+<span class="line-number">171</span>         }
+<span class="line-number">172</span>     }
+<span class="line-number">173</span> }
+<span class="line-number">174</span> 
+<span class="line-number">175</span> 
+</pre></body>
+</html>

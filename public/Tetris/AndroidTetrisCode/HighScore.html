@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>HighScore.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.character {color: #ce7b00}
+.ST1 {color: #ce7b00; font-family: Courier New; font-weight: bold}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center"> src\Android\Tetris\HighScore.java</td></tr></table>
+<pre>
+<span class="line-number">  1</span> <span class="keyword-directive">package</span> Android.Tetris;
+<span class="line-number">  2</span> 
+<span class="line-number">  3</span> <span class="keyword-directive">import</span> java.io.BufferedReader;
+<span class="line-number">  4</span> <span class="keyword-directive">import</span> java.io.IOException;
+<span class="line-number">  5</span> <span class="keyword-directive">import</span> java.io.InputStream;
+<span class="line-number">  6</span> <span class="keyword-directive">import</span> java.io.InputStreamReader;
+<span class="line-number">  7</span> <span class="keyword-directive">import</span> java.util.ArrayList;
+<span class="line-number">  8</span> <span class="keyword-directive">import</span> java.util.logging.Level;
+<span class="line-number">  9</span> <span class="keyword-directive">import</span> java.util.logging.Logger;
+<span class="line-number"> 10</span> <span class="keyword-directive">import</span> org.apache.http.HttpEntity;
+<span class="line-number"> 11</span> <span class="keyword-directive">import</span> org.apache.http.HttpResponse;
+<span class="line-number"> 12</span> <span class="keyword-directive">import</span> org.apache.http.NameValuePair;
+<span class="line-number"> 13</span> <span class="keyword-directive">import</span> org.apache.http.client.ClientProtocolException;
+<span class="line-number"> 14</span> <span class="keyword-directive">import</span> org.apache.http.client.HttpClient;
+<span class="line-number"> 15</span> <span class="keyword-directive">import</span> org.apache.http.client.entity.UrlEncodedFormEntity;
+<span class="line-number"> 16</span> <span class="keyword-directive">import</span> org.apache.http.client.methods.HttpPost;
+<span class="line-number"> 17</span> <span class="keyword-directive">import</span> org.apache.http.impl.client.DefaultHttpClient;
+<span class="line-number"> 18</span> <span class="keyword-directive">import</span> org.apache.http.message.BasicNameValuePair;
+<span class="line-number"> 19</span> <span class="keyword-directive">import</span> org.json.JSONArray;
+<span class="line-number"> 20</span> <span class="keyword-directive">import</span> org.json.JSONException;
+<span class="line-number"> 21</span> <span class="keyword-directive">import</span> org.json.JSONObject;
+<span class="line-number"> 22</span> 
+<span class="line-number"> 23</span> <span class="comment">/**</span>
+<span class="line-number"> 24</span> <span class="comment"> * </span><span class="comment">Interacts</span> <span class="comment">with</span> <span class="comment">a</span> <span class="comment">mySQL</span> <span class="comment">database</span> <span class="comment">using</span> <span class="comment">JSON</span> <span class="comment">and</span> <span class="comment">PHP</span> <span class="comment">in</span> <span class="comment">order</span> <span class="comment">to</span> <span class="comment">maintain</span>
+<span class="line-number"> 25</span> <span class="comment"> * </span><span class="comment">a</span> <span class="comment">high</span> <span class="comment">score</span> <span class="comment">table</span><span class="comment">.</span>
+<span class="line-number"> 26</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number"> 27</span>  <span class="comment">*/</span>
+<span class="line-number"> 28</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> HighScore {
+<span class="line-number"> 29</span> 
+<span class="line-number"> 30</span>     <span class="keyword-directive">private</span> ArrayList&lt;HighScoreEntry&gt; list;    
+<span class="line-number"> 31</span> 
+<span class="line-number"> 32</span>     <span class="comment">/**</span>
+<span class="line-number"> 33</span> <span class="comment">     * </span><span class="comment">Connects</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">database</span> <span class="comment">and</span> <span class="comment">initializes</span> <span class="comment">the</span> <span class="comment">list</span><span class="comment">.</span>
+<span class="line-number"> 34</span>      <span class="comment">*/</span>
+<span class="line-number"> 35</span>     <span class="keyword-directive">public</span> HighScore() {
+<span class="line-number"> 36</span>         list = <span class="keyword-directive">new</span> ArrayList&lt;HighScoreEntry&gt;();
+<span class="line-number"> 37</span>         <span class="keyword-directive">try</span> {
+<span class="line-number"> 38</span>             <span class="comment">//connects to and runs the mySQL query in the PHP script.</span>
+<span class="line-number"> 39</span>             HttpClient client = <span class="keyword-directive">new</span> DefaultHttpClient();
+<span class="line-number"> 40</span>             HttpPost post = <span class="keyword-directive">new</span> HttpPost(
+<span class="line-number"> 41</span>                     <span class="character">&quot;</span><span class="character">http://www.zachcotter.com/Tetris/scorecheck.php</span><span class="character">&quot;</span>);
+<span class="line-number"> 42</span>             HttpResponse response = client.execute(post);
+<span class="line-number"> 43</span>             HttpEntity entity = response.getEntity();
+<span class="line-number"> 44</span>             InputStream is = entity.getContent();
+<span class="line-number"> 45</span> 
+<span class="line-number"> 46</span>             <span class="comment">//converts the response into a string</span>
+<span class="line-number"> 47</span>             BufferedReader reader =
+<span class="line-number"> 48</span>                            <span class="keyword-directive">new</span> BufferedReader(<span class="keyword-directive">new</span> InputStreamReader(is));
+<span class="line-number"> 49</span>             String result = <span class="character">&quot;&quot;</span>;
+<span class="line-number"> 50</span>             String line = <span class="character">&quot;&quot;</span>;
+<span class="line-number"> 51</span>             <span class="keyword-directive">while</span> ((line = reader.readLine()) != <span class="keyword-directive">null</span>) {
+<span class="line-number"> 52</span>                 result += line + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character">&quot;</span>;
+<span class="line-number"> 53</span>             }
+<span class="line-number"> 54</span>             reader.close();
+<span class="line-number"> 55</span>             is.close();
+<span class="line-number"> 56</span> 
+<span class="line-number"> 57</span>             <span class="comment">//converts the JSON representation of data to HighScoreEntry objects.</span>
+<span class="line-number"> 58</span>             JSONArray data = <span class="keyword-directive">new</span> JSONArray(result);
+<span class="line-number"> 59</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> i = 0; i &lt; data.length(); i++) {
+<span class="line-number"> 60</span>                 JSONObject jsonEntry = data.getJSONObject(i);
+<span class="line-number"> 61</span>                 list.add(<span class="keyword-directive">new</span> HighScoreEntry(jsonEntry.getString(<span class="character">&quot;</span><span class="character">name</span><span class="character">&quot;</span>),
+<span class="line-number"> 62</span>                                             jsonEntry.getInt(<span class="character">&quot;</span><span class="character">score</span><span class="character">&quot;</span>)));
+<span class="line-number"> 63</span>             }
+<span class="line-number"> 64</span>         }
+<span class="line-number"> 65</span>         <span class="keyword-directive">catch</span> (JSONException ex) {
+<span class="line-number"> 66</span>             Logger.getLogger(HighScore.<span class="keyword-directive">class</span>.getName()).log(Level.SEVERE,
+<span class="line-number"> 67</span>                                                             <span class="keyword-directive">null</span>,
+<span class="line-number"> 68</span>                                                             ex);
+<span class="line-number"> 69</span>         }
+<span class="line-number"> 70</span>         <span class="keyword-directive">catch</span> (ClientProtocolException ex) {
+<span class="line-number"> 71</span>             Logger.getLogger(HighScore.<span class="keyword-directive">class</span>.getName()).log(Level.SEVERE,
+<span class="line-number"> 72</span>                                                             <span class="keyword-directive">null</span>,
+<span class="line-number"> 73</span>                                                             ex);
+<span class="line-number"> 74</span>         }
+<span class="line-number"> 75</span>         <span class="keyword-directive">catch</span> (IOException ex) {
+<span class="line-number"> 76</span>             Logger.getLogger(HighScore.<span class="keyword-directive">class</span>.getName()).log(Level.SEVERE,
+<span class="line-number"> 77</span>                                                             <span class="keyword-directive">null</span>,
+<span class="line-number"> 78</span>                                                             ex);
+<span class="line-number"> 79</span>         }
+<span class="line-number"> 80</span>     }
+<span class="line-number"> 81</span>     
+<span class="line-number"> 82</span>     <span class="comment">/**</span>
+<span class="line-number"> 83</span> <span class="comment">     * </span><span class="comment">Posts</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">entry</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">database</span><span class="comment">.</span>
+<span class="line-number"> 84</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">e</span> <span class="comment">The</span> <span class="comment">high</span> <span class="comment">score</span> <span class="comment">entry</span> <span class="comment">to</span> <span class="comment">add</span><span class="comment">.</span>
+<span class="line-number"> 85</span>      <span class="comment">*/</span>
+<span class="line-number"> 86</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">void</span> postScore(HighScoreEntry e){
+<span class="line-number"> 87</span>         <span class="keyword-directive">try</span> {
+<span class="line-number"> 88</span>             <span class="comment">//converts the HighScoreEntry to a type that can be used by the client</span>
+<span class="line-number"> 89</span>             ArrayList&lt;NameValuePair&gt; pairs = <span class="keyword-directive">new</span> ArrayList&lt;NameValuePair&gt;();
+<span class="line-number"> 90</span>             pairs.add(<span class="keyword-directive">new</span> BasicNameValuePair(<span class="character">&quot;</span><span class="character">name</span><span class="character">&quot;</span>, e.getName()));
+<span class="line-number"> 91</span>             pairs.add(<span class="keyword-directive">new</span> BasicNameValuePair(<span class="character">&quot;</span><span class="character">score</span><span class="character">&quot;</span>, <span class="character">&quot;&quot;</span> + e.getScore()));
+<span class="line-number"> 92</span>             
+<span class="line-number"> 93</span>             <span class="comment">//passes the data retrieved from the HighScoreEntry to the php</span>
+<span class="line-number"> 94</span>             <span class="comment">//script,which executes a SQL insert.</span>
+<span class="line-number"> 95</span>             HttpClient client = <span class="keyword-directive">new</span> DefaultHttpClient();
+<span class="line-number"> 96</span>             HttpPost post = <span class="keyword-directive">new</span> HttpPost(
+<span class="line-number"> 97</span>                     <span class="character">&quot;</span><span class="character">http://www.zachcotter.com/Tetris/postscore.php</span><span class="character">&quot;</span>);
+<span class="line-number"> 98</span>             post.setEntity(<span class="keyword-directive">new</span> UrlEncodedFormEntity(pairs));
+<span class="line-number"> 99</span>             client.execute(post);
+<span class="line-number">100</span>         }
+<span class="line-number">101</span>         <span class="keyword-directive">catch</span> (ClientProtocolException ex) {
+<span class="line-number">102</span>             Logger.getLogger(HighScore.<span class="keyword-directive">class</span>.getName()).log(Level.SEVERE,
+<span class="line-number">103</span>                                                             <span class="keyword-directive">null</span>,
+<span class="line-number">104</span>                                                             ex);
+<span class="line-number">105</span>         }
+<span class="line-number">106</span>         <span class="keyword-directive">catch</span> (IOException ex) {
+<span class="line-number">107</span>             Logger.getLogger(HighScore.<span class="keyword-directive">class</span>.getName()).log(Level.SEVERE,
+<span class="line-number">108</span>                                                             <span class="keyword-directive">null</span>,
+<span class="line-number">109</span>                                                             ex);
+<span class="line-number">110</span>         }
+<span class="line-number">111</span>     }
+<span class="line-number">112</span>     
+<span class="line-number">113</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> getValueToQualify(){
+<span class="line-number">114</span>         <span class="keyword-directive">return</span> list.get(list.size() - 1).getScore();
+<span class="line-number">115</span>     }
+<span class="line-number">116</span>     
+<span class="line-number">117</span>     @Override
+<span class="line-number">118</span>     <span class="keyword-directive">public</span> String toString(){
+<span class="line-number">119</span>         String table = <span class="character">&quot;&quot;</span>;
+<span class="line-number">120</span>         <span class="keyword-directive">for</span>(HighScoreEntry e : list){
+<span class="line-number">121</span>             table += e.toString() + <span class="character">&quot;</span><span class="ST1">\n</span><span class="character">&quot;</span>;
+<span class="line-number">122</span>         }
+<span class="line-number">123</span>         <span class="keyword-directive">return</span> table;
+<span class="line-number">124</span>     }
+<span class="line-number">125</span> }
+<span class="line-number">126</span> 
+<span class="line-number">127</span> 
+</pre></body>
+</html>

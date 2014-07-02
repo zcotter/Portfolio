@@ -1,0 +1,301 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Grid.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Courier New}
+pre {color: #000000; background-color: #ffffff; font-family: Courier New}
+table {color: #000000; background-color: #e9e8e2; font-family: Courier New}
+.character {color: #ce7b00}
+.ST1 {color: #ce7b00; font-family: Courier New; font-weight: bold}
+.keyword-directive {color: #0000e6}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.ST0 {color: #969696; font-family: Courier New; font-weight: bold}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">Grid.java</td></tr></table>
+<pre>
+<span class="line-number">  1</span> 
+<span class="line-number">  2</span> <span class="keyword-directive">import</span> java.util.Stack;
+<span class="line-number">  3</span> 
+<span class="line-number">  4</span> <span class="comment">/**</span>
+<span class="line-number">  5</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Zach</span> <span class="comment">Cotter</span>
+<span class="line-number">  6</span>  <span class="comment">*/</span>
+<span class="line-number">  7</span> <span class="comment">/**</span>
+<span class="line-number">  8</span> <span class="comment"> * </span><span class="comment">This</span> <span class="comment">class</span> <span class="comment">creates</span> <span class="comment">a</span> <span class="comment">grid</span> <span class="comment">representing</span> <span class="comment">a</span> <span class="comment">maze</span> <span class="comment">and</span> <span class="comment">determines</span> <span class="comment">the</span> <span class="comment">best</span> <span class="comment">route</span> <span class="comment">through</span> <span class="comment">it</span><span class="comment">.</span>
+<span class="line-number">  9</span>  <span class="comment">*/</span>
+<span class="line-number"> 10</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> Grid {
+<span class="line-number"> 11</span> 
+<span class="line-number"> 12</span>     <span class="keyword-directive">private</span> Space[][] grid;
+<span class="line-number"> 13</span>     <span class="keyword-directive">private</span> Stack&lt;Path&gt; route;
+<span class="line-number"> 14</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> xLength;
+<span class="line-number"> 15</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> yLength;
+<span class="line-number"> 16</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> currentX;
+<span class="line-number"> 17</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> currentY;
+<span class="line-number"> 18</span>     
+<span class="line-number"> 19</span>     <span class="comment">/*</span>
+<span class="line-number"> 20</span> <span class="comment">     * These correspond to the coordinate offset for a move</span>
+<span class="line-number"> 21</span> <span class="comment">     * in each cardinal direction, [N, E, S, W] by index.</span>
+<span class="line-number"> 22</span> <span class="comment">     */</span>
+<span class="line-number"> 23</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span>[] xMoves = {0,
+<span class="line-number"> 24</span>                                         1,
+<span class="line-number"> 25</span>                                         0,
+<span class="line-number"> 26</span>                                         -1};
+<span class="line-number"> 27</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span>[] yMoves = {1,
+<span class="line-number"> 28</span>                                         0,
+<span class="line-number"> 29</span>                                         -1,
+<span class="line-number"> 30</span>                                         0};
+<span class="line-number"> 31</span> 
+<span class="line-number"> 32</span>     <span class="comment">/**</span>
+<span class="line-number"> 33</span> <span class="comment">     * </span><span class="comment">Creates</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">grid</span>
+<span class="line-number"> 34</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">maze</span> <span class="comment">Space</span><span class="comment">[][] </span><span class="comment">representing</span> <span class="comment">the</span> <span class="comment">maze</span> <span class="comment">and</span> <span class="comment">the</span> <span class="comment">type</span> <span class="comment">of</span> <span class="comment">each</span> <span class="comment">space</span><span class="comment">.</span>
+<span class="line-number"> 35</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">xSize</span> <span class="comment">Integer</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">width</span> <span class="comment">of</span> <span class="comment">maze</span>
+<span class="line-number"> 36</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">ySize</span> <span class="comment">Integer</span> <span class="comment">value</span> <span class="comment">of</span> <span class="comment">height</span> <span class="comment">of</span> <span class="comment">maze</span>
+<span class="line-number"> 37</span>      <span class="comment">*/</span>
+<span class="line-number"> 38</span>     <span class="keyword-directive">public</span> Grid(Space[][] maze,
+<span class="line-number"> 39</span>                 <span class="keyword-directive">int</span> xSize,
+<span class="line-number"> 40</span>                 <span class="keyword-directive">int</span> ySize) {
+<span class="line-number"> 41</span>         xLength = xSize;
+<span class="line-number"> 42</span>         yLength = ySize;
+<span class="line-number"> 43</span>         init(maze);
+<span class="line-number"> 44</span>     }
+<span class="line-number"> 45</span> 
+<span class="line-number"> 46</span>     <span class="comment">/**</span>
+<span class="line-number"> 47</span> <span class="comment">     * </span><span class="comment">Creates</span> <span class="comment">a</span> <span class="comment">new</span> <span class="comment">grid</span>
+<span class="line-number"> 48</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">maze</span> <span class="comment">Space</span><span class="comment">[][] </span><span class="comment">representing</span> <span class="comment">the</span> <span class="comment">maze</span> <span class="comment">and</span> <span class="comment">the</span> <span class="comment">type</span> <span class="comment">of</span> <span class="comment">each</span> <span class="comment">space</span><span class="comment">.</span>
+<span class="line-number"> 49</span>      <span class="comment">*/</span>
+<span class="line-number"> 50</span>     <span class="keyword-directive">public</span> Grid(Space[][] maze) {
+<span class="line-number"> 51</span>         xLength = maze.length;
+<span class="line-number"> 52</span>         yLength = maze[0].length;
+<span class="line-number"> 53</span>         init(maze);
+<span class="line-number"> 54</span>     }
+<span class="line-number"> 55</span> 
+<span class="line-number"> 56</span>     <span class="comment">//initializes the grid</span>
+<span class="line-number"> 57</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> init(Space[][] maze) {
+<span class="line-number"> 58</span>         grid = maze;
+<span class="line-number"> 59</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; xLength; x++) {
+<span class="line-number"> 60</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; yLength; y++) {
+<span class="line-number"> 61</span>                 <span class="keyword-directive">if</span> (grid[x][y] <span class="keyword-directive">instanceof</span> StartPoint) {
+<span class="line-number"> 62</span>                     currentX = x;
+<span class="line-number"> 63</span>                     currentY = y;
+<span class="line-number"> 64</span>                 }
+<span class="line-number"> 65</span>             }
+<span class="line-number"> 66</span>         }
+<span class="line-number"> 67</span>         route = <span class="keyword-directive">new</span> Stack&lt;Path&gt;();
+<span class="line-number"> 68</span>     }
+<span class="line-number"> 69</span> 
+<span class="line-number"> 70</span>     <span class="comment">/*</span>
+<span class="line-number"> 71</span>    
+<span class="line-number"> 72</span> <span class="comment">     */</span>
+<span class="line-number"> 73</span>     <span class="comment">/**</span>
+<span class="line-number"> 74</span> <span class="comment">     * </span><span class="comment">Encodes</span> <span class="comment">the</span> <span class="comment">maze</span> <span class="comment">as</span> <span class="comment">a</span> <span class="comment">String</span><span class="comment">.</span>
+<span class="line-number"> 75</span> <span class="comment">     * </span><span class="comment">A</span> <span class="comment">Grid</span> <span class="comment">is</span> <span class="comment">encoded</span> <span class="comment">as</span> <span class="comment">a</span> <span class="comment">string</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">following</span> <span class="comment">manner</span><span class="comment">:</span>
+<span class="line-number"> 76</span> <span class="comment">     * 1) </span><span class="comment">Each</span> <span class="comment">space</span> <span class="comment">is</span> <span class="comment">transcribed</span> <span class="comment">from</span> <span class="comment">left</span> <span class="comment">to</span> <span class="comment">right</span><span class="comment">, </span><span class="comment">then</span> <span class="comment">top</span> <span class="comment">to</span> <span class="comment">bottom</span><span class="comment">.</span>
+<span class="line-number"> 77</span> <span class="comment">     * 2) </span><span class="comment">Each</span> <span class="comment">column</span> <span class="comment">is</span> <span class="comment">separated</span> <span class="comment">by</span><span class="comment"> &#39;,&#39;</span>
+<span class="line-number"> 78</span> <span class="comment">     * 3) </span><span class="comment">Each</span> <span class="comment">row</span> <span class="comment">is</span> <span class="comment">separated</span> <span class="comment">by</span><span class="comment"> &#39;\</span><span class="comment">n</span><span class="comment">&#39;</span>
+<span class="line-number"> 79</span> <span class="comment">     * 4) </span><span class="comment">Each</span> <span class="comment">space</span> <span class="comment">type</span> <span class="comment">is</span> <span class="comment">represented</span> <span class="comment">as</span> <span class="comment">follows</span><span class="comment">:</span>
+<span class="line-number"> 80</span> <span class="comment">     *      </span><span class="comment">Path</span><span class="comment"> = &#39;</span><span class="comment">p</span><span class="comment">&#39;</span>
+<span class="line-number"> 81</span> <span class="comment">     *      </span><span class="comment">Wall</span><span class="comment"> = &#39;</span><span class="comment">w</span><span class="comment">&#39;</span>
+<span class="line-number"> 82</span> <span class="comment">     *      </span><span class="comment">StartPoint</span><span class="comment"> = &#39;</span><span class="comment">s</span><span class="comment">&#39;</span>
+<span class="line-number"> 83</span> <span class="comment">     *      </span><span class="comment">EndPoint</span><span class="comment"> = &#39;</span><span class="comment">e</span><span class="comment">&#39;</span>
+<span class="line-number"> 84</span> <span class="comment">     * 5) </span><span class="comment">The</span> <span class="comment">first</span> <span class="comment">line</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">encoding</span> <span class="comment">will</span> <span class="comment">display</span> <span class="comment">the</span> <span class="comment">xLength</span>
+<span class="line-number"> 85</span> <span class="comment">     * 6) </span><span class="comment">The</span> <span class="comment">second</span> <span class="comment">line</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">encoding</span> <span class="comment">will</span> <span class="comment">display</span> <span class="comment">the</span> <span class="comment">yLength</span><span class="comment">;</span>
+<span class="line-number"> 86</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">the</span> <span class="comment">encoded</span> <span class="comment">String</span> <span class="comment">representing</span> <span class="comment">the</span> <span class="comment">maze</span><span class="comment">.</span>
+<span class="line-number"> 87</span>      <span class="comment">*/</span>
+<span class="line-number"> 88</span>     <span class="keyword-directive">public</span> String encode() {
+<span class="line-number"> 89</span>         String encoding = xLength + <span class="character">&quot;</span><span class="ST1">\\</span><span class="character">n</span><span class="character">&quot;</span> + yLength + <span class="character">&quot;</span><span class="ST1">\\</span><span class="character">n</span><span class="character">&quot;</span>;
+<span class="line-number"> 90</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; grid.length; x++) {
+<span class="line-number"> 91</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; grid[0].length; y++) {
+<span class="line-number"> 92</span>                 encoding += encodingHelper(grid[x][y]) + <span class="character">&quot;</span><span class="character">,</span><span class="character">&quot;</span>;
+<span class="line-number"> 93</span>             }
+<span class="line-number"> 94</span>             encoding += <span class="character">&quot;</span><span class="ST1">\\</span><span class="character">n</span><span class="character">&quot;</span>;
+<span class="line-number"> 95</span>         }
+<span class="line-number"> 96</span>         <span class="keyword-directive">return</span> encoding;
+<span class="line-number"> 97</span>     }
+<span class="line-number"> 98</span> 
+<span class="line-number"> 99</span>     <span class="comment">//returns the appropriate character for each sub-type of space</span>
+<span class="line-number">100</span>     <span class="keyword-directive">private</span> String encodingHelper(Space space) {
+<span class="line-number">101</span>         <span class="keyword-directive">if</span> (space <span class="keyword-directive">instanceof</span> Path) {
+<span class="line-number">102</span>             <span class="keyword-directive">return</span> <span class="character">&quot;</span><span class="character">p</span><span class="character">&quot;</span>;
+<span class="line-number">103</span>         }
+<span class="line-number">104</span>         <span class="keyword-directive">if</span> (space <span class="keyword-directive">instanceof</span> Wall) {
+<span class="line-number">105</span>             <span class="keyword-directive">return</span> <span class="character">&quot;</span><span class="character">w</span><span class="character">&quot;</span>;
+<span class="line-number">106</span>         }
+<span class="line-number">107</span>         <span class="keyword-directive">if</span> (space <span class="keyword-directive">instanceof</span> StartPoint) {
+<span class="line-number">108</span>             <span class="keyword-directive">return</span> <span class="character">&quot;</span><span class="character">s</span><span class="character">&quot;</span>;
+<span class="line-number">109</span>         }
+<span class="line-number">110</span>         <span class="keyword-directive">if</span> (space <span class="keyword-directive">instanceof</span> EndPoint) {
+<span class="line-number">111</span>             <span class="keyword-directive">return</span> <span class="character">&quot;</span><span class="character">e</span><span class="character">&quot;</span>;
+<span class="line-number">112</span>         }
+<span class="line-number">113</span>         <span class="keyword-directive">else</span> {
+<span class="line-number">114</span>             <span class="keyword-directive">throw</span> <span class="keyword-directive">new</span> RuntimeException(<span class="character">&quot;</span><span class="character">Unknown Space</span><span class="character">&quot;</span>);
+<span class="line-number">115</span>         }
+<span class="line-number">116</span>     }
+<span class="line-number">117</span> 
+<span class="line-number">118</span>     <span class="comment">/**</span>
+<span class="line-number">119</span> <span class="comment">     * </span><span class="comment">Finds</span> <span class="comment">the</span> <span class="comment">shortest</span> <span class="comment">route</span> <span class="comment">from</span> <span class="comment">start</span> <span class="comment">to</span> <span class="comment">finish</span><span class="comment">.</span>
+<span class="line-number">120</span>      <span class="comment">*/</span>
+<span class="line-number">121</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> solve()
+<span class="line-number">122</span>             <span class="keyword-directive">throws</span> InvalidMazeException {
+<span class="line-number">123</span>         <span class="keyword-directive">int</span> start = 0;
+<span class="line-number">124</span>         <span class="keyword-directive">int</span> end = 0;
+<span class="line-number">125</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> x = 0; x &lt; grid.length; x++) {
+<span class="line-number">126</span>             <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> y = 0; y &lt; grid[0].length; y++) {
+<span class="line-number">127</span>                 <span class="keyword-directive">if</span> (grid[x][y] <span class="keyword-directive">instanceof</span> StartPoint) {
+<span class="line-number">128</span>                     start++;
+<span class="line-number">129</span>                 }
+<span class="line-number">130</span>                 <span class="keyword-directive">if</span> (grid[x][y] <span class="keyword-directive">instanceof</span> EndPoint) {
+<span class="line-number">131</span>                     end++;
+<span class="line-number">132</span>                 }
+<span class="line-number">133</span>             }
+<span class="line-number">134</span>         }
+<span class="line-number">135</span>         <span class="keyword-directive">if</span> (start != 1) {
+<span class="line-number">136</span>             <span class="keyword-directive">throw</span> <span class="keyword-directive">new</span> InvalidStartPointException();
+<span class="line-number">137</span>         }
+<span class="line-number">138</span>         <span class="keyword-directive">if</span> (end != 1) {
+<span class="line-number">139</span>             <span class="keyword-directive">throw</span> <span class="keyword-directive">new</span> InvalidEndPointException();
+<span class="line-number">140</span>         }
+<span class="line-number">141</span>         <span class="keyword-directive">boolean</span> next = <span class="keyword-directive">true</span>;
+<span class="line-number">142</span>         <span class="keyword-directive">while</span> (next) {
+<span class="line-number">143</span>             next = step();
+<span class="line-number">144</span>         }
+<span class="line-number">145</span>     }
+<span class="line-number">146</span> 
+<span class="line-number">147</span>     
+<span class="line-number">148</span> 
+<span class="line-number">149</span>     <span class="comment">/**</span>
+<span class="line-number">150</span> <span class="comment">     * </span><span class="comment">Provides</span> <span class="comment">the</span> <span class="comment">route</span> <span class="comment">taken</span> <span class="comment">to</span> <span class="comment">reach</span> <span class="comment">the</span> <span class="comment">EndPoint</span>
+<span class="line-number">151</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Stack</span><span class="comment">\</span><span class="ST0">&lt;\Path\&gt;</span> <span class="comment">representing</span> <span class="comment">the</span> <span class="comment">route</span> <span class="comment">taken</span><span class="comment">.</span>
+<span class="line-number">152</span>      <span class="comment">*/</span>
+<span class="line-number">153</span>     <span class="keyword-directive">public</span> Stack&lt;Path&gt; getRoute() {
+<span class="line-number">154</span>         <span class="keyword-directive">return</span> route;
+<span class="line-number">155</span>     }
+<span class="line-number">156</span> 
+<span class="line-number">157</span>     <span class="comment">/**</span>
+<span class="line-number">158</span> <span class="comment">     * </span><span class="comment">Advances</span> <span class="comment">the</span> <span class="comment">current</span> <span class="comment">position</span> <span class="comment">of</span> <span class="comment">the</span> <span class="comment">navigator</span> <span class="comment">to</span> <span class="comment">the</span> <span class="comment">next</span> <span class="comment">Path</span> <span class="comment">space</span><span class="comment">.</span>
+<span class="line-number">159</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">to</span> <span class="comment">keep</span> <span class="comment">stepping</span><span class="comment">.</span>
+<span class="line-number">160</span>      <span class="comment">*/</span>
+<span class="line-number">161</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> step() {
+<span class="line-number">162</span>         <span class="keyword-directive">boolean</span> moveMade = <span class="keyword-directive">false</span>;
+<span class="line-number">163</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> d = 0; d &lt; 4; d++) {
+<span class="line-number">164</span>             <span class="keyword-directive">int</span> nextX = currentX + xMoves[d];
+<span class="line-number">165</span>             <span class="keyword-directive">int</span> nextY = currentY + yMoves[d];
+<span class="line-number">166</span>             <span class="keyword-directive">if</span> (isValid(nextX,
+<span class="line-number">167</span>                         nextY) &amp;&amp; grid[nextX][nextY] <span class="keyword-directive">instanceof</span> Wall
+<span class="line-number">168</span>                                   == <span class="keyword-directive">false</span>) {
+<span class="line-number">169</span>                 <span class="keyword-directive">if</span> (grid[nextX][nextY] <span class="keyword-directive">instanceof</span> EndPoint) {
+<span class="line-number">170</span>                     grid[nextX][nextY] = <span class="keyword-directive">new</span> Path(nextX,
+<span class="line-number">171</span>                                                   nextY);
+<span class="line-number">172</span>                     ((Path) grid[nextX][nextY]).visit();
+<span class="line-number">173</span>                     route.push((Path) grid[nextX][nextY]);
+<span class="line-number">174</span>                     moveMade = <span class="keyword-directive">true</span>;
+<span class="line-number">175</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">176</span>                 }
+<span class="line-number">177</span>                 <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (grid[nextX][nextY] <span class="keyword-directive">instanceof</span> Path) {
+<span class="line-number">178</span>                     <span class="keyword-directive">if</span> (((Path) grid[nextX][nextY]).isVisited() == <span class="keyword-directive">false</span>) {
+<span class="line-number">179</span>                         currentX = nextX;
+<span class="line-number">180</span>                         currentY = nextY;
+<span class="line-number">181</span>                         ((Path) grid[currentX][currentY]).visit();
+<span class="line-number">182</span>                         route.push((Path) grid[nextX][nextY]);
+<span class="line-number">183</span>                         moveMade = <span class="keyword-directive">true</span>;
+<span class="line-number">184</span>                         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">185</span>                     }
+<span class="line-number">186</span>                 }
+<span class="line-number">187</span>             }
+<span class="line-number">188</span>         }
+<span class="line-number">189</span>         <span class="keyword-directive">if</span> (!moveMade) {
+<span class="line-number">190</span>             backTrack();
+<span class="line-number">191</span>         }
+<span class="line-number">192</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">193</span>     }
+<span class="line-number">194</span> 
+<span class="line-number">195</span>     <span class="comment">/**</span>
+<span class="line-number">196</span> <span class="comment">     * </span><span class="comment">Called</span> <span class="comment">by</span> <span class="comment">step</span> <span class="comment">method</span> <span class="comment">if</span> <span class="comment">there</span> <span class="comment">are</span> <span class="comment">no</span> <span class="comment">more</span> <span class="comment">unvisited</span> <span class="comment">spots</span> <span class="comment">to</span> <span class="comment">move</span> <span class="comment">to</span><span class="comment">.</span>
+<span class="line-number">197</span> <span class="comment">     * </span><span class="comment">The</span> <span class="comment">navigator</span> <span class="comment">retraces</span> <span class="comment">it</span><span class="comment">&#39;</span><span class="comment">s</span> <span class="comment">path</span> <span class="comment">until</span> <span class="comment">it</span> <span class="comment">reaches</span> <span class="comment">a</span> <span class="comment">point</span> <span class="comment">where</span> <span class="comment">it</span> <span class="comment">can</span> <span class="comment">move</span> <span class="comment">in</span> <span class="comment">a</span> <span class="comment">different</span> <span class="comment">direction</span><span class="comment">.</span>
+<span class="line-number">198</span>      <span class="comment">*/</span>
+<span class="line-number">199</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">void</span> backTrack() {
+<span class="line-number">200</span>         <span class="keyword-directive">while</span> (!route.empty() &amp;&amp; hasUnvisitedNeighbors(route.peek().getX(),
+<span class="line-number">201</span>                                                        route.peek().getY()) == <span class="keyword-directive">false</span>) {
+<span class="line-number">202</span>             route.pop();
+<span class="line-number">203</span>             currentX = route.peek().getX();
+<span class="line-number">204</span>             currentY = route.peek().getY();
+<span class="line-number">205</span>         }
+<span class="line-number">206</span>     }
+<span class="line-number">207</span> 
+<span class="line-number">208</span>     <span class="comment">/**</span>
+<span class="line-number">209</span> <span class="comment">     * </span><span class="comment">Determines</span> <span class="comment">if</span> <span class="comment">a</span> <span class="comment">given</span> <span class="comment">Path</span> <span class="comment">has</span> <span class="comment">neighboring</span> <span class="comment">Paths</span> <span class="comment">that</span> <span class="comment">have</span> <span class="comment">not</span> <span class="comment">yet</span> <span class="comment">been</span> <span class="comment">visited</span><span class="comment">.</span>
+<span class="line-number">210</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">x</span> <span class="comment">X</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">path</span>
+<span class="line-number">211</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">y</span> <span class="comment">Y</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">path</span>
+<span class="line-number">212</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">the</span> <span class="comment">given</span> <span class="comment">path</span> <span class="comment">has</span> <span class="comment">unvisited</span> <span class="comment">neighbors</span><span class="comment">.</span>
+<span class="line-number">213</span>      <span class="comment">*/</span>
+<span class="line-number">214</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> hasUnvisitedNeighbors(<span class="keyword-directive">int</span> x,
+<span class="line-number">215</span>                                           <span class="keyword-directive">int</span> y) {
+<span class="line-number">216</span>         <span class="keyword-directive">for</span> (<span class="keyword-directive">int</span> d = 0; d &lt; 4; d++) {
+<span class="line-number">217</span>             <span class="keyword-directive">int</span> nextX = x + xMoves[d];
+<span class="line-number">218</span>             <span class="keyword-directive">int</span> nextY = y + yMoves[d];
+<span class="line-number">219</span>             <span class="keyword-directive">if</span> (isValid(nextX,
+<span class="line-number">220</span>                         nextY) &amp;&amp; grid[nextX][nextY] <span class="keyword-directive">instanceof</span> Path) {
+<span class="line-number">221</span>                 <span class="keyword-directive">if</span> (((Path) grid[nextX][nextY]).isVisited() == <span class="keyword-directive">false</span>) {
+<span class="line-number">222</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">223</span>                 }
+<span class="line-number">224</span>             }
+<span class="line-number">225</span>             <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (isValid(nextX,
+<span class="line-number">226</span>                              nextY)
+<span class="line-number">227</span>                      &amp;&amp; grid[nextX][nextY] <span class="keyword-directive">instanceof</span> EndPoint) {
+<span class="line-number">228</span>                 <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">229</span>             }
+<span class="line-number">230</span>         }
+<span class="line-number">231</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">232</span>     }
+<span class="line-number">233</span> 
+<span class="line-number">234</span>     <span class="comment">/**</span>
+<span class="line-number">235</span> <span class="comment">     * </span><span class="comment">Determines</span> <span class="comment">if</span> <span class="comment">a</span> <span class="comment">given</span> <span class="comment">Space</span> <span class="comment">is</span> <span class="comment">contained</span> <span class="comment">in</span> <span class="comment">the</span> <span class="comment">maze</span><span class="comment">.</span>
+<span class="line-number">236</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">x</span> <span class="comment">X</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">Space</span>
+<span class="line-number">237</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">y</span> <span class="comment">Y</span> <span class="comment">coordinate</span> <span class="comment">of</span> <span class="comment">Space</span>
+<span class="line-number">238</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Whether</span> <span class="comment">or</span> <span class="comment">not</span> <span class="comment">the</span> <span class="comment">Space</span> <span class="comment">is</span> <span class="comment">valid</span><span class="comment">.</span>
+<span class="line-number">239</span>      <span class="comment">*/</span>
+<span class="line-number">240</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> isValid(<span class="keyword-directive">int</span> x,
+<span class="line-number">241</span>                             <span class="keyword-directive">int</span> y) {
+<span class="line-number">242</span>         <span class="keyword-directive">if</span> (x &gt; -1 &amp;&amp; x &lt; xLength &amp;&amp; y &gt; -1 &amp;&amp; y &lt; yLength) {
+<span class="line-number">243</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">true</span>;
+<span class="line-number">244</span>         }
+<span class="line-number">245</span>         <span class="keyword-directive">else</span> {
+<span class="line-number">246</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">false</span>;
+<span class="line-number">247</span>         }
+<span class="line-number">248</span>     }
+<span class="line-number">249</span>     
+<span class="line-number">250</span>     <span class="comment">/**</span>
+<span class="line-number">251</span> <span class="comment">     * </span><span class="comment">Exception</span> <span class="comment">to</span> <span class="comment">be</span> <span class="comment">thrown</span> <span class="comment">if</span> <span class="comment">a</span> <span class="comment">user</span> <span class="comment">created</span> <span class="comment">maze</span> <span class="comment">is</span> <span class="comment">unusable</span><span class="comment">.</span>
+<span class="line-number">252</span> <span class="comment">     * </span><span class="comment">Possible</span> <span class="comment">exceptions</span><span class="comment">:</span>
+<span class="line-number">253</span> <span class="comment">     * </span><span class="comment">There</span> <span class="comment">is</span> <span class="comment">no</span><span class="comment">/+1 </span><span class="comment">start</span> <span class="comment">point</span>
+<span class="line-number">254</span> <span class="comment">     * </span><span class="comment">There</span> <span class="comment">is</span> <span class="comment">no</span><span class="comment">/+1 </span><span class="comment">end</span> <span class="comment">point</span>
+<span class="line-number">255</span> <span class="comment">     * </span><span class="comment">They</span> <span class="comment">do</span> <span class="comment">not</span> <span class="comment">connect</span><span class="comment"> (</span><span class="comment">StackOverflow</span><span class="comment">)</span>
+<span class="line-number">256</span>      <span class="comment">*/</span>
+<span class="line-number">257</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> InvalidMazeException <span class="keyword-directive">extends</span> RuntimeException {
+<span class="line-number">258</span>     }
+<span class="line-number">259</span> 
+<span class="line-number">260</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> InvalidStartPointException <span class="keyword-directive">extends</span> InvalidMazeException {
+<span class="line-number">261</span> 
+<span class="line-number">262</span>         @Override
+<span class="line-number">263</span>         <span class="keyword-directive">public</span> String getMessage() {
+<span class="line-number">264</span>             <span class="keyword-directive">return</span> <span class="character">&quot;</span><span class="character">Please make exactly one startpoint (green) for the maze</span><span class="character">&quot;</span>;
+<span class="line-number">265</span>         }
+<span class="line-number">266</span>     }
+<span class="line-number">267</span> 
+<span class="line-number">268</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> InvalidEndPointException <span class="keyword-directive">extends</span> InvalidMazeException {
+<span class="line-number">269</span> 
+<span class="line-number">270</span>         @Override
+<span class="line-number">271</span>         <span class="keyword-directive">public</span> String getMessage() {
+<span class="line-number">272</span>             <span class="keyword-directive">return</span> <span class="character">&quot;</span><span class="character">Please make exactly one endpoint (red) for the maze</span><span class="character">&quot;</span>;
+<span class="line-number">273</span>         }
+<span class="line-number">274</span>     }
+<span class="line-number">275</span> }
+<span class="line-number">276</span> 
+<span class="line-number">277</span> 
+</pre></body>
+</html>
