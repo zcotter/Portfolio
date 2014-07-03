@@ -1,195 +1,5 @@
 
 ---
-projects:
-  columns:
-  - id
-  - name
-  - lead
-  - created_at
-  - updated_at
-  records: 
-  - - '2'
-    - Tetris
-    - A Tetris java applet.
-    - '2013-08-31 01:35:19.422357'
-    - '2013-08-31 01:35:19.422357'
-  - - '3'
-    - Maze
-    - A simple maze solving java applet.
-    - '2013-09-01 19:00:32.757669'
-    - '2013-09-01 19:00:32.757669'
-  - - '4'
-    - Mandelbrot
-    - A Fractal drawing java applet
-    - '2013-09-01 19:28:23.723243'
-    - '2013-09-01 21:15:24.866512'
-  - - '5'
-    - Android Tetris
-    - A Tetris android application.
-    - '2013-09-01 19:40:56.905323'
-    - '2013-09-01 19:40:56.905323'
-  - - '6'
-    - Rooster
-    - Alarm clock for shared hosting web apps
-    - '2013-09-20 02:53:06.970862'
-    - '2013-09-20 02:53:06.970862'
-
----
-project_link_buttons:
-  columns:
-  - id
-  - name
-  - link
-  - project_id
-  - created_at
-  - updated_at
-  records: 
-  - - '4'
-    - Launch
-    - http://files.zachcotter.com/Maze/MazeFrame.html
-    - '3'
-    - '2013-09-01 19:03:34.891087'
-    - '2013-09-01 19:03:34.891087'
-  - - '5'
-    - Documentation
-    - http://files.zachcotter.com/Maze/javadoc/index.html
-    - '3'
-    - '2013-09-01 19:03:58.456435'
-    - '2013-09-01 19:03:58.456435'
-  - - '6'
-    - Code
-    - http://github.com/zcotter/Maze
-    - '3'
-    - '2013-09-01 19:08:07.374672'
-    - '2013-09-01 19:08:07.374672'
-  - - '11'
-    - Download
-    - http://files.zachcotter.com/Tetris/AndroidTetris-release.apk
-    - '5'
-    - '2013-09-01 19:41:12.479214'
-    - '2013-09-01 19:41:12.479214'
-  - - '12'
-    - Code
-    - http://github.com/zcotter/AndroidTetris
-    - '5'
-    - '2013-09-01 19:41:27.206056'
-    - '2013-09-01 19:41:27.206056'
-  - - '13'
-    - Play
-    - http://files.zachcotter.com/tetris-frame-new.html
-    - '2'
-    - '2013-09-18 17:16:54.18881'
-    - '2013-09-18 17:16:54.18881'
-  - - '14'
-    - Documentation
-    - http://files.zachcotter.com/Tetris/javadoc/index.html
-    - '2'
-    - '2013-09-18 17:17:13.159895'
-    - '2013-09-18 17:17:13.159895'
-  - - '16'
-    - Code
-    - http://github.com/zcotter/Tetris
-    - '2'
-    - '2013-09-18 17:17:36.094207'
-    - '2013-09-18 17:17:36.094207'
-  - - '17'
-    - Launch Slow Version
-    - http://files.zachcotter.com/SlowMandelbrot.html
-    - '4'
-    - '2013-09-19 21:02:32.984761'
-    - '2013-09-19 21:02:32.984761'
-  - - '18'
-    - Launch Fast Version
-    - http://files.zachcotter.com/FastMandelbrot.html
-    - '4'
-    - '2013-09-19 21:02:59.251264'
-    - '2013-09-19 21:02:59.251264'
-  - - '19'
-    - Documentation
-    - http://files.zachcotter.com/Mandelbrot/javadoc/
-    - '4'
-    - '2013-09-19 21:03:45.452906'
-    - '2013-09-19 21:03:45.452906'
-  - - '20'
-    - Code
-    - http://github.com/zcotter/Mandelbrot
-    - '4'
-    - '2013-09-19 21:04:06.728123'
-    - '2013-09-19 21:04:06.728123'
-  - - '21'
-    - Launch
-    - http://rooster.zachcotter.com/
-    - '6'
-    - '2013-09-20 02:53:45.675076'
-    - '2013-09-20 02:53:45.675076'
-  - - '22'
-    - Code
-    - https://github.com/zcotter/Rooster
-    - '6'
-    - '2013-09-20 02:54:36.295971'
-    - '2013-09-20 02:54:36.295971'
-
----
-project_content_lists:
-  columns:
-  - id
-  - title
-  - project_id
-  - created_at
-  - updated_at
-  records: 
-  - - '1'
-    - Instructions
-    - '2'
-    - '2013-08-31 02:11:12.835526'
-    - '2013-08-31 02:11:12.835526'
-  - - '2'
-    - Features
-    - '2'
-    - '2013-08-31 02:13:17.858676'
-    - '2013-08-31 02:13:17.858676'
-  - - '3'
-    - Instructions
-    - '3'
-    - '2013-09-01 19:08:22.356529'
-    - '2013-09-01 19:08:22.356529'
-  - - '4'
-    - Features
-    - '3'
-    - '2013-09-01 19:08:32.092086'
-    - '2013-09-01 19:08:32.092086'
-  - - '5'
-    - Instructions
-    - '4'
-    - '2013-09-01 19:30:25.112186'
-    - '2013-09-01 19:30:25.112186'
-  - - '6'
-    - Features
-    - '4'
-    - '2013-09-01 19:30:36.466836'
-    - '2013-09-01 19:30:36.466836'
-  - - '7'
-    - Instructions
-    - '5'
-    - '2013-09-01 19:41:38.281689'
-    - '2013-09-01 19:41:38.281689'
-  - - '8'
-    - Features
-    - '5'
-    - '2013-09-01 19:41:44.042019'
-    - '2013-09-01 19:41:44.042019'
-  - - '9'
-    - Instructions
-    - '6'
-    - '2013-09-20 02:55:06.476697'
-    - '2013-09-20 02:55:06.476697'
-  - - '10'
-    - Features
-    - '6'
-    - '2013-09-20 02:55:15.09319'
-    - '2013-09-20 02:55:15.09319'
-
----
 project_content_list_elements:
   columns:
   - id
@@ -366,12 +176,202 @@ project_content_list_elements:
     - '10'
     - '2013-09-20 19:51:55.620199'
     - '2013-09-20 19:51:55.620199'
-  - - '39'
-    - Uses a RESTful interface to allow the custom Rake task to be run from another
-      server
-    - '10'
-    - '2013-09-20 19:52:02.401587'
-    - '2013-09-20 19:52:02.401587'
+
+---
+project_content_lists:
+  columns:
+  - id
+  - title
+  - project_id
+  - created_at
+  - updated_at
+  records: 
+  - - '1'
+    - Instructions
+    - '2'
+    - '2013-08-31 02:11:12.835526'
+    - '2013-08-31 02:11:12.835526'
+  - - '2'
+    - Features
+    - '2'
+    - '2013-08-31 02:13:17.858676'
+    - '2013-08-31 02:13:17.858676'
+  - - '3'
+    - Instructions
+    - '3'
+    - '2013-09-01 19:08:22.356529'
+    - '2013-09-01 19:08:22.356529'
+  - - '4'
+    - Features
+    - '3'
+    - '2013-09-01 19:08:32.092086'
+    - '2013-09-01 19:08:32.092086'
+  - - '5'
+    - Instructions
+    - '4'
+    - '2013-09-01 19:30:25.112186'
+    - '2013-09-01 19:30:25.112186'
+  - - '6'
+    - Features
+    - '4'
+    - '2013-09-01 19:30:36.466836'
+    - '2013-09-01 19:30:36.466836'
+  - - '7'
+    - Instructions
+    - '5'
+    - '2013-09-01 19:41:38.281689'
+    - '2013-09-01 19:41:38.281689'
+  - - '8'
+    - Features
+    - '5'
+    - '2013-09-01 19:41:44.042019'
+    - '2013-09-01 19:41:44.042019'
+  - - '9'
+    - Instructions
+    - '6'
+    - '2013-09-20 02:55:06.476697'
+    - '2013-09-20 02:55:06.476697'
+  - - '10'
+    - Features
+    - '6'
+    - '2013-09-20 02:55:15.09319'
+    - '2013-09-20 02:55:15.09319'
+
+---
+project_link_buttons:
+  columns:
+  - id
+  - name
+  - link
+  - project_id
+  - created_at
+  - updated_at
+  records: 
+  - - '4'
+    - Launch
+    - http://files.zachcotter.com/Maze/MazeFrame.html
+    - '3'
+    - '2013-09-01 19:03:34.891087'
+    - '2013-09-01 19:03:34.891087'
+  - - '5'
+    - Documentation
+    - http://files.zachcotter.com/Maze/javadoc/index.html
+    - '3'
+    - '2013-09-01 19:03:58.456435'
+    - '2013-09-01 19:03:58.456435'
+  - - '6'
+    - Code
+    - http://github.com/zcotter/Maze
+    - '3'
+    - '2013-09-01 19:08:07.374672'
+    - '2013-09-01 19:08:07.374672'
+  - - '11'
+    - Download
+    - http://files.zachcotter.com/Tetris/AndroidTetris-release.apk
+    - '5'
+    - '2013-09-01 19:41:12.479214'
+    - '2013-09-01 19:41:12.479214'
+  - - '12'
+    - Code
+    - http://github.com/zcotter/AndroidTetris
+    - '5'
+    - '2013-09-01 19:41:27.206056'
+    - '2013-09-01 19:41:27.206056'
+  - - '13'
+    - Play
+    - http://files.zachcotter.com/tetris-frame-new.html
+    - '2'
+    - '2013-09-18 17:16:54.18881'
+    - '2013-09-18 17:16:54.18881'
+  - - '14'
+    - Documentation
+    - http://files.zachcotter.com/Tetris/javadoc/index.html
+    - '2'
+    - '2013-09-18 17:17:13.159895'
+    - '2013-09-18 17:17:13.159895'
+  - - '16'
+    - Code
+    - http://github.com/zcotter/Tetris
+    - '2'
+    - '2013-09-18 17:17:36.094207'
+    - '2013-09-18 17:17:36.094207'
+  - - '17'
+    - Launch Slow Version
+    - http://files.zachcotter.com/SlowMandelbrot.html
+    - '4'
+    - '2013-09-19 21:02:32.984761'
+    - '2013-09-19 21:02:32.984761'
+  - - '18'
+    - Launch Fast Version
+    - http://files.zachcotter.com/FastMandelbrot.html
+    - '4'
+    - '2013-09-19 21:02:59.251264'
+    - '2013-09-19 21:02:59.251264'
+  - - '19'
+    - Documentation
+    - http://files.zachcotter.com/Mandelbrot/javadoc/
+    - '4'
+    - '2013-09-19 21:03:45.452906'
+    - '2013-09-19 21:03:45.452906'
+  - - '20'
+    - Code
+    - http://github.com/zcotter/Mandelbrot
+    - '4'
+    - '2013-09-19 21:04:06.728123'
+    - '2013-09-19 21:04:06.728123'
+  - - '23'
+    - Launch
+    - http://roosterapp.herokuapp.com/
+    - '6'
+    - '2014-05-11 20:01:29.105769'
+    - '2014-05-11 20:01:29.105769'
+  - - '24'
+    - Code
+    - https://github.com/zcotter/Rooster
+    - '6'
+    - '2014-05-11 20:01:49.270081'
+    - '2014-05-11 20:01:49.270081'
+
+---
+projects:
+  columns:
+  - id
+  - name
+  - lead
+  - created_at
+  - updated_at
+  - language
+  records: 
+  - - '2'
+    - Tetris
+    - A Tetris java applet.
+    - '2013-08-31 01:35:19.422357'
+    - '2013-10-03 23:37:38.603911'
+    - Java
+  - - '3'
+    - Maze
+    - A simple maze solving java applet.
+    - '2013-09-01 19:00:32.757669'
+    - '2013-09-01 19:00:32.757669'
+    - Java
+  - - '4'
+    - Mandelbrot
+    - A Fractal drawing java applet
+    - '2013-09-01 19:28:23.723243'
+    - '2013-09-01 21:15:24.866512'
+    - Java
+  - - '5'
+    - Android Tetris
+    - A Tetris android application.
+    - '2013-09-01 19:40:56.905323'
+    - '2013-09-01 19:40:56.905323'
+    - Android
+  - - '6'
+    - Rooster
+    - Alarm clock for shared hosting web apps
+    - '2013-09-20 02:53:06.970862'
+    - '2013-09-20 02:53:06.970862'
+    - Ruby on Rails
 
 ---
 users:
@@ -395,11 +395,11 @@ users:
     - $2a$10$bTdxWiF1DbKvbE53sQM6tu.5JaKR0TA31YdmKAHr4gKokic77lCN.
     - 
     - 
-    - '2013-09-20 02:52:29.1787'
-    - '7'
-    - '2013-09-20 19:44:54.564116'
-    - '2013-09-20 02:52:29.215702'
-    - 127.0.0.1
+    - 
+    - '9'
+    - '2014-05-11 19:59:52.529718'
+    - '2013-10-03 23:37:27.122254'
+    - 76.19.143.234
     - 127.0.0.1
     - '2013-09-01 23:12:28.887263'
-    - '2013-09-20 19:44:54.566116'
+    - '2014-05-11 20:02:03.294903'
