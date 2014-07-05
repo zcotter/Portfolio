@@ -1,0 +1,22 @@
+%h1
+  Elements for #{@project_content_list.title} list
+%table
+  %tr
+    %th Content
+    %th
+    %th
+    %th
+  - @project_content_list_elements.each do |project_content_list_element|
+    %tr
+      %td= project_content_list_element.content
+      %td= link_to "Destroy",                                               |
+          [@project, @project_content_list, project_content_list_element], |
+          :method => :delete,                                              |
+          :class => 'btn btn-danger'                                       |
+%br/
+= form_for ([@project, @project_content_list, @project_content_list.project_content_list_elements.build]), :html => {:class => 'form-horizontal', :multipart => true} do |f|
+  = f.text_field :content, :class => 'text_area'
+  = f.submit "Add Element", :class => 'btn btn-primary'
+= link_to "Back to lists",           |
+  project_project_content_lists_url, |
+  :class => 'btn btn-primary'        |

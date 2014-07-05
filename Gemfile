@@ -32,3 +32,6 @@ group :development do
   gem 'rails-pry'
   gem 'binding_of_caller'
 end
+
+gem 'haml-rails'
+gem 'haml'

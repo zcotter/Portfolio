@@ -1,0 +1,14 @@
+%h1 Projects
+%br/
+- i = 0
+- while i < @projects.length
+  - projectA = @projects[i]
+  - projectB = @projects[i + 1]
+  - i += 2
+  .row-fluid
+    = render :partial => 'project', :locals => {:project => projectA}
+    - unless projectB.nil?
+      = render :partial => 'project', :locals => {:project => projectB}
+%br/
+- if user_signed_in?
+  = link_to 'New Project', new_project_path, :class => "btn btn-primary btn-small"
