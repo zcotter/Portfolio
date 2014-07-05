@@ -1,0 +1,16 @@
+%h1= @project.name
+%p.lead= @project.lead
+- @project.project_link_buttons.each do |button|
+  = link_to button.name, button.link, :class => "btn btn-primary btn-large", :target => '_blank'
+%br/
+%br/
+- @project.project_content_lists.each do |list|
+  %h3= list.title
+  %ul
+    - list.project_content_list_elements.each do |element|
+      %li
+        %p= element.content.html_safe
+  %br/
+- if user_signed_in?
+  = link_to "Edit", edit_project_url(@project), :class => "btn btn-primary btn-small"
+= link_to 'View All Projects', projects_path, :class => "btn btn-primary btn-small"

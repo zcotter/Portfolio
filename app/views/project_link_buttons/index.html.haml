@@ -1,0 +1,21 @@
+%h1 Listing project_link_buttons
+%table
+  %tr
+    %th Name
+    %th Link
+    %th
+    %th
+    %th
+  - @project_link_buttons.each do |project_link_button|
+    %tr
+      %td= project_link_button.name
+      %td= project_link_button.link
+      %td= link_to "Destroy",               |
+          [@project, project_link_button], |
+          :method => :delete,              |
+          :class => 'btn btn-danger'       |
+%br/
+= form_for ([@project, @project.project_link_buttons.build]), :html => {:class => 'form-horizontal', :multipart => true} do |f|
+  = f.text_field :name, :class => 'text_area'
+  = f.text_field :link, :class => 'text_area'
+  = f.submit "Add Button", :class => 'btn btn-primary'
