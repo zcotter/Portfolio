@@ -25,3 +25,10 @@ gem 'devise'
 gem 'yaml_db'
 gem 'unicorn'
 gem 'foreman'
+
+group :development do
+  gem 'better_errors'
+  gem 'pry'
+  gem 'rails-pry'
+  gem 'binding_of_caller'
+end
