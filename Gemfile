@@ -31,6 +31,7 @@ group :development do
   gem 'pry'
   gem 'rails-pry'
   gem 'binding_of_caller'
+  gem 'rubocop', require: false
 end
 
 gem 'haml-rails'
