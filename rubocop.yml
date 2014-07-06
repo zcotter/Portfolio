@@ -1,0 +1,8 @@
+Style/LineLength:
+  Max: 60000
+Style/Documentation:
+  Enabled: false
+Style/MethodLength:
+  Max: 600000
+Rails/Output:
+  Enabled: false

@@ -28,6 +28,7 @@ class ProjectContentListElementsController < ApplicationController
   end
 
   private
+
   def project_content_list_element_params
     params.require(:project_content_list_element).permit(:content)
   end
