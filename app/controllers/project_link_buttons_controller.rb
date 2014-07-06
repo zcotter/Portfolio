@@ -24,6 +24,7 @@ class ProjectLinkButtonsController < ApplicationController
   end
 
   private
+
   def project_link_button_params
     params.require(:project_link_button).permit(:name, :link)
   end
