@@ -1,0 +1,12 @@
+= form_for @post do |f|
+  .field
+    = f.label :title
+    %br/
+    = f.text_field :title
+  .field
+    = f.label :content
+    %br/
+    = f.text_area :content
+  .actions
+    = f.submit class: 'btn btn-primary btn-large'
+    = link_to 'Cancel', posts_path, class: 'btn btn-danger'

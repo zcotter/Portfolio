@@ -1,0 +1,3 @@
+- @posts.each do |post|
+  = render 'post', post: post
+= link_to 'Add A New Post', new_post_path, class: 'btn btn-primary' if user_signed_in?
