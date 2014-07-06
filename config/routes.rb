@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
   resources :posts
 
-
-  devise_for :users, :skip => :registrations
+  devise_for :users, skip: :registrations
 
   resources :projects do
     resources :project_link_buttons
@@ -11,8 +10,7 @@ Rails.application.routes.draw do
     end
   end
 
-
-  get "home", to: 'pages#home'
+  get 'home', to: 'pages#home'
   get 'about', to: 'pages#about'
   get 'license', to: 'pages#license'
   get 'contact', to: 'pages#contact'
