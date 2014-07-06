@@ -26,7 +26,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.update_attributes!(project_params)
+    if @post.update_attributes!(post_params)
       redirect_to @post
     else
       redirect_to @post, action: :edit, notice: @post.errors.full_messages
