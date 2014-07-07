@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :post_photos
   resources :posts
 
   devise_for :users, skip: :registrations

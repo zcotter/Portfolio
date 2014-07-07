@@ -36,3 +36,4 @@ end
 
 gem 'haml-rails'
 gem 'haml'
+gem 'paperclip'

@@ -1,0 +1,12 @@
+= form_for @photo do |f|
+  .field
+    = f.label :image
+    %br/
+    = f.file_field :image
+  .field
+    = f.label :post_id
+    %br/
+    = f.select :post_id, options_from_collection_for_select(Post.all, :id, :title)
+  .actions
+    = f.submit class: 'btn btn-primary btn-large'
+    = link_to 'Cancel', post_photos_path, class: 'btn btn-danger'
