@@ -1,0 +1,14 @@
+%h1
+  All Photos
+= link_to 'Add a New Photo', new_post_photo_path, class: 'btn btn-primary'
+%table
+  - @photos.each do |photo|
+    %tr
+      %td
+        = image_tag photo.image.url
+      %td
+        = link_to 'Edit Photo', edit_post_photo_path(photo), class: 'btn btn-primary btn-small'
+      %td
+        = link_to 'Show Photo', post_photo_path(photo), class: 'btn btn-primary btn-small'
+      %td
+        = link_to 'Destroy Photo', post_photo_path(photo), method: :delete, class: 'btn btn-danger btn-small'

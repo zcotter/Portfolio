@@ -1,0 +1,11 @@
+%h1
+  A Photo
+= link_to 'Back to all photos', post_photos_path, class: 'btn btn-primary'
+%table
+  %tr
+    %td
+      = image_tag @photo.image.url
+    %td
+      = link_to 'Edit Photo', edit_post_photo_path(@photo), class: 'btn btn-primary'
+    %td
+      = link_to 'Delete Photo', post_photo_path(@photo), method: :delete, class: 'btn btn-danger'
