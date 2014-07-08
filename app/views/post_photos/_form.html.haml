@@ -4,6 +4,10 @@
     %br/
     = f.file_field :image
   .field
+    = f.label :caption
+    %br/
+    = f.text_area :caption
+  .field
     = f.label :post_id
     %br/
     = f.select :post_id, options_from_collection_for_select(Post.all, :id, :title)
