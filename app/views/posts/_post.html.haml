@@ -1,4 +1,9 @@
 %h1
   = link_to post.title, post_path(post)
-%p
-  = post.content
+%div.content
+  = post.content.html_safe
+%div.photos
+  - post.post_photos.each do |photo|
+    = image_tag photo.image.url
+    %div.caption
+      = photo.caption.html_safe
