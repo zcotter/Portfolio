@@ -7,6 +7,14 @@
     = f.label :content
     %br/
     = f.text_area :content
+  .field
+    = f.label :tag
+    %br/
+    = f.text_field :tag
+  .field
+    = f.label :published_on
+    %br/
+    = f.datetime_select :published_on
   .actions
     = f.submit class: 'btn btn-primary btn-large'
     = link_to 'Cancel', posts_path, class: 'btn btn-danger'

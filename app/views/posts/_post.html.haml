@@ -1,5 +1,11 @@
 %h1
   = link_to post.title, post_path(post)
+%p.info
+  %h4
+    = post.tag
+  %h4
+    Published on
+    = post.published_on
 %div.content
   = post.content.html_safe
 %div.photos
