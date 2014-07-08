@@ -2,12 +2,8 @@ class Viewer < ActiveRecord::Base
 
   has_many :views
 
-  def exists?(ip)
-    Viewer.where(ip: ip).size != 0
+  def last_visited
+    View.where(viewer_id: self.id).order(:at).last
   end
 
-  def last_visited
-    View.where(ip: self.ip).order(:at).last
-  end
-  
 end

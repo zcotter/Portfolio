@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   def stalk_viewer
     ip = request.remote_addr
-    if Viewer.exists?(ip)
+    if Viewer.where(ip: ip).size != 0
       viewer = Viewer.where(ip: ip).first
     else
       viewer = Viewer.new({ip: ip})
