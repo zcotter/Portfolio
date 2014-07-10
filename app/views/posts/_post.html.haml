@@ -12,4 +12,6 @@
   - post.post_photos.each do |photo|
     = image_tag photo.image.url
     %div.caption
-      = photo.caption.html_safe
+      - if photo.caption
+        %br
+        = photo.caption.html_safe
