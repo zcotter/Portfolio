@@ -1,0 +1,19 @@
+%h1
+  Viewers
+%table
+  %tr
+    %th IP Address
+    %th Last Visited
+    %th Page Views
+    %th Browsers
+    %th Operating Systems
+    %th Location
+
+  - @viewers.each do |viewer|
+    %tr
+      %td= viewer.ip
+      %td= viewer.last_visited
+      %td= viewer.page_views
+      %td= viewer.browsers
+      %td= viewer.oss
+      %td NYI
