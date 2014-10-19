@@ -1,8 +1,4 @@
 class BananagramsPlayersController < ApplicationController
-  def new
-    @player = BananagramsPlayer.new
-  end
-
   def create
     @player = BananagramsPlayer.new(player_params)
     if @player.save!
