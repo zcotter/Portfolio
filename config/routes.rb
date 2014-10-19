@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :post_photos
   resources :posts
   resources :viewers
+  resources :bananagrams_players
 
   devise_for :users, skip: :registrations
 
