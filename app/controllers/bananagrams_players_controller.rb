@@ -9,6 +9,6 @@ class BananagramsPlayersController < ApplicationController
   end
 
   def player_params
-    params.require(:bananagrams_player).permit(:name)
+    params.require(:bananagrams_player).permit(:name, :registration_id)
   end
 end
