@@ -1,4 +1,13 @@
 class BananagramsScoresController < ApplicationController
+
+  def index
+    @scores = BananagramsScore.all #TODO make this paginated
+    if params[:current_player_id]
+      @player =  BananagramsPlayer.find(params[:current_player_id])
+      @score = @player.top_score
+    end
+  end
+
   def create
     begin
       score = score_params
