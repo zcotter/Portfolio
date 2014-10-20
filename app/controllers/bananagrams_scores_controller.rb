@@ -1,7 +1,7 @@
 class BananagramsScoresController < ApplicationController
 
   def index
-    @scores = BananagramsScore.all #TODO make this paginated
+    @scores = BananagramsScore.order(score: :desc) #TODO make this paginated
     if params[:current_player_id]
       @player =  BananagramsPlayer.find(params[:current_player_id])
       @score = @player.top_score
