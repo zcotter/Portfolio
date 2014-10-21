@@ -2,7 +2,7 @@ class BananagramsPlayersController < ApplicationController
 
   def index
     players = BananagramsPlayer.all
-    render json: players.to_json
+    render json: {response: players.to_json}
   end
 
   def create
