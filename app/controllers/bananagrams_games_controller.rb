@@ -1,4 +1,4 @@
-class BananagramsPlayersController < ApplicationController
+class BananagramsGamesController < ApplicationController
 
 
   def create
