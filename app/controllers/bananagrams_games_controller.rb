@@ -5,7 +5,7 @@ class BananagramsGamesController < ApplicationController
     game = game_params
     game[:first_player] = BananagramsPlayer.find(game[:first_player])
     game[:second_player] = BananagramsPlayer.find(game[:second_player])
-    @game = BananagramsGame.new(game_params)
+    @game = BananagramsGame.new(game)
     if @game.save!
       render json: @game.to_json
       # TODO notify :second_player
