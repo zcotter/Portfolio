@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :viewers
   resources :bananagrams_players
   resources :bananagrams_scores
+  resources :bananagrams_games
 
   devise_for :users, skip: :registrations
 
