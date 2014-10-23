@@ -7,5 +7,6 @@ class BananagramsGame < ActiveRecord::Base
     reg_ids = [self.second_player.registration_id]
     options = {data: {type: 'GameInvitation', game_id: self.id, requester: self.first_player.name}}
     response = gcm.send(reg_ids, options)
+    puts response
   end
 end
