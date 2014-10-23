@@ -23,22 +23,11 @@ ActiveRecord::Schema.define(version: 20141023212848) do
     t.datetime "updated_at"
   end
 
-  create_table "bananagrams_player", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "bananagrams_players", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "registration_id"
-  end
-
-  create_table "bananagrams_score", force: true do |t|
-    t.integer "score"
-    t.integer "bananagrams_player_id"
   end
 
   create_table "bananagrams_scores", force: true do |t|
@@ -86,30 +75,30 @@ ActiveRecord::Schema.define(version: 20141023212848) do
   create_table "project_content_list_elements", force: true do |t|
     t.string   "content"
     t.integer  "project_content_list_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "project_content_lists", force: true do |t|
     t.string   "title"
     t.integer  "project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "project_link_buttons", force: true do |t|
     t.string   "name"
     t.string   "link"
     t.integer  "project_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "projects", force: true do |t|
     t.string   "name"
     t.string   "lead"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "language"
   end
 
@@ -124,8 +113,8 @@ ActiveRecord::Schema.define(version: 20141023212848) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
