@@ -8,7 +8,7 @@ class BananagramsGamesController < ApplicationController
     @game = BananagramsGame.new(game)
     if @game.save!
       render json: @game.to_json
-      # TODO notify :second_player
+      @game.delay.notify_second_player
     else
       head :bad_request, content_type: 'application/json'
     end
