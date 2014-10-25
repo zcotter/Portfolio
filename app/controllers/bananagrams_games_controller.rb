@@ -15,6 +15,6 @@ class BananagramsGamesController < ApplicationController
   end
 
   def game_params
-    params.require(:bananagrams_game).permit(:first_player, :second_player)
+    params.require(:bananagrams_game).permit(:first_player, :second_player, :poc)
   end
 end

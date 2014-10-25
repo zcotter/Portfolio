@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024143709) do
+ActiveRecord::Schema.define(version: 20141025174644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20141024143709) do
     t.integer  "second_player_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "poc"
   end
 
   create_table "bananagrams_moves", force: true do |t|

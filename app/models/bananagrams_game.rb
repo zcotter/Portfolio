@@ -6,7 +6,7 @@ class BananagramsGame < ActiveRecord::Base
   def notify_second_player
     gcm = GCM.new(ENV["GCM_API_KEY"])
     reg_ids = [self.second_player.registration_id]
-    options = {data: {type: 'GameInvitation', game_id: self.id, requester: self.first_player.name}}
+    options = {data: {type: 'GameInvitation', game_id: self.id, requester: self.first_player.name, poc: self.poc}}
     response = gcm.send(reg_ids, options)
     puts response
   end
