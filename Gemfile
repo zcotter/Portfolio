@@ -13,7 +13,6 @@ end
 
 gem 'jquery-rails'
 gem 'therubyracer'
-#gem 'therubyracer', '0.11.0beta1'
 gem 'execjs'
 gem 'less'
 gem 'less-rails'

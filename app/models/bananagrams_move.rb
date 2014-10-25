@@ -1,6 +1,6 @@
 class BananagramsMove < ActiveRecord::Base
-  belongs_to: :bananagrams_game, class_name: 'BananagramsGame'
-  belongs_to: :bananagrams_player, class_name: 'BananagramsPlayer'
+  belongs_to :bananagrams_game, class_name: 'BananagramsGame'
+  belongs_to :bananagrams_player, class_name: 'BananagramsPlayer'
 
   def notify_other_player
     gcm = GCM.new(ENV['GCM_API_KEY'])
