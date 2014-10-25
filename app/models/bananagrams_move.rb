@@ -12,7 +12,8 @@ class BananagramsMove < ActiveRecord::Base
     end
     reg_ids = players.map(&:registration_id)
     options = {data: {type: 'GameMove',
-                      move: self.to_json}}
+                      move: self.to_json,
+                      poc: self.bananagrams_game.poc}}
     response = gcm.send(reg_ids, options)
     puts response
   end
