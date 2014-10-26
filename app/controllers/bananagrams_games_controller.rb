@@ -1,5 +1,9 @@
 class BananagramsGamesController < ApplicationController
 
+  def show
+    @game = BananagramsGame.find(params[:id])
+    render json: @game.bananagrams_moves.to_json
+  end
 
   def create
     game = game_params
