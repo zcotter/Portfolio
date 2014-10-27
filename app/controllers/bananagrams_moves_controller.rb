@@ -28,7 +28,7 @@ class BananagramsMovesController < ApplicationController
     params.require(:bananagrams_move).permit(:bananagrams_game,
                                              :bananagrams_player,
                                              :x0,
-                                             :y0.
+                                             :y0,
                                              :x1,
                                              :y1,
                                              :letter)
