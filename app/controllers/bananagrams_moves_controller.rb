@@ -14,7 +14,7 @@ class BananagramsMovesController < ApplicationController
   end
 
   def destroy
-    @move = find(params[:id])
+    @move = BananagramsMove.find(params[:id])
     if @move.destroy!
       head :ok, content_type: 'application/json'
     else
