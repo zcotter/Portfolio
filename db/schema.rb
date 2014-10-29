@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025174644) do
+ActiveRecord::Schema.define(version: 20141029213749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20141025174644) do
     t.integer  "bananagrams_player_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "letters"
   end
 
   add_index "bananagrams_moves", ["bananagrams_game_id"], name: "index_bananagrams_moves_on_bananagrams_game_id", using: :btree
