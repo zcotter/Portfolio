@@ -31,7 +31,8 @@ class BananagramsMovesController < ApplicationController
                                              :y0,
                                              :x1,
                                              :y1,
-                                             :letter)
+                                             :letter,
+                                             :letters)
   end
 
 end
