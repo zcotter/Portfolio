@@ -1,0 +1,21 @@
+- if @player and @score
+  %h3
+    = "#{@player.name}'s top score is #{@score.score}, which is #{@score.rank.ordinalize} overall"
+%h1
+  Score Table
+%table.table.table-striped
+  %tr
+    %th
+      Rank
+    %th
+      Player
+    %th
+      Score
+  - @scores.each_with_index do |score, i|
+    %tr
+      %td
+        = score.rank.ordinalize
+      %td
+        = score.bananagrams_player.name
+      %td
+        = score.score
