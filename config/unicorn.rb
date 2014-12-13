@@ -2,6 +2,11 @@
 worker_processes Integer(ENV['WEB_CONCURRENCY'] || 3)
 timeout 30
 preload_app true
+working_directory "/home/zcotter/Portfolio"
+pid "/home/zcotter/Portfolio/pids/unicorn.pid"
+stderr_path "/home/zcotter/Portfolio/log/unicorn.log"
+stdout_path "/home/zcotter/Portfolio/log/unicorn.log"
+listen "/tmp/unicorn.Portfolio.sock"
 
 before_fork do |_server, _worker|
   Signal.trap 'TERM' do
@@ -21,3 +26,5 @@ after_fork do |_server, _worker|
   defined?(ActiveRecord::Base) &&
     ActiveRecord::Base.establish_connection
 end
+
+
