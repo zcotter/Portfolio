@@ -33,19 +33,20 @@
             %li= link_to 'Contact', contact_path
     .contents.container-fluid
       = yield
-      .footer
+      .footer.center-block.text-center
         %br/
         %p.text-center{:style => "border-top-style: solid;"}
           %br/
-        .row-fluid
-          .span3
+        .row
+          .col-md-3
           - if user_signed_in?
-            = link_to "Logout", destroy_user_session_path, method: :delete, :class => "span2 text-left"
+            = link_to "Logout", destroy_user_session_path, method: :delete, :class => "col-md-2 text-left"
           - else
-            = link_to "Login", new_user_session_path, :class => "span2 text-left"
-          = link_to "Contact", contact_path, :class => "span2 text-center"
-          = link_to "License", license_path, :class => "span2 text-right"
-          .span3
+            = link_to "Login", new_user_session_path, :class => "col-md-2 text-left"
+          = link_to "Contact", contact_path, :class => "col-md-2 text-center"
+          = link_to "License", license_path, :class => "col-md-2 text-right"
+          .col-md-3
+        %br
         .text-center
           = link_to "zachcotter.com", "http://www.zachcotter.com"
           is licensed under
