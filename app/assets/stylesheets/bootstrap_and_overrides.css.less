@@ -1,26 +1,43 @@
 @import "twitter/bootstrap/bootstrap";
-@import "twitter/bootstrap/responsive";
 
-@navbarBackground: #0067FF;
-@navbarBackgroundHighlight: darken(@navbarBackground, 15%);
-@navbarText: #EEEEEE;
-@navbarLinkColor: @navbarText;
-@navbarLinkColorHover: #CCCCCC;
-@bodyBackground: #FEFEFE;
+@navbar-default-bg: #0067FF;
+@navbarBackgroundHighlight: darken(@navbar-default-bg, 15%);
+
+@navbar-default-link-color: #EEEEEE;
+@nav-link-hover-bg: #CCCCCC;
+@navbar-border-radius: 0px;
+@navbar-default-link-hover-color: #CCC;
+
+nav.navbar-default{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-top: 50px;
+  #gradient > .vertical(lighten(@navbar-default-bg,0%),darken(@navbar-default-bg,15%));
+}
+
 html {
-  background-color: lighten(@navbarBackground, 40%);
+  background-color: lighten(@navbar-default-bg, 40%);
   font-family: 'Roboto', sans-serif;
 }
 
 body {
   font-family: 'Roboto', sans-serif;
-  padding-top: 60px;
+  width: 100%;
+  background-color: lighten(@navbar-default-bg, 40%);
+}
+
+.contents {
+  padding-top: 30px;
   padding-bottom: 60px;
   padding-left: 5%;
   padding-right: 5%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-bottom: 50px;
   width: 50%;
+  background-color: #FEFEFE;
 }
 
 .logo {
@@ -69,5 +86,3 @@ a.project:hover{
 
 @iconSpritePath: image-url("twitter/bootstrap/glyphicons-halflings.png");
 @iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
-
-//@import url(http://fonts.googleapis.com/css?family=Roboto:400,300);
