@@ -22,3 +22,5 @@ rake.out
 # Ignore application configuration
 /config/application.yml
 /pids/unicorn.pid
+pids/unicorn.pid
+/pids
