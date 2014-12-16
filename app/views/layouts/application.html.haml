@@ -19,7 +19,7 @@
             Zach Cotter
         %div.collapse.navbar-collapse#navbar
           %ul.nav.navbar-nav
-            %li= link_to "About Me", 'Resume-ZachCotter.pdf', :target => '_blank'
+            %li= link_to "About Me", "#{root_url}Resume-ZachCotter.pdf", :target => '_blank'
             %li.dropdown
               %a.dropdown-toggle{href: projects_path, 'data-toggle' => 'dropdown', role: 'button', 'aria-expanded' => 'false'}
                 Projects
@@ -51,9 +51,6 @@
           = link_to "zachcotter.com", "http://www.zachcotter.com"
           is licensed under
           the #{link_to "Creative Commons Attribution 3.0 Unported License", license_path}
-        %br/
-        %br/
-        %br/
       :javascript
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
