@@ -1,5 +1,5 @@
 # config/unicorn.rb
-worker_processes Integer(ENV['WEB_CONCURRENCY'] || 3)
+worker_processes Integer(ENV['WEB_CONCURRENCY'] || 1)
 timeout 30
 preload_app true
 working_directory "/home/zcotter/Portfolio"
