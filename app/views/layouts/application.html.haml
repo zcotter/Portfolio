@@ -20,7 +20,7 @@
         %div.collapse.navbar-collapse#navbar
           %ul.nav.navbar-nav
             %li= link_to "About Me", "#{root_url}Resume-ZachCotter.pdf", :target => '_blank'
-            %li.dropdown
+            %li.dropdown{class: nav_active('projects')}
               %a.dropdown-toggle{href: projects_path, 'data-toggle' => 'dropdown', role: 'button', 'aria-expanded' => 'false'}
                 Projects
                 %b.caret
@@ -29,8 +29,8 @@
                   %li= link_to project.name, project_path(project)
                 %li.divider
                 %li= link_to 'View All Projects', projects_path
-            %li= link_to 'Blog', posts_path
-            %li= link_to 'Contact', contact_path
+            %li{class: nav_active('posts')}= link_to 'Blog', posts_path
+            %li{class: nav_active('pages', 'contact')}= link_to 'Contact', contact_path
     .contents.container-fluid
       = yield
       .footer.center-block.text-center
