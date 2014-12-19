@@ -22,7 +22,6 @@ gem 'test-unit'
 gem 'minitest-reporters'
 gem 'devise'
 gem 'yaml_db'
-gem 'unicorn'
 gem 'foreman'
 
 group :development do
@@ -40,3 +39,4 @@ gem 'useragent'
 gem 'delayed_job_active_record'
 gem 'figaro'
 gem 'newrelic_rpm'
+gem 'passenger'

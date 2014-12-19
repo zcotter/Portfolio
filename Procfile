@@ -1,2 +1,2 @@
-web: bundle exec unicorn -D -p 80 -c /home/zcotter/Portfolio/config/unicorn.rb
+web: passenger start -a 0.0.0.0 -p 80 -d -e production
 worker: bundle exec rake jobs:work

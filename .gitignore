@@ -24,3 +24,5 @@ rake.out
 /pids/unicorn.pid
 pids/unicorn.pid
 /pids
+/db/data.yml
+/public/assets
