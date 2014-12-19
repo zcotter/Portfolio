@@ -8,13 +8,8 @@
   - @project_content_lists.each do |project_content_list|
     %tr
       %td= project_content_list.title
-      %td= link_to "Manage Content",                                                                        |
-          project_project_content_list_project_content_list_elements_path(@project, project_content_list), |
-          :class => 'btn btn-primary'                                                                      |
-      %td= link_to "Destroy",                |
-          [@project, project_content_list], |
-          :method => :delete,               |
-          :class => 'btn btn-danger'        |
+      %td= link_to "Manage Content",  project_project_content_list_project_content_list_elements_path(@project, project_content_list), :class => 'btn btn-primary'
+      %td= link_to "Destroy", [@project, project_content_list], :method => :delete, :class => 'btn btn-danger'
 %br/
 = form_for ([@project, @project.project_content_lists.build]), :html => {:class => 'form-horizontal', :multipart => true} do |f|
   = f.text_field :title, :class => 'text_area'
