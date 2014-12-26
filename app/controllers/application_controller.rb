@@ -12,17 +12,20 @@ class ApplicationController < ActionController::Base
 
   def stalk_viewer
     begin
-      ip = request.remote_addr
+      if request.user_agent && !request.user_agent.include?("Baidu") && !request.user_agent.start_with?("NewRelic") && !request.user_agent.include?("Google favicon") && !request.user_agent.include?("bingbot") && !request.user_agent.include?("BingPreview")
+        ip = request.remote_addr
 
-      if Viewer.where(ip: ip).size != 0
-        viewer = Viewer.where(ip: ip).first
-      else
-        viewer = Viewer.new({ip: ip})
-        viewer.save!
+        if Viewer.where(ip: ip).size != 0
+          viewer = Viewer.where(ip: ip).first
+        else
+          viewer = Viewer.new({ip: ip})
+          viewer.save!
+        end
+        view = View.new({viewer_id: viewer.id, path: request.path_info, at: Time.now, user_agent: request.user_agent})
+        view.save!
       end
-      view = View.new({viewer_id: viewer.id, path: request.path_info, at: Time.now, user_agent: request.user_agent})
-      view.save!
     rescue
+      puts "STALK ERROR"
     end
   end
 end
