@@ -19,7 +19,10 @@
             Zach Cotter
         %div.collapse.navbar-collapse#navbar
           %ul.nav.navbar-nav
-            %li= link_to "About Me", "#{root_url}Resume-ZachCotter.pdf", :target => '_blank'
+            %li
+              = link_to "#{root_url}Resume-ZachCotter.pdf", :target => '_blank' do
+                Resum&eacute;
+                %span{class: 'glyphicon glyphicon-download'}
             %li.dropdown{class: nav_active('projects')}
               %a.dropdown-toggle{href: projects_path, 'data-toggle' => 'dropdown', role: 'button', 'aria-expanded' => 'false'}
                 Projects
