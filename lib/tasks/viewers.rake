@@ -2,13 +2,18 @@ namespace :viewers do
   desc "Use api to get location data on viewers"
   task identify: :environment do
     Viewer.where(country: nil).each do | viewer |
-      json = Net::HTTP.get_response('www.telize.com',"/geoip/#{viewer.ip}").body
+      begin
+      json = Net::HTTP.get_response('www.telize.com',"/geoip/#{viewer.ip}").body.force_encoding("ISO-8859-1").encode("UTF-8")
       json = JSON.parse(json)
       viewer.longitude = json['longitude']
       viewer.latitude = json['latitude']
       viewer.country = json['country']
       viewer.isp = json['isp']
       viewer.save!
+      rescue
+      puts "error"
+      puts json
+      end
     end
   end
 
