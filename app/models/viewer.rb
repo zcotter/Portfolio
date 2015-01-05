@@ -10,6 +10,17 @@ class Viewer < ActiveRecord::Base
     View.where(viewer_id: self.id).count
   end
 
+  def self.real_viewers
+    blacklist = YAML.load_file('config/blacklist.yml')
+    real = Viewer
+    blacklist.each do |field, values|
+      values.each do |value|
+        real = real.where.not(field => value)
+      end
+    end
+    real
+  end
+
   def agents(key)
     views = View.where(viewer_id: self.id)
     total = views.count

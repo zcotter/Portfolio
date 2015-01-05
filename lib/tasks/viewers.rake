@@ -11,4 +11,16 @@ namespace :viewers do
       viewer.save!
     end
   end
+
+  desc "Remove viewers and views that have been blacklisted"
+  task clean: :environment do
+    blacklist = YAML.load_file('config/blacklist.yml')
+    blacklist.each do |field, values|
+      values.each do |value|
+        fake = Viewer.where(field => value)
+        fake.each.map(&:views).each.map(&:destroy)
+        fake.each.map(&:destroy!)
+      end
+    end
+  end
 end
